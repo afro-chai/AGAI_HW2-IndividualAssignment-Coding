@@ -1,0 +1,48 @@
+{
+  "ticker": "NVDA",
+  "run_date": "2026-04-03",
+  "market_data_summary": {
+    "ticker": "NVDA",
+    "run_date": "2026-04-03",
+    "current_price": 177.39,
+    "price_30d_ago": 183.0301,
+    "pct_change_30d": -3.08,
+    "avg_daily_volume": 192873753,
+    "volatility_30d": 0.023969,
+    "moving_avg_20d": 177.6215,
+    "moving_avg_50d": 182.6444,
+    "std_daily_return_90d": 0.021838,
+    "atr_14": 5.4479,
+    "max_single_day_drop_90d": -0.054561,
+    "beta_proxy_spy": 1.847
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "no API key"
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 5,
+    "justification": "Stub strategy news_sentiment (set STOCKTRADER_SKIP_LLM=0 and run Ollama for real output)."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 5,
+    "justification": "Stub strategy volatility_averse (set STOCKTRADER_SKIP_LLM=0 and run Ollama for real output)."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 5,
+    "justification": "Stub strategy moral_trader (set STOCKTRADER_SKIP_LLM=0 and run Ollama for real output)."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "Stub evaluator (STOCKTRADER_SKIP_LLM=1). Replace with live Ollama run.",
+    "pattern_note": "stub"
+  }
+}

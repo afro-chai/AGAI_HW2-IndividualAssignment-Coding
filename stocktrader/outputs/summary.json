@@ -1,0 +1,24 @@
+{
+  "strategies": [
+    "News Sentiment Follower",
+    "Volatility Averse",
+    "Moral Trader"
+  ],
+  "stocks_analyzed": [
+    "NVDA"
+  ],
+  "total_agreements": 1,
+  "total_disagreements": 0,
+  "results": [
+    {
+      "ticker": "NVDA",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    }
+  ],
+  "note": "agree/unanimous reflects three agents when strategy_c present."
+}

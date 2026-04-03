@@ -1,0 +1,43 @@
+We will be choosing the following options
+
+News Sentiment Follower vs. Volatility Averse
+
+    News Sentiment Follower
+    The crowd knows something. Follow the signal in the noise.
+    Recent news sentiment. Overrides price signals when sentiment is strong.
+    Alpha Vantage News Sentiment API, plus your market data context
+        Note on the News Sentiment Follower: This strategy requires a free Alpha Vantage API key 
+        and has limited free requests per day. If you choose this strategy, you must handle the 
+        case where the API returns no news for a given ticker. The other four strategies can be 
+        completed using only yfinance.
+
+    Volatility Averse
+    Survive first, profit second. Avoid turbulence.
+    Low-beta stocks, stable price action, low daily swings.
+    Standard deviation of daily returns, average true range, max single-day drop in last 90 days
+
+
+
+
+BONUS: 
+Historical Backtest: Run both strategies on historical data for the same stocks over a defined past period. Produce a simple scorecard in outputs/backtest.json showing which strategy’s recommendations would have been more accurate.
+
+(potentially) Third Strategy Agent: Add a third strategy from the menu, run all three in parallel or equivalently separated analysis paths, and analyze the three-way agreement and disagreement patterns.
+    It will not be from the menu likely, more like a follow the money agent tracker... for targetting
+    Call it a moral trader... similar to walue contratian but with "morals" as in they look into the
+    people who may have benefitted from big crashes as if they wer eahead of the game and then looks into
+    them- where they make their money how all the traces, etc. 
+        
+        Value Contrarian
+        Markets overreact. Buy fear, sell greed.
+        Sharp drops as buying opportunities, sharp surges as overvaluation risk.
+        Distance from 52-week high/low, recent drawdown, RSI
+
+
+Here is the intent
+- get full points on the project
+- try to set some type of groundwork for the capstone project im doing
+    - this would basically be like a FININT Agent potentially specifically the news one.
+    - the third agent may be my OSINT scraper idk yet. 
+- explanation & progress here:
+    https://github.com/afro-chai/Agentic_Systems_Studio

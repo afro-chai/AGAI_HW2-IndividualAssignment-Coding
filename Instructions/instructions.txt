@@ -1,0 +1,527 @@
+CO (Coding) 2: Building StockTrader - Signals, Strategies, and Disagreement
+Due Apr 12 by 11:59pm Points 100 Submitting a text entry box, a website url, a media recording, or a file upload
+Building StockTrader: Signals, Strategies, and Disagreement
+Building Competing Stock Analysis Agents
+
+Coding Track  |  Individual Assignment  |  Estimated Effort: 10 to 12 hours
+
+Format
+
+Platform
+
+Core Product
+
+Submission
+
+Individual assignment
+
+Python + yfinance + LLM API + any suitable framework or tool
+
+Two competing strategy agents + comparative analysis report
+
+GitHub repo + PDF report
+
+ 
+
+Before You Begin
+Set up your environment before reading the rest of this assignment.
+
+Install Python 3.10 or newer. Create a virtual environment.
+Obtain an LLM API key if your chosen setup requires one. Recommended free option: sign up at groq.com for a free API key. Fully local alternative: install Ollama and use a local model. Other paid options, such as OpenAI or Anthropic, also work but are not required.
+Choose any suitable framework, library, or implementation approach for orchestration. You may use LangChain or LangGraph, OpenAI Agents SDK, Google ADK, AutoGen, CrewAI, Microsoft Agent Framework, or your own Python orchestration logic. You are not required to use any one framework.
+Verify your setup before starting the assignment. Before building the system, confirm that you can:
+fetch stock data with yfinance for any ticker, and
+make one successful LLM call.
+If either fails, fix your environment first.
+
+Install the packages required by your chosen stack. At minimum, all students will need yfinance and a package for their chosen LLM provider.
+
+Scope Warning
+You are building two competing strategy agents for the same set of stocks. You are not building a production trading system, a portfolio optimizer, or a backtesting engine. The focus is on agent behavior and the comparison between two behavioral strategies, not financial engineering.
+
+You are not being graded on whether your strategies make money. You are being graded on how clearly you define each behavior, how well you implement the required system logic, how thoughtfully you compare the two strategies, and how honestly you handle disagreement and uncertainty between agents.
+
+Learning Objectives
+Build a multi-agent or multi-component system using any suitable framework or tool, with parallel or equivalently separated strategy execution, shared inputs, and conditional evaluation logic.
+Design two LLM-based agents with distinct behavioral philosophies that produce different decisions from the same market data.
+Use a publicly available financial data API (yfinance) to ground agent reasoning in real stock data.
+Implement an evaluator component that compares competing recommendations, identifies agreement and disagreement, and synthesizes a final assessment.
+Write a comparative analysis that explains when and why each behavioral strategy performs differently.
+What You Are Building
+You are building a Python program that does the following, in this order, for each stock ticker you give it:
+
+Fetches real stock data using the yfinance library. No LLM is involved in this step.
+Sends that same data to two different LLM-powered strategy agents. Each agent has a different system prompt or equivalent instruction structure that tells it to think like a specific type of investor.
+Each strategy agent returns a decision (BUY, HOLD, or SELL), a confidence score (1 to 10), and a 3 to 5 sentence explanation of its reasoning.
+Sends both agents’ decisions to an evaluator component that compares them.
+If the strategies agree, the evaluator writes a short consensus summary.
+If the strategies disagree, the evaluator explains why the two strategies reached different conclusions for this stock.
+Saves all outputs to a JSON file so that grading can be done without running your code.
+You must repeat this for at least four different stocks, then write a report analyzing the patterns across those runs.
+
+Problem Description
+Financial markets generate the same price data for every participant. Yet professional investors watching the same stock chart routinely reach opposite conclusions. A momentum trader sees a rising stock and buys more. A value contrarian sees the same rise and starts selling. Neither is irrational. They are applying different behavioral frameworks to identical evidence.
+
+This assignment asks you to build that disagreement into an agentic system. You will create two strategy agents that receive the same real stock data, reason through different strategic lenses, and produce competing buy, hold, or sell recommendations with natural-language justifications. An evaluator component then compares the two recommendations and explains where and why the strategies diverge.
+
+The core question your system must answer for each stock is: What does each strategy recommend, why do they agree or disagree, and what does the pattern of agreement and disagreement reveal about current market conditions?
+
+Core Task
+Choose exactly two behavioral strategies from the menu below. Then build a system with three core parts: a market data component, two strategy components, and an evaluator component. Run the system on at least four stocks that represent different market conditions.
+
+Strategy Menu (choose exactly two)
+Choose exactly two strategies from the list below. They should represent meaningfully different behavioral philosophies rather than two minor variations of the same idea.
+
+Strategy
+
+Behavioral Philosophy
+
+What It Looks For
+
+Key Data It Needs
+
+Momentum Trader
+
+The trend is your friend. Follow what is already working.
+
+Rising prices, increasing volume, breakout patterns. Buys winners, sells losers.
+
+20-day and 50-day moving averages, volume trend, daily returns over last 30 days
+
+Value Contrarian
+
+Markets overreact. Buy fear, sell greed.
+
+Sharp drops as buying opportunities, sharp surges as overvaluation risk.
+
+Distance from 52-week high/low, recent drawdown, RSI
+
+Volatility Averse
+
+Survive first, profit second. Avoid turbulence.
+
+Low-beta stocks, stable price action, low daily swings.
+
+Standard deviation of daily returns, average true range, max single-day drop in last 90 days
+
+News Sentiment Follower
+
+The crowd knows something. Follow the signal in the noise.
+
+Recent news sentiment. Overrides price signals when sentiment is strong.
+
+Alpha Vantage News Sentiment API, plus your market data context
+
+Dividend Yield Hunter
+
+Cash flow is king. Price is temporary, dividends are real.
+
+High dividend yield, stable payout ratio, long payout history.
+
+Dividend yield, payout ratio, dividend growth rate
+
+Note on the News Sentiment Follower: This strategy requires a free Alpha Vantage API key and has limited free requests per day. If you choose this strategy, you must handle the case where the API returns no news for a given ticker. The other four strategies can be completed using only yfinance.
+
+Required System Logic
+Your implementation must satisfy the following workflow. The logic is required even if your chosen framework does not literally use a graph.
+
+START
+
+  |
+
+  v
+
+[Market Data Component]      <-- pure Python, no LLM call
+
+  |
+
+  +------------------+
+
+  |                  |
+
+  v                  v
+
+[Strategy A]     [Strategy B]   <-- parallel or equivalently separated analysis
+
+  |                  |
+
+  +------------------+
+
+  |
+
+  v
+
+[Evaluator Component]
+
+  |
+
+  +----- agree -----> [Consensus Summary]
+
+  |
+
+  +----- disagree --> [Disagreement Analysis]
+
+  |
+
+  v
+
+END (save to JSON)
+
+ 
+
+Market Data Component: Takes a stock ticker as input. Calls yfinance to fetch historical price data for at least 90 days. Computes the derived features your two strategies need. Returns a structured dictionary or equivalent data object. Makes zero LLM calls.
+
+Strategy Agent A: Reads the market data. Uses a prompt or equivalent instruction structure that encodes Strategy A’s philosophy. Produces a structured output: decision (BUY, HOLD, or SELL), confidence (1 to 10), and justification (3 to 5 sentences).
+
+Strategy Agent B: Same as Strategy Agent A, but with a different behavioral philosophy. Must receive the same market data. Must not see Strategy A’s output before producing its own answer.
+
+Evaluator Component: Reads both strategy outputs. If the decisions match, produce a consensus summary. If they differ, produce a disagreement analysis. In both cases, explain why the strategies converged or diverged.
+
+Important note on parallelism: If your framework supports true parallel execution, use it. If it does not, you may implement logically parallel branches instead. That means both strategies receive the same input, neither strategy sees the other’s output before evaluation, and both are treated as independent analyses rather than one revising the other.
+
+Stock Selection
+Run your system on at least four stocks chosen to represent different market conditions. Your goal is to find cases where the two strategies agree and cases where they disagree sharply.
+
+A strong selection includes:
+
+one steady, established large-cap stock,
+one volatile, high-momentum stock,
+one stock that has recently declined significantly,
+one stock that has been trading sideways with little clear direction.
+You may choose any publicly traded U.S. stocks. Name and justify your selections in the report.
+
+Required Output Format
+Save one JSON file per stock in the outputs directory. These files are a required part of the submission because grading should not depend on rerunning your code or having access to your API keys.
+
+Each JSON file must contain the following structure, or a very close equivalent:
+
+{
+
+  "ticker": "NVDA",
+
+  "run_date": "2026-03-24",
+
+  "market_data_summary": {
+
+    "current_price": 142.50,
+
+    "price_30d_ago": 128.75,
+
+    "pct_change_30d": 10.7,
+
+    "avg_daily_volume": 45200000,
+
+    "volatility_30d": 0.032,
+
+    "moving_avg_20d": 138.20,
+
+    "moving_avg_50d": 131.45
+
+  },
+
+  "strategy_a": {
+
+    "name": "Momentum Trader",
+
+    "decision": "BUY",
+
+    "confidence": 8,
+
+    "justification": "NVDA has been trending up ..."
+
+  },
+
+  "strategy_b": {
+
+    "name": "Value Contrarian",
+
+    "decision": "SELL",
+
+    "confidence": 6,
+
+    "justification": "NVDA has surged 10.7% ..."
+
+  },
+
+  "evaluator": {
+
+    "agents_agree": false,
+
+    "analysis": "The Momentum Trader and Value ..."
+
+  }
+
+}
+
+ 
+
+The market_data_summary fields will vary depending on your chosen strategies. Include whatever derived features your agents actually use.
+
+Required Directory Structure
+Organize your submission clearly. You do not need to use framework-specific filenames, but your repository must be easy to follow and must include the same essential artifacts.
+
+stocktrader/
+
+  README.md
+
+  requirements.txt
+
+  src/
+
+    main.py
+
+    market_data.py
+
+    strategies.py
+
+    evaluator.py
+
+    orchestration.py
+
+  prompts/
+
+    strategy_a.txt
+
+    strategy_b.txt
+
+    evaluator.txt
+
+  outputs/
+
+    NVDA.json
+
+    TSLA.json
+
+    JNJ.json
+
+    GME.json
+
+    summary.json
+
+  report/
+
+    report.pdf
+
+    ai_use_appendix.pdf
+
+ 
+
+If your framework uses different file names, that is fine. What matters is that the repository contains the source code, the prompts, the saved JSON outputs, the report, the AI use appendix, and a clear README.
+
+The summary.json File
+In addition to per-stock JSON files, generate one summary.json that aggregates results across all stocks.
+
+{
+
+  "strategies": ["Momentum Trader", "Value Contrarian"],
+
+  "stocks_analyzed": ["NVDA", "TSLA", "JNJ", "GME"],
+
+  "total_agreements": 1,
+
+  "total_disagreements": 3,
+
+  "results": [
+
+    {"ticker": "NVDA", "a_decision": "BUY", "b_decision": "SELL", "agree": false},
+
+    {"ticker": "TSLA", "a_decision": "BUY", "b_decision": "SELL", "agree": false},
+
+    {"ticker": "JNJ", "a_decision": "HOLD", "b_decision": "HOLD", "agree": true},
+
+    {"ticker": "GME", "a_decision": "SELL", "b_decision": "BUY", "agree": false}
+
+  ]
+
+}
+
+ 
+
+Steps to Complete the Assignment
+Step 1: Choose your two strategies
+Select two strategies from the menu. Make sure they represent genuinely different behavioral philosophies, not two variations of the same approach. Read the Key Data column for both strategies and confirm that you know how to obtain that data. Write down why you chose this pairing and what kinds of disagreement you expect to see.
+
+Step 2: Build the market data component
+Write a Python function that takes a stock ticker as input and returns a dictionary with historical price data and computed indicators. Use yfinance for data retrieval. This component should not make any LLM calls. Focus on computing the specific features listed in the Key Data column for your chosen strategies. Test this piece independently before connecting it to the rest of your system.
+
+Step 3: Build the two strategy agents
+construct a system prompt or equivalent instruction structure that clearly encodes the behavioral philosophy,
+format the market data as a clear context the LLM can reason over,
+call the LLM and parse the result into structured output: decision, confidence, and justification.
+Save the full prompts as text files in the prompts directory.
+
+Step 4: Build the evaluator component
+Write an evaluator that receives both strategies’ structured outputs. Implement logic that distinguishes agreement from disagreement. Route to different evaluator behavior depending on the result. The evaluator should explain the reasoning behind convergence or divergence, not simply restate that one strategy said buy and the other said sell.
+
+Step 5: Assemble and test the system
+Connect all components using your chosen framework or your own orchestration logic. The critical requirement is that Strategy A and Strategy B operate as parallel or equivalently separated branches, not as one reacting to the other. Test the full system end to end on one stock. Debug until it produces a complete output. Then add the JSON saving logic.
+
+Step 6: Run on four or more stocks
+Execute the system on your selected stocks. Verify that each run produces a valid JSON file in outputs. Generate summary.json. Review the outputs for obvious problems, such as both agents always giving the same answer or justifications that ignore the actual data.
+
+Step 7: Document one failure or surprise
+Identify at least one case where the system produced an unexpected, weak, or clearly wrong result. Explain what happened and why.
+
+Step 8: Write the comparative analysis report
+Write a 3 to 5 page report analyzing the behavioral differences across your stocks. This is not a code walkthrough. The required report sections appear below.
+
+Deliverables
+1. Working code repository
+Submit a GitHub repository or zip file. It must include:
+
+all source code,
+prompt files in prompts,
+JSON output files in outputs for every stock you analyzed,
+md,
+txt with pinned dependencies.
+Your README.md must include:
+
+which two strategies you chose,
+which LLM provider you used,
+which framework or toolset you used,
+how to install and run the system,
+a note that pre-generated outputs are included for grading without an API key.
+2. Comparative analysis report (3 to 5 pages)
+Submit a PDF in report/report.pdf with the following sections:
+
+Strategy Selection and Rationale (half page): Which two strategies you chose, why you chose this pairing, and what kinds of disagreement you expected before running the system.
+
+System Architecture (half page): A brief description of your system architecture and orchestration logic. Include a diagram. If your framework can render a workflow or graph visualization, include it. Otherwise, include a hand-drawn or manually created diagram.
+
+Stock Selection and Rationale (half page): Which four or more stocks you chose and why each represents a different market condition.
+
+Results by Stock (1 to 2 pages): For each stock, report both agents’ decisions, confidence scores, and short excerpts from their justifications. Include the evaluator’s analysis. Use a table or another structured format. Include at least two direct excerpts from your JSON output files.
+
+Patterns of Agreement and Disagreement (half to 1 page): This is the core analytical section. On which stocks did the strategies agree? On which did they disagree most sharply? What market conditions drive the divergence? This section should contain your own analysis, not just restated LLM output.
+
+Failure or Surprise Case (quarter page): One documented case where the system produced an unexpected or weak result. Explain what went wrong and why.
+
+Reflection (quarter page): If you had ten thousand dollars and had to follow one of your two strategies for the next month, which would you choose and why? What would a third hybrid strategy that combines the best of both look like?
+
+3. AI use appendix
+Submit a separate PDF, or include it at the end of report.pdf. Document:
+
+representative prompts used during development,
+short output excerpts,
+a brief note on what you accepted, revised, rejected, or verified independently.
+What a Strong Submission Looks Like
+two strategies that are genuinely different in what data they prioritize and how they reason,
+a working implementation using any suitable framework or tool, with clear separation between the two strategy agents and a well-designed evaluator,
+JSON outputs that show real variation, including at least one agreement and at least one disagreement across the stock set,
+agent justifications that reference specific numbers from the market data rather than generic statements,
+an evaluator that identifies the real source of divergence,
+honest discussion of at least one failure, surprise, or limitation.
+Common Weaknesses
+two strategies that are superficially different but produce nearly identical outputs,
+one strategy reacting to the other instead of both producing independent analyses from the same input,
+stock selections that all produce the same result,
+an evaluator that merely restates the two decisions without analyzing the disagreement,
+justifications that do not reference actual market data,
+hiding weak outputs instead of examining them,
+missing JSON output files.
+Optional Extension Bonus (+5 points max)
+You may earn up to 5 bonus points by implementing one of the following:
+
+Debate Mode: After the evaluator identifies a disagreement, route both agents’ outputs back for a second round where each agent can respond to the other’s reasoning. Save the debate output as a separate field in the JSON. Show how, or whether, the agents’ positions change.
+
+Historical Backtest: Run both strategies on historical data for the same stocks over a defined past period. Produce a simple scorecard in outputs/backtest.json showing which strategy’s recommendations would have been more accurate.
+
+Third Strategy Agent: Add a third strategy from the menu, run all three in parallel or equivalently separated analysis paths, and analyze the three-way agreement and disagreement patterns.
+
+To receive the bonus, include:
+
+working code,
+output files,
+a 100 to 200 word note in your report explaining what the extension revealed.
+Rubric
+Criterion
+
+Weight
+
+What strong work shows
+
+Strategy design and behavioral clarity
+
+20%
+
+Two strategies that differ meaningfully in philosophy, data emphasis, and prompt design. You can explain why the pairing was chosen and what disagreement to expect.
+
+System implementation and orchestration
+
+25%
+
+Clean implementation using any suitable framework or tool. Strategy agents operate in parallel or as equivalently separated branches, use shared inputs correctly, and feed into clear evaluator logic. Outputs are structured, runnable, and well organized.
+
+Comparative analysis quality
+
+25%
+
+Results across stocks reveal a clear pattern of when and why strategies agree or disagree. The report explains the behavioral logic behind the disagreements, not just the decisions.
+
+Evidence and stock selection
+
+10%
+
+Stocks are chosen deliberately to surface diverse conditions. Agent justifications reference actual market data. JSON output files are complete and well formatted.
+
+Communication and completeness
+
+10%
+
+Report is clear, organized, and follows the required sections. Prompts are saved as text files. README is usable. All required files are present.
+
+Responsible use of generative AI
+
+10%
+
+AI use is documented. At least one failure case is examined honestly. The submission shows editorial judgment rather than unedited acceptance of LLM outputs.
+
+Submission Note
+This is a coding assignment, but the intellectual payload is in the behavioral comparison, not the infrastructure. A system that runs two nearly identical agents on four stocks and reports that they always agree teaches you very little. A system where, for example, a Momentum Trader recommends buying a stock while a Volatility Averse agent recommends holding cash, with both explaining their reasoning using specific price data, teaches you a great deal about how agent behavior emerges from design choices.
+
+Possible Strategy Pairings to Consider
+Momentum Trader vs. Value Contrarian
+Dividend Yield Hunter vs. Momentum Trader
+News Sentiment Follower vs. Volatility Averse
+Value Contrarian vs. Dividend Yield Hunter
+Submission Checklist
+I selected two clearly different strategies from the menu.
+I built a working system, using any suitable framework or tool, with two independent strategy agents and an evaluator.
+I ran the system on at least four stocks representing different market conditions.
+My two agents produce genuinely different outputs, not cosmetically different versions of the same recommendation.
+My outputs folder contains one JSON file per stock plus summary.json.
+My prompts folder contains the full prompts for both strategies and the evaluator.
+I included at least two output excerpts or screenshots in the report.
+I documented one failure, surprise, or weak result and explained what happened.
+I wrote a comparative analysis that explains patterns of agreement and disagreement.
+I included an AI use appendix documenting prompts, outputs, and editorial judgment.
+My repository is clearly organized and includes a usable README.
+LangChain
+If you choose the LangChain ecosystem, LangGraph is a strong option for implementing this assignment, but it is not required.
+
+A good LangChain-based implementation would include:
+
+a market data function that gathers and computes all required indicators,
+two separate strategy agents with distinct prompts,
+a shared state object or equivalent data structure,
+two parallel strategy branches,
+an evaluator node or evaluator step that compares both outputs,
+conditional routing for agreement versus disagreement,
+saved JSON outputs for each stock plus summary.json.
+A recommended LangChain-oriented file layout is:
+
+src/
+
+  main.py
+
+  graph.py
+
+  market_data.py
+
+  strategy_agents.py
+
+  evaluator.py
+
+ 
+
+If you use LangChain or LangGraph, include a workflow or graph visualization in your report if your tooling supports it.
