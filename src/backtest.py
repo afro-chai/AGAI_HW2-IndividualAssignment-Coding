@@ -5,7 +5,7 @@ from typing import Any, Literal
 import pandas as pd
 import yfinance as yf
 
-from stocktrader.src.market_data import market_payload_asof
+from src.market_data import market_payload_asof
 
 Decision = Literal["BUY", "HOLD", "SELL"]
 

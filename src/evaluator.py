@@ -4,9 +4,9 @@ import json
 
 from autogen_agentchat.agents import AssistantAgent
 
-from stocktrader.src.llm_factory import build_chat_client
-from stocktrader.src.schemas import EvaluatorStructured
-from stocktrader.src.strategies import load_prompt
+from src.llm_factory import build_chat_client
+from src.schemas import EvaluatorStructured
+from src.strategies import load_prompt
 
 
 def evaluator_task(strategy_outputs: list[dict]) -> str:

@@ -8,11 +8,11 @@ from typing import Any
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.messages import StructuredMessage
 
-from stocktrader.src.evaluator import run_evaluator
-from stocktrader.src.llm_factory import build_chat_client
-from stocktrader.src.market_data import build_market_payload
-from stocktrader.src.schemas import StrategyStructured
-from stocktrader.src.strategies import load_prompt, user_message_from_payload
+from src.evaluator import run_evaluator
+from src.llm_factory import build_chat_client
+from src.market_data import build_market_payload
+from src.schemas import StrategyStructured
+from src.strategies import load_prompt, user_message_from_payload
 
 
 async def _run_one_strategy(

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import asyncio
@@ -8,19 +8,17 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from stocktrader.src.backtest import run_backtest
-from stocktrader.src.orchestration import run_parallel_analysis
+from src.backtest import run_backtest
+from src.orchestration import run_parallel_analysis
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-PKG = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 load_dotenv(REPO_ROOT / ".env")
-load_dotenv(PKG / ".env")
 
 DEFAULT_TICKERS = ["NVDA", "TSLA", "JNJ", "KO"]
 
 
 def _out_dir() -> Path:
-    return PKG / "outputs"
+    return REPO_ROOT / "outputs"
 
 
 def _build_summary(results: list[dict]) -> dict:
