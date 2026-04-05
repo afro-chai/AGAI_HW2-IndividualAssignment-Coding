@@ -92,3 +92,4 @@ LangGraph / LangChain can be added later as subgraphs or RAG without replacing A
 - **Graded “two strategies”** are News Sentiment Follower (`strategy_a`) and Volatility Averse (`strategy_b`). **Moral Trader** is `strategy_c` (third-agent bonus + capstone hook).
 - **Backtest** uses transparent **heuristic** signals aligned with each philosophy so graders get `backtest.json` without hundreds of local LLM calls. Compare to live LLM behavior in the report.
 
+CAO 2026-04-04 — git connection to desktop test please
