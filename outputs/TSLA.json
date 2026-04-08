@@ -1,0 +1,48 @@
+{
+  "ticker": "TSLA",
+  "run_date": "2026-04-08",
+  "market_data_summary": {
+    "ticker": "TSLA",
+    "run_date": "2026-04-08",
+    "current_price": 343.89,
+    "price_30d_ago": 398.68,
+    "pct_change_30d": -13.74,
+    "avg_daily_volume": 62566559,
+    "volatility_30d": 0.024147,
+    "moving_avg_20d": 376.2955,
+    "moving_avg_50d": 397.6744,
+    "std_daily_return_90d": 0.023333,
+    "atr_14": 15.8943,
+    "max_single_day_drop_90d": -0.054215,
+    "beta_proxy_spy": 1.55
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "no API key"
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "No recent news available due to missing API key. Current price ($343.89) is near the moving average (376.2955), indicating a neutral trend. Volatility remains low (0.024147)."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Low volatility_30d (0.024147) and std_daily_return_90d (0.023333) indicate stable price path. Max_single_day_drop_90d (-0.054215) is within acceptable bounds. No significant news features."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 6,
+    "justification": "High volatility (0.024147) and significant price drop (-13.74%) indicate market uncertainty, but lack of news articles and API key prevents deeper analysis. Moving averages suggest a potential bounce, but attribution gap due to missing sentiment data hinders conclusive judgment."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
+    "pattern_note": "Moral Trader's outlier pattern is the attribution gap due to missing sentiment data."
+  }
+}

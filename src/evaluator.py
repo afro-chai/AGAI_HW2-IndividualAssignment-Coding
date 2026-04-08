@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 from autogen_agentchat.agents import AssistantAgent
 
@@ -47,6 +48,17 @@ async def run_evaluator(outputs: list[dict]) -> EvaluatorStructured:
         else:
             raise RuntimeError("evaluator: no StructuredMessage")
         unanimous = len({o["decision"] for o in outputs}) == 1
-        return out.model_copy(update={"agents_agree": unanimous})
+        analysis = out.analysis.strip()
+        if unanimous and re.search(r"\bdisagree|do not align|diverge\b", analysis, flags=re.IGNORECASE):
+            analysis = (
+                "All strategy agents converge on the same decision for this ticker. "
+                "They differ slightly in rationale emphasis, but the final recommendation is aligned."
+            )
+        if (not unanimous) and re.search(r"\ball\b.*\bagree|unanimous\b", analysis, flags=re.IGNORECASE):
+            analysis = (
+                "The strategy agents diverge on this ticker; disagreement reflects different philosophy-specific "
+                "weighting of sentiment, volatility, and narrative-risk signals."
+            )
+        return out.model_copy(update={"agents_agree": unanimous, "analysis": analysis})
     finally:
         await client.close()

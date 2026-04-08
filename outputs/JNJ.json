@@ -1,0 +1,48 @@
+{
+  "ticker": "JNJ",
+  "run_date": "2026-04-08",
+  "market_data_summary": {
+    "ticker": "JNJ",
+    "run_date": "2026-04-08",
+    "current_price": 239.74,
+    "price_30d_ago": 242.59,
+    "pct_change_30d": -1.17,
+    "avg_daily_volume": 7683103,
+    "volatility_30d": 0.009495,
+    "moving_avg_20d": 240.081,
+    "moving_avg_50d": 239.6052,
+    "std_daily_return_90d": 0.0104,
+    "atr_14": 4.0432,
+    "max_single_day_drop_90d": -0.023115,
+    "beta_proxy_spy": 0.022
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "no API key"
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Recent price action shows a decline of -1.17% over the last 30 days, with current price at $239.74. Volatility is low at 0.009495. No news available due to API key issue."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Low std_daily_return_90d (0.0104) and low volatility_30d (0.009495) indicate stable price path. max_single_day_drop_90d (-0.023115) is within acceptable bounds. No significant news features available."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 5,
+    "justification": "Lack of recent news articles and low volatility (0.009495) suggest a stable market environment. The 30-day price drop (-1.17%) is relatively minor, and the moving averages are close to current prices. However, note that no API key was provided for news features, which may indicate opacity or moral hazard."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
+    "pattern_note": null
+  }
+}

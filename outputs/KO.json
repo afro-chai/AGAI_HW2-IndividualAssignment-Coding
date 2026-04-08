@@ -1,0 +1,48 @@
+{
+  "ticker": "KO",
+  "run_date": "2026-04-08",
+  "market_data_summary": {
+    "ticker": "KO",
+    "run_date": "2026-04-08",
+    "current_price": 76.795,
+    "price_30d_ago": 77.2687,
+    "pct_change_30d": -0.61,
+    "avg_daily_volume": 16294544,
+    "volatility_30d": 0.009557,
+    "moving_avg_20d": 76.1832,
+    "moving_avg_50d": 76.9942,
+    "std_daily_return_90d": 0.010203,
+    "atr_14": 1.2854,
+    "max_single_day_drop_90d": -0.020753,
+    "beta_proxy_spy": -0.056
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "no API key"
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Recent news is unavailable due to missing API key. Current price ($76.795) and volatility (0.009557) indicate a relatively stable market condition, aligning with the philosophy of recent headlines often embedding actionable crowd information."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Low volatility_30d (0.009557) and std_daily_return_90d (0.010203) indicate stable price path. max_single_day_drop_90d (-0.020753) is within acceptable bounds. No significant news features provided."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 5,
+    "justification": "Low volatility (0.009557) and stable moving averages suggest a lack of significant market disruption. However, the recent price drop (-0.61%) raises concerns about potential underlying issues. Without explicit news or sentiment analysis, it's challenging to make an informed decision."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
+    "pattern_note": null
+  }
+}

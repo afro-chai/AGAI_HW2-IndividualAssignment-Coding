@@ -69,6 +69,12 @@ def main() -> None:
     p.add_argument("--tickers", default=",".join(DEFAULT_TICKERS))
     p.add_argument("--backtest", action="store_true")
     p.add_argument("--skip-llm", action="store_true")
+    p.add_argument(
+        "--ticker-workers",
+        type=int,
+        default=2,
+        help="Number of tickers to process concurrently (default: 2).",
+    )
     args = p.parse_args()
     tickers = [t.strip().upper() for t in args.tickers.split(",") if t.strip()]
     if args.skip_llm:
@@ -77,11 +83,16 @@ def main() -> None:
     async def _run() -> None:
         out = _out_dir()
         out.mkdir(parents=True, exist_ok=True)
-        results = []
-        for t in tickers:
-            payload = await run_parallel_analysis(t)
-            results.append(payload)
-            (out / f"{t}.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        workers = max(1, args.ticker_workers)
+        sem = asyncio.Semaphore(workers)
+
+        async def _one(ticker: str) -> dict:
+            async with sem:
+                payload = await run_parallel_analysis(ticker)
+                (out / f"{ticker}.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+                return payload
+
+        results = await asyncio.gather(*[_one(t) for t in tickers])
         (out / "summary.json").write_text(json.dumps(_build_summary(results), indent=2), encoding="utf-8")
         if args.backtest:
             bt = run_backtest(tickers)

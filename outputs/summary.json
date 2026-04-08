@@ -5,13 +5,43 @@
     "Moral Trader"
   ],
   "stocks_analyzed": [
-    "NVDA"
+    "NVDA",
+    "TSLA",
+    "JNJ",
+    "KO"
   ],
-  "total_agreements": 1,
+  "total_agreements": 4,
   "total_disagreements": 0,
   "results": [
     {
       "ticker": "NVDA",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "TSLA",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "JNJ",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "KO",
       "a_decision": "HOLD",
       "b_decision": "HOLD",
       "c_decision": "HOLD",

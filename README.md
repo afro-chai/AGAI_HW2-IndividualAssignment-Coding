@@ -28,6 +28,8 @@ Complete these **before** cloning or running the analysis loop:
 
 Copy `.env.example` to `.env` in the repo root and fill keys.
 
+News Sentiment warning handling (required): if Alpha Vantage returns no feed data (missing key, rate limit, or no ticker news), the app records zero-news metadata and the strategy falls back to conservative reasoning instead of failing.
+
 ---
 
 ## Project productivity checkpoints
@@ -45,12 +47,31 @@ Check off as you go (update dates in your fork):
 
 ---
 
+## Quality upgrades from HW1 feedback
+
+To directly address prior feedback, this project should emphasize:
+
+- **Specific quantitative comparison** (not just narrative): report agreement/disagreement counts, confidence deltas, and a small per-stock comparison table.
+- **Low-noise metrics**: avoid arbitrary random noise in scoring; keep formulas deterministic and explain thresholds.
+- **Granular AI attribution**: log exactly which files/sections used AI assistance, plus what you accepted vs revised vs rejected.
+
+Recommended minimum quantitative section in the report:
+
+- `total_agreements`, `total_disagreements` from `outputs/summary.json`
+- Per-stock: `a_decision`, `b_decision`, `c_decision`, and confidence spread
+- Backtest: per-ticker hit-rate comparison and overall winner from `outputs/backtest.json`
+
+---
+
 ## Environment variables
 
 | Variable | Purpose |
 |----------|---------|
 | `OLLAMA_HOST` | Default `http://localhost:11434` |
 | `OLLAMA_MODEL` | e.g. `llama3.2` |
+| `OLLAMA_NUM_PREDICT` | Max generated tokens per call (default `220`, faster) |
+| `OLLAMA_NUM_CTX` | Context window size (default `4096`) |
+| `OLLAMA_TEMPERATURE` | Sampling temperature (default `0.2`) |
 | `ALPHAVANTAGE_API_KEY` | News sentiment |
 | `LITELLM_BASE_URL` | If set, use OpenAI-compatible client (LiteLLM proxy) |
 | `LITELLM_MODEL` | Model id for proxy |
@@ -72,6 +93,16 @@ python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest
 
 Artifacts: `outputs/<TICKER>.json`, `summary.json`, optional `backtest.json`.
 
+Performance tip: increase throughput with `--ticker-workers 2` (default). For lower-memory systems, set `--ticker-workers 1`.
+
+Run with stubs disabled (required for final submission-quality outputs):
+
+```powershell
+Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
+$env:PYTHONPATH = (Get-Location).Path
+python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest
+```
+
 ---
 
 ## Architecture (brief)
@@ -92,4 +123,24 @@ LangGraph / LangChain can be added later as subgraphs or RAG without replacing A
 - **Graded “two strategies”** are News Sentiment Follower (`strategy_a`) and Volatility Averse (`strategy_b`). **Moral Trader** is `strategy_c` (third-agent bonus + capstone hook).
 - **Backtest** uses transparent **heuristic** signals aligned with each philosophy so graders get `backtest.json` without hundreds of local LLM calls. Compare to live LLM behavior in the report.
 
-CAO 2026-04-04 — git connection to desktop test
+---
+
+## AI appendix template (granular attribution)
+
+Use this structure in `report/ai_use_appendix.pdf`:
+
+1. **Prompt / interaction log excerpt**
+   - Task goal
+   - Prompt used
+   - Output excerpt
+2. **File-level attribution**
+   - File path
+   - AI-assisted change summary
+   - Status: accepted / revised / rejected
+3. **Verification steps**
+   - What you checked manually (logic, numbers, API behavior)
+   - Any mismatch found and fix applied
+4. **Failure case**
+   - One weak/incorrect AI output
+   - Why it failed
+   - How you corrected or constrained it
