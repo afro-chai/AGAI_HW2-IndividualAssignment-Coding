@@ -54,9 +54,11 @@ JSON per ticker plus summary.json and backtest bonus.
 
 \subsection*{Iteration and hygiene (Cursor)}
 \begin{verbatim}
-Pull from remote with rebase. Update HANDOFF so API keys only live
-in .env; document Alpha Vantage rate limits per official docs.
-Adjust market_data for NEWS_SENTIMENT errors and optional sort/limit.
+Pull from remote with rebase. API keys: repo-root .env only (gitignored)
+or optional one-line secrets/alphavantage_api_key.txt (gitignored); never
+commit keys. Document Alpha Vantage rate limits; add ALPHAVANTAGE_MIN_
+INTERVAL_SEC for free tier. Adjust market_data for NEWS_SENTIMENT errors,
+empty feeds, and optional sort/limit.
 \end{verbatim}
 
 \subsection*{Report and documentation (Cursor)}
@@ -93,6 +95,8 @@ Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
 python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
 \end{verbatim}
 
+\noindent\textbf{Transcript (optional):} \texttt{.\textbackslash scripts\textbackslash run\_full\_with\_log.ps1} wraps the same command with \texttt{Start-Transcript} so a desktop pull can include a scrubbed \texttt{logs/full\_run\_latest.txt}.
+
 \noindent\textbf{Stub mode (CI / no GPU):} set \texttt{STOCKTRADER\_SKIP\_LLM=1} only for smoke tests; not used for submission-quality narrative.
 
 \section{Representative model output (pipeline excerpt)}
@@ -104,7 +108,7 @@ ticker. They differ slightly in rationale emphasis, but the final
 recommendation is aligned."
 \end{verbatim}
 
-\noindent\textbf{Aggregate snapshot (illustrative):} committed \texttt{outputs/summary.json} at the time of writing may show unanimous agreement across four tickers when news is thin and regimes are similar---I verified counts and decisions against the per-ticker JSON files rather than trusting prose alone.
+\noindent\textbf{Aggregate snapshot (illustrative):} the committed \texttt{outputs/summary.json} for the 2026-04-11 run shows \texttt{total\_agreements: 4} with live Ollama despite heterogeneous tape---I verified per-ticker JSON, including \texttt{news\_features} (populated vs.\ empty + \texttt{note}) and confidence spreads, rather than trusting prose alone.
 
 \section{File-level attribution (accept / revise / reject)}
 \begin{table}[h]
@@ -117,7 +121,7 @@ recommendation is aligned."
     \texttt{src/*.py}, \texttt{prompts/*.txt} & Cursor-assisted scaffold and orchestration & Revised: tightened prompts and guards after manual read \\
     \texttt{README.md}, \texttt{docs/*.md} & Early drafts from Cursor & Revised: accuracy, secrets hygiene, Alpha Vantage notes \\
     \texttt{report/*.tex} & Initial structure from Cursor; rubric feedback from ChatGPT & Revised: my voice, rubric alignment, quantitative checks \\
-    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: fields, numbers, empty-news behavior \\
+    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: decisions, confidences, news counts; mixed success (20 articles on NVDA/JNJ/KO; TSLA throttled in one batch) \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -130,8 +134,10 @@ recommendation is aligned."
 \end{itemize}
 
 \section{One weak or surprising model output (example)}
-\textbf{Issue:} With sparse news, models occasionally over-interpret volatility language relative to the numeric JSON.
+\textbf{Issue 1:} On KO, Moral Trader prose described sentiment as ``slightly negative'' while the payload's \texttt{avg\_sentiment\_score} was positive---a contradiction with the numeric channel.
 
-\textbf{Response:} Prompt edits to ground claims in provided fields; evaluator normalization in \texttt{src/evaluator.py} for contradictory agreement wording when decisions are actually unanimous.
+\textbf{Issue 2:} Alpha Vantage free tier returned a pacing \texttt{note} for TSLA in the same four-ticker batch where other tickers received 20 articles---operational asymmetry, not a missing key.
+
+\textbf{Response:} Tighter prompts to cite only signed fields; optional \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}; evaluator guard in \texttt{src/evaluator.py} for contradictory ``agreement'' wording when decisions are unanimous.
 
 \end{document}

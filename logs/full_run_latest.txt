@@ -1,23 +1,27 @@
 === StockTrader full run — SANITIZED SUMMARY (safe to commit) ===
-Generated: 2026-04-11 (laptop agent run; replace with real Start-Transcript when you run locally)
+Generated: 2026-04-11 (laptop; see scripts/run_full_with_log.ps1 for full transcript)
 
 Command (reference):
   python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
   STOCKTRADER_SKIP_LLM: unset (live Ollama)
+  Alpha Vantage: key from .env and/or gitignored secrets/alphavantage_api_key.txt
 
 Outcome:
   Exit code: 0
-  Wall clock (approx): 20–25 minutes on reference laptop run
+  Wall clock (approx): 45–50 minutes (four tickers + AV + parallel strategies)
+
+News (Alpha Vantage NEWS_SENTIMENT):
+  NVDA, JNJ, KO: articles_count 20, avg_sentiment_score populated
+  TSLA: articles_count 0; news_features.note = free-tier pacing / spacing requests
+        (rerun with ALPHAVANTAGE_MIN_INTERVAL_SEC or pause before TSLA)
 
 Artifacts updated:
   outputs/NVDA.json, TSLA.json, JNJ.json, KO.json
   outputs/summary.json
   outputs/backtest.json
 
-Note for other agent:
-  If news_features still show "no API key", the Python process did not load repo-root .env
-  (ensure ALPHAVANTAGE_API_KEY is set in .env on the machine that runs the script).
+Decisions (summary.json): unanimous HOLD on all four tickers (A/B/C).
 
-Next: Run .\scripts\run_full_with_log.ps1 on your machine to overwrite this file with a full transcript.
+Next: Run .\scripts\run_full_with_log.ps1 locally to replace this with a full Start-Transcript log (scrub any secrets before commit).
 
 === end ===
