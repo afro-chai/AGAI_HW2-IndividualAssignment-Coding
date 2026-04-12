@@ -26,7 +26,7 @@ Complete these **before** cloning or running the analysis loop:
 3. **Install dependencies** — From the repo root: `pip install -r requirements.txt`
 4. **Ollama** — Install from [ollama.com](https://ollama.com), then pull a JSON-capable model, e.g. `ollama pull llama3.2` (or `mistral`, `qwen2.5`, etc.).
 5. **Run Ollama** — Ensure the daemon is up (default `http://localhost:11434`). Override with env `OLLAMA_HOST` if needed.
-6. **Alpha Vantage (recommended for News Sentiment)** — Free key at [alphavantage.co](https://www.alphavantage.co/support/#api-key). Set `ALPHAVANTAGE_API_KEY` in `.env`. Without it, news blocks are empty and the News agent must still behave (per assignment).
+6. **Alpha Vantage (recommended for News Sentiment)** — Free key at [alphavantage.co](https://www.alphavantage.co/support/#api-key). Put the key in **repo-root `.env`** as `ALPHAVANTAGE_API_KEY=...`, **or** in a gitignored one-line file **`secrets/alphavantage_api_key.txt`** (see [`secrets/README.md`](secrets/README.md)). Without either, news blocks are empty and the News agent must still behave (per assignment).
 7. **LiteLLM (optional capstone layer)** — To route all traffic through LiteLLM’s OpenAI-compatible proxy, set `LITELLM_BASE_URL` (e.g. `http://localhost:4000/v1`) and `LITELLM_API_KEY` if your proxy requires it, plus `LITELLM_MODEL` (e.g. `ollama/llama3.2`). When unset, the app uses `OllamaChatCompletionClient` directly.
 8. **Smoke tests** — Confirm `python -c "import yfinance as yf; print(yf.Ticker('AAPL').info.get('symbol'))"` and that Ollama answers: `ollama run llama3.2 "ping"`.
 

@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 .env
+# Optional raw API key file (first line = key only)
+secrets/alphavantage_api_key.txt
 # May show API key in a screenshot — keep local only
 docs/assets/alphavantage-welcome.png
 *.egg-info/

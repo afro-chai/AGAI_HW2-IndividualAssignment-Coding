@@ -6,6 +6,7 @@ import os
 import threading
 import time
 from datetime import date, datetime, timezone
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -17,6 +18,34 @@ import yfinance as yf
 # Free tier: respect per-minute / daily limits (see docs/ALPHA_VANTAGE.md).
 _AV_THROTTLE_LOCK = threading.Lock()
 _AV_LAST_CALL_MONO = 0.0
+
+
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parents[1]
+
+
+def _alpha_vantage_api_key() -> str:
+    """Resolve API key: env ALPHAVANTAGE_API_KEY, then ALPHAVANTAGE_KEY_FILE, then secrets/alphavantage_api_key.txt."""
+    k = os.environ.get("ALPHAVANTAGE_API_KEY", "").strip()
+    if k:
+        return k
+    path_raw = (os.environ.get("ALPHAVANTAGE_KEY_FILE") or "").strip()
+    candidates: list[Path] = []
+    if path_raw:
+        p = Path(path_raw)
+        if not p.is_absolute():
+            p = _repo_root() / p
+        candidates.append(p)
+    candidates.append(_repo_root() / "secrets" / "alphavantage_api_key.txt")
+    for path in candidates:
+        try:
+            if path.is_file():
+                line = path.read_text(encoding="utf-8").strip().splitlines()
+                if line:
+                    return line[0].strip()
+        except OSError:
+            continue
+    return ""
 
 
 def _throttle_alpha_vantage() -> None:
@@ -58,7 +87,7 @@ def _atr(df: pd.DataFrame, period: int = 14) -> float:
 
 def fetch_alpha_vantage_news(ticker: str, limit: int = 20) -> dict[str, Any]:
     """NEWS_SENTIMENT endpoint; see https://www.alphavantage.co/documentation/ (Alpha Intelligence)."""
-    key = os.environ.get("ALPHAVANTAGE_API_KEY", "").strip()
+    key = _alpha_vantage_api_key()
     if not key:
         return {"articles_count": 0, "avg_sentiment_score": None, "articles": [], "note": "no API key"}
     try:

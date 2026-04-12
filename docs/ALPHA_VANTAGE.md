@@ -12,9 +12,11 @@ We use the **NEWS_SENTIMENT** function (Alpha Intelligence™ → News & Sentime
 | `tickers` | Single ticker per request | Comma-separated list supported upstream; we pass one symbol per run |
 | `limit` | `ALPHAVANTAGE_NEWS_LIMIT` or default `20` | Bounded 1–1000 |
 | `sort` | Optional `ALPHAVANTAGE_NEWS_SORT` | When set, one of `LATEST`, `EARLIEST`, `RELEVANCE` (see AV docs for semantics) |
-| `apikey` | `ALPHAVANTAGE_API_KEY` in `.env` | Never commit real keys |
+| `apikey` | Resolved by `_alpha_vantage_api_key()` | Never commit real keys |
 
-Implementation: [`src/market_data.py`](../src/market_data.py) (`fetch_alpha_vantage_news`).
+**Where the key is read (in order):** (1) environment variable `ALPHAVANTAGE_API_KEY` (e.g. from repo-root `.env` via `load_dotenv` in `main.py`); (2) first line of the file pointed to by `ALPHAVANTAGE_KEY_FILE` (repo-relative or absolute); (3) default gitignored file **`secrets/alphavantage_api_key.txt`** (first line only). See [`secrets/README.md`](../secrets/README.md).
+
+Implementation: [`src/market_data.py`](../src/market_data.py) (`fetch_alpha_vantage_news`, `_alpha_vantage_api_key`).
 
 ### Rate limits and errors
 
