@@ -1,20 +1,20 @@
 {
   "ticker": "NVDA",
-  "run_date": "2026-04-08",
+  "run_date": "2026-04-11",
   "market_data_summary": {
     "ticker": "NVDA",
-    "run_date": "2026-04-08",
-    "current_price": 181.885,
-    "price_30d_ago": 182.6401,
-    "pct_change_30d": -0.41,
-    "avg_daily_volume": 186653475,
-    "volatility_30d": 0.02413,
-    "moving_avg_20d": 177.2422,
-    "moving_avg_50d": 182.2179,
-    "std_daily_return_90d": 0.021621,
-    "atr_14": 5.3307,
+    "run_date": "2026-04-11",
+    "current_price": 188.63,
+    "price_30d_ago": 186.03,
+    "pct_change_30d": 1.4,
+    "avg_daily_volume": 177147413,
+    "volatility_30d": 0.02242,
+    "moving_avg_20d": 177.4205,
+    "moving_avg_50d": 182.0722,
+    "std_daily_return_90d": 0.021665,
+    "atr_14": 5.195,
     "max_single_day_drop_90d": -0.054561,
-    "beta_proxy_spy": 1.833
+    "beta_proxy_spy": 1.86
   },
   "news_features": {
     "articles_count": 0,
@@ -26,23 +26,23 @@
     "name": "News Sentiment Follower",
     "decision": "HOLD",
     "confidence": 8,
-    "justification": "No recent news available due to lack of API key. Current price ($181.885) is near the moving average (177.2422), indicating a neutral trend. Volatility remains low (0.02413)."
+    "justification": "No recent news available due to missing API key. Current price ($188.63) is near the 20-day moving average ($177.42), indicating a neutral position. The recent 30-day percentage change (1.4%) and volatility (0.02242) are within normal ranges, suggesting no immediate buying or selling pressure."
   },
   "strategy_b": {
     "name": "Volatility Averse",
     "decision": "HOLD",
     "confidence": 8,
-    "justification": "Volatility is low (std_daily_return_90d = 0.021621) and max single-day drop is moderate (-0.054561). ATR (atr_14) suggests a relatively stable price path. No significant news features are available."
+    "justification": "Current price ($188.63) is near the moving average (177.4205), indicating a stable price level. Volatility (0.02242) and max single-day drop (-0.054561) are within acceptable ranges. No significant news features or articles to consider."
   },
   "strategy_c": {
     "name": "Moral Trader",
     "decision": "HOLD",
-    "confidence": 5,
-    "justification": "Lack of news articles and low volatility (0.02413) suggest a stable market environment, but high beta proxy value (1.833) indicates potential for increased price movements. Uncertainty remains due to missing sentiment analysis and API key note."
+    "confidence": 6,
+    "justification": "High volatility (0.02242) and low ATR (5.195) suggest market stability, despite recent price drop (-0.054561). Lack of news articles and sentiment analysis reduces narrative risk. Moving averages are relatively stable, with a slight bullish bias."
   },
   "evaluator": {
     "agents_agree": true,
-    "analysis": "All three agents agree on HOLD with varying degrees of confidence and justification. The News Sentiment Follower prioritizes recent news availability, while the Volatility Averse agent focuses on low volatility. The Moral Trader emphasizes a stable market environment despite uncertainty due to missing sentiment analysis.",
-    "pattern_note": null
+    "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
+    "pattern_note": "Moral Trader outlier: prioritizes market stability over recent price drop."
   }
 }
