@@ -12,7 +12,7 @@
 \usetikzlibrary{arrows.meta,positioning}
 \usepackage[hidelinks]{hyperref}
 
-\newcommand{\StudentName}{Your Name}
+\newcommand{\StudentName}{Ariana Rocha}
 \newcommand{\Course}{AGAI --- Individual Assignment 2 (Coding)}
 \newcommand{\Repo}{\texttt{AGAI\_HW2-IndividualAssignment-Coding}}
 
@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This report compares two graded behavioral strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus an extension \textbf{Moral Trader} agent, implemented with Microsoft AutoGen and local inference (Ollama). All agents consume the same structured market JSON per ticker. The analysis reflects outputs committed in \Repo{} for tickers NVDA, TSLA, JNJ, and KO (run date in JSON: 2026-04-08).
+This report compares two graded behavioral strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus an extension \textbf{Moral Trader} agent, implemented with Microsoft AutoGen and local inference (Ollama). All agents consume the same structured market JSON per ticker. The analysis reflects the latest committed run in \Repo{} for NVDA, TSLA, JNJ, and KO (\textbf{run date 2026-04-11}), produced on a laptop with live Ollama (\texttt{STOCKTRADER\_SKIP\_LLM} unset; wall clock on the order of twenty to twenty-five minutes per \texttt{logs/full\_run\_latest.txt}). Quantitative summaries come from \texttt{outputs/summary.json} and the heuristic bonus artifact \texttt{outputs/backtest.json}.
 \end{abstract}
 
 \section{Strategy Selection and Rationale}
@@ -93,29 +93,31 @@ Table~\ref{tab:results} summarizes graded strategies A/B and extension C from \t
 
 \begin{table}[h]
   \centering
-  \small
-  \begin{tabular}{@{}lcccc@{}}
+  \footnotesize
+  \begin{tabular}{@{}lccccccc@{}}
     \toprule
-    Ticker & A (News) & Conf. & B (Vol.) & Conf. \\
+    Ticker & A (News) & Conf. & B (Vol.) & Conf. & C (Moral) & Conf. & Spread \\
     \midrule
-    NVDA & HOLD & 8 & HOLD & 8 \\
-    TSLA & HOLD & 8 & HOLD & 8 \\
-    JNJ  & HOLD & 8 & HOLD & 8 \\
-    KO   & HOLD & 8 & HOLD & 8 \\
+    NVDA & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    TSLA & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    JNJ  & HOLD & 8 & HOLD & 8 & HOLD & 3 & 5 \\
+    KO   & HOLD & 8 & HOLD & 8 & HOLD & 8 & 0 \\
     \bottomrule
   \end{tabular}
-  \caption{Decisions for the two graded strategies (extension Moral Trader also HOLD throughout this run).}
+  \caption{Decisions and confidence (1--10) for the 2026-04-11 live run. Spread is max minus min confidence across A/B/C.}
   \label{tab:results}
 \end{table}
 
 \subsection{Direct excerpts from JSON outputs}
 
-\textbf{NVDA (News Sentiment Follower):} \emph{``No recent news available due to lack of API key. Current price (\$181.885) is near the moving average (177.2422), indicating a neutral trend. Volatility remains low (0.02413).''}
+\textbf{NVDA (News Sentiment Follower):} \emph{``No recent news available due to missing API key. Current price (\$188.63) is near the 20-day moving average (\$177.42), indicating a neutral position. The recent 30-day percentage change (1.4\%) and volatility (0.02242) are within normal ranges\ldots''}
 
-\textbf{TSLA (Volatility Averse):} \emph{``Low volatility\_30d (0.024147) and std\_daily\_return\_90d (0.023333) indicate stable price path. Max\_single\_day\_drop\_90d (-0.054215) is within acceptable bounds.''}
+\textbf{TSLA (News Sentiment Follower):} \emph{``Recent price action shows a strong downtrend (pct\_change\_30d = -14.44), but volatility is relatively low (volatility\_30d = 0.023797). Without news sentiment, the decision leans towards HOLD due to lack of clear directional bias.''}
+
+\textbf{JNJ (Moral Trader, low confidence):} \emph{``Low volatility (0.009844) and stable moving averages suggest a lack of recent market disruptions. However, the absence of news articles and API key note raises concerns about potential information asymmetry.''}
 
 \subsection{Evaluator}
-Across tickers, the evaluator generally noted unanimous HOLD with different emphasis (news availability vs.\ volatility metrics vs.\ narrative gaps). Example (TSLA): \emph{``All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.''}
+Across tickers, the evaluator noted unanimous HOLD with different emphasis (news gap vs.\ volatility metrics vs.\ moral-hazard framing). NVDA includes a \texttt{pattern\_note} flagging Moral Trader's emphasis on stability despite a recent single-day drawdown statistic. TSLA and KO follow the same aligned-analysis template as in prior runs.
 
 \section{Patterns of Agreement and Disagreement}
 
@@ -123,19 +125,21 @@ Across tickers, the evaluator generally noted unanimous HOLD with different emph
 
 \textbf{Interpretation (not just restatement).} Convergence is plausible given:
 \begin{itemize}
-  \item \textbf{Missing news channel:} \texttt{news\_features} shows \texttt{articles\_count = 0} and \texttt{note: "no API key"}, so the News agent cannot exploit sentiment overrides and defaults to conservative HOLD language tied to price/vol metrics.
-  \item \textbf{Similar intermediate regimes:} several names show moderate realized volatility and non-extreme drawdowns on the snapshot, which the Volatility Averse agent often maps to HOLD under its thresholds.
+  \item \textbf{Missing news channel on this run:} every ticker file still shows \texttt{articles\_count = 0} and \texttt{note: "no API key"}, so the News agent cannot exploit sentiment overrides and defaults to HOLD language grounded in price and volatility fields. The committed laptop log (\texttt{logs/full\_run\_latest.txt}) explicitly warns that if this persists, the Python process may not have loaded repo-root \texttt{.env} (or the key was absent on that machine).
+  \item \textbf{HOLD despite heterogeneous tape:} TSLA's 30-day return is $-14.44\%$ while NVDA is slightly up and JNJ/KO are comparatively quiet; all three strategies still output HOLD---the models emphasize bounded realized volatility and the absence of a sentiment lever rather than aggressively shorting weakness.
 \end{itemize}
 
-\textbf{Where sharper disagreement would likely appear.} With an Alpha Vantage key (and respecting rate limits), strong positive/negative \texttt{avg\_sentiment\_score} could push Strategy A toward BUY/SELL while Strategy B remains risk-focused---especially on high-beta names.
+\textbf{Confidence spread (quantitative nuance).} Moral Trader's confidence is lowest on JNJ (3) while A/B stay at 8, producing the widest three-way spread (5) in the table; KO shows perfect alignment (all 8).
+
+\textbf{Where sharper disagreement would likely appear.} With a working Alpha Vantage key in the runtime environment (and respecting rate limits), non-null \texttt{avg\_sentiment\_score} and article text could push Strategy A toward BUY/SELL while Strategy B remains risk-focused---especially on high-beta names.
 
 \section{Failure or Surprise Case}
 
-\textbf{Surprise:} uniform HOLD across a deliberately diverse ticker set limits the pedagogical contrast the assignment encourages.
+\textbf{Surprise:} after a full live Ollama run, the portfolio is still uniformly HOLD even where the tape is not uniform---notably TSLA's large negative 30-day return coexists with Strategy~B citing ``low turbulence'' and all agents choosing HOLD.
 
-\textbf{Likely causes:} (1) absent news API key, (2) local model tendency toward conservative decisions on structured financial JSON, (3) evaluator normalization when unanimity holds.
+\textbf{Likely causes:} (1) \texttt{news\_features} remained empty (\texttt{no API key} in JSON), so Strategy~A lacks its primary differentiated signal; (2) local model conservatism on structured JSON; (3) Strategy~B's thresholds mapping moderate realized vol to HOLD; (4) evaluator normalization when decisions are unanimous.
 
-\textbf{Mitigation for future runs:} add \texttt{ALPHAVANTAGE\_API\_KEY}, consider tickers with more extreme recent moves, and review prompts if the model over-uses HOLD.
+\textbf{Mitigation for future runs:} ensure \texttt{.env} is loaded on the machine that runs \texttt{python -m src.main} so \texttt{ALPHAVANTAGE\_API\_KEY} is visible; consider tickers or windows with stronger divergence between sentiment and vol; prompt tuning if HOLD is over-selected.
 
 \section{Reflection}
 
@@ -145,6 +149,25 @@ A \textbf{hybrid} would gate sentiment: only allow Strategy A to override when $
 
 \appendix
 \section*{Bonus artifact: backtest snapshot}
-The repository includes \texttt{outputs/backtest.json} (heuristic, not identical to live LLM decisions). Overall winner in that file: \textbf{volatility\_averse\_heuristic} (see \texttt{overall\_winner}). Per-ticker hit rates vary; treat this as a transparent scoring artifact per the bonus specification.
+The repository includes \texttt{outputs/backtest.json} (deterministic heuristic proxy; not identical to live LLM decisions). For the run committed alongside the 2026-04-11 outputs, \texttt{overall\_winner} is \textbf{news\_sentiment\_heuristic} (26 weeks, 20-day forward return scoring).
+
+Per-ticker heuristic hit rates (news vs.\ volatility) and winner flags:
+\begin{table}[h]
+  \centering
+  \footnotesize
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    Ticker & News hit & Vol.\ hit & Heuristic winner \\
+    \midrule
+    NVDA & 0.3043 & 0.3913 & volatility\_averse \\
+    TSLA & 0.4348 & 0.4348 & tie \\
+    JNJ  & 0.4348 & 0.1739 & news\_sentiment \\
+    KO   & 0.3043 & 0.3043 & tie \\
+    \bottomrule
+  \end{tabular}
+  \caption{From \texttt{outputs/backtest.json} \texttt{per\_ticker} (method: \texttt{deterministic\_heuristic\_vs\_forward\_return}).}
+\end{table}
+
+\noindent\textbf{Contrast with live agents.} The backtest's point-in-time heuristics disagree frequently in the historical rows (e.g., mixed BUY/SELL vs.\ HOLD signals in \texttt{rows}), while the live 2026-04-11 LLM pass is unanimous HOLD on the \emph{current} snapshot---a useful honesty point for grading: the bonus artifact measures a different object than the conversational strategies on ``today's'' JSON.
 
 \end{document}
