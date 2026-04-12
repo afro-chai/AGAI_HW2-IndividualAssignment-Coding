@@ -9,7 +9,7 @@
 \usepackage{verbatim}
 \usepackage[hidelinks]{hyperref}
 
-\newcommand{\StudentName}{Your Name}
+\newcommand{\StudentName}{Ariana Rocha}
 
 \title{AI Use Appendix\\StockTrader Individual Assignment (Coding)}
 \author{\StudentName}
@@ -18,19 +18,70 @@
 \begin{document}
 \maketitle
 
-\section{Purpose}
-This appendix documents how generative AI was used during development and report drafting, with \textbf{file-level attribution} and explicit \textbf{accept / revise / reject} decisions, consistent with course expectations for responsible AI use.
+\noindent\textbf{Abstract.}
+This appendix describes how I used generative AI tools---\textbf{Cursor}, \textbf{ChatGPT}, and \textbf{Ollama}---while completing the StockTrader coding assignment. I steered work with written instructions and project context, reviewed every stage of output carefully, and used ChatGPT once with the rubric to stress-test the report for gaps. Ollama was required as the local LLM runtime for the assignment pipeline (strategies and evaluator), separate from my authoring workflow. Below I summarize tools, workflow, cleaned representative prompts, sample outputs, and file-level attribution (accepted, revised, or rejected).
 
-\section{Representative prompts (on-disk)}
-The production system loads full prompts from the repository (not pasted inline in code). Key files:
+\section{Tools I used: Cursor, ChatGPT, and Ollama}
+
+\begin{description}
+  \item[Cursor] Primary environment for repository work, code exploration, edits, and drafting. I created the GitHub repository, added a text file with the assignment description after reading it myself, and layered instructions (e.g., which agents to build, AutoGen + parallel strategies, JSON outputs, no cross-talk before evaluation). Cursor helped scaffold \texttt{src/}, \texttt{prompts/}, early \texttt{README.md} drafts, and initial report-oriented material; I reviewed and revised all of it.
+  \item[ChatGPT] Used later in the process: I pasted my near-final report (or large excerpts) together with the course rubric and asked for a gap analysis---what might be missing, unclear, or weak against the rubric---not for automatic rewriting of the whole document. I incorporated only suggestions I agreed with after manual judgment.
+  \item[Ollama] Part of the assignment itself: local model serving for the three \texttt{AssistantAgent} strategies plus the evaluator when running \texttt{python -m src.main}. This is runtime behavior of the system, not the same as using a chat UI to draft prose, but it is disclosed here as required AI-assisted inference on market payloads.
+\end{description}
+
+\section{Workflow: repository, steering file, and review}
+
+\begin{enumerate}
+  \item \textbf{Read the assignment} on my own, then \textbf{captured the brief} in a text file in the repo with any particulars (multi-agent StockTrader, News Sentiment Follower, Volatility Averse, Moral Trader extension, parallel execution, structured JSON, evaluator, optional backtest, Alpha Vantage news path, etc.).
+  \item \textbf{Fed that context into Cursor} so subsequent edits stayed aligned with the spec; I iterated when requirements became clearer (e.g., handoff doc, Alpha Vantage hygiene, report checklist items).
+  \item \textbf{Reviewed meticulously} at each stage: code paths, prompts on disk, \texttt{outputs/*.json} after runs, and narrative in report sources. I accepted, revised, or rejected suggestions explicitly rather than bulk-merging blind.
+  \item \textbf{Rubric pass with ChatGPT} after I had a finished draft of the written report: attach rubric + report, ask for missing sections or weak evidence, then I edited the \texttt{.tex} / PDF pipeline myself.
+\end{enumerate}
+
+\section{Representative prompts (cleaned)}
+The following are paraphrased or lightly edited from what I actually used; they are not verbatim logs.
+
+\subsection*{Repository and build steering (Cursor / project context)}
+\begin{verbatim}
+I am doing HW2 StockTrader. Here is the assignment text [paste].
+Build: AutoGen AssistantAgents for (1) News Sentiment Follower,
+(2) Volatility Averse, (3) Moral Trader bonus. They must run in
+parallel with structured JSON outputs; no strategy sees another's
+output before the evaluator. Use yfinance + optional Alpha Vantage
+NEWS_SENTIMENT. Include README, prompts/*.txt on disk, and outputs/
+JSON per ticker plus summary.json and backtest bonus.
+\end{verbatim}
+
+\subsection*{Iteration and hygiene (Cursor)}
+\begin{verbatim}
+Pull from remote with rebase. Update HANDOFF so API keys only live
+in .env; document Alpha Vantage rate limits per official docs.
+Adjust market_data for NEWS_SENTIMENT errors and optional sort/limit.
+\end{verbatim}
+
+\subsection*{Report and documentation (Cursor)}
+\begin{verbatim}
+Draft README sections for setup (venv, Ollama, .env, PYTHONPATH,
+run command). Match the course folder layout. Keep tone honest about
+stub mode vs live Ollama for grading.
+\end{verbatim}
+
+\subsection*{Rubric gap check (ChatGPT)}
+\begin{verbatim}
+Here is my report draft for StockTrader HW2 [paste or attach].
+Here is the rubric [paste]. Grade against the rubric as a TA would:
+list gaps, missing quantitative evidence, or unclear claims only.
+Do not rewrite the whole report; bullet prioritized fixes.
+\end{verbatim}
+
+\section{On-disk prompts (assignment system)}
+The running app loads strategy and evaluator system prompts from the repository (not from the chat prompts above). Key paths:
 \begin{itemize}
   \item \texttt{prompts/strategy\_a.txt} / \texttt{prompts/strategy\_news\_sentiment.txt} --- News Sentiment Follower
   \item \texttt{prompts/strategy\_b.txt} / \texttt{prompts/strategy\_volatility\_averse.txt} --- Volatility Averse
-  \item \texttt{prompts/strategy\_moral\_trader.txt} --- Moral Trader (extension)
+  \item \texttt{prompts/strategy\_moral\_trader.txt} --- Moral Trader
   \item \texttt{prompts/evaluator.txt} --- Evaluator
 \end{itemize}
-
-\noindent\textbf{Design intent:} strategies must cite numeric fields from the JSON payload; evaluator must explain agreement/disagreement without accessing peer strategy outputs during generation.
 
 \section{Clean run commands (reference)}
 From the repository root (after activating the virtual environment):
@@ -42,31 +93,20 @@ Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
 python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
 \end{verbatim}
 
-\noindent\textbf{Stub mode (CI / no GPU):} set \texttt{STOCKTRADER\_SKIP\_LLM=1} only for smoke tests; not used for final narrative quality.
+\noindent\textbf{Stub mode (CI / no GPU):} set \texttt{STOCKTRADER\_SKIP\_LLM=1} only for smoke tests; not used for submission-quality narrative.
 
-\noindent\textbf{Optional tuning (Ollama):} see \texttt{.env.example} for \texttt{OLLAMA\_NUM\_PREDICT}, \texttt{OLLAMA\_NUM\_CTX}, \texttt{OLLAMA\_TEMPERATURE}.
+\section{Representative model output (pipeline excerpt)}
+Evaluator-style consolidation (example pattern; exact wording varies by run):
 
-\section{Summarized model outputs (high level)}
-Table~\ref{tab:summary} summarizes the committed aggregate JSON (\texttt{outputs/summary.json}).
+\begin{verbatim}
+"analysis": "All strategy agents converge on the same decision for this
+ticker. They differ slightly in rationale emphasis, but the final
+recommendation is aligned."
+\end{verbatim}
 
-\begin{table}[h]
-  \centering
-  \begin{tabular}{@{}lr@{}}
-    \toprule
-    Metric & Value \\
-    \midrule
-    Tickers analyzed & 4 (NVDA, TSLA, JNJ, KO) \\
-    Unanimous agreement count & 4 \\
-    Disagreement count & 0 \\
-    \bottomrule
-  \end{tabular}
-  \caption{Aggregate agreement snapshot (current committed run).}
-  \label{tab:summary}
-\end{table}
+\noindent\textbf{Aggregate snapshot (illustrative):} committed \texttt{outputs/summary.json} at the time of writing may show unanimous agreement across four tickers when news is thin and regimes are similar---I verified counts and decisions against the per-ticker JSON files rather than trusting prose alone.
 
-\noindent\textbf{Note:} With \texttt{news\_features} empty (no Alpha Vantage key in \texttt{.env}), the News agent leans on price/vol context; this materially affects how often sentiment can diverge from the Volatility Averse posture.
-
-\section{File-level attribution (AI assistance)}
+\section{File-level attribution (accept / revise / reject)}
 \begin{table}[h]
   \centering
   \small
@@ -74,31 +114,24 @@ Table~\ref{tab:summary} summarizes the committed aggregate JSON (\texttt{outputs
     \toprule
     Artifact & Summary & Status \\
     \midrule
-    \texttt{src/*.py}, \texttt{prompts/*.txt} & Scaffold + orchestration + prompts & Mixed: accepted core structure; revised prompts for brevity and anti-hallucination constraints \\
-    \texttt{outputs/*.json} & Generated by running the pipeline locally & Verified numbers against yfinance context excerpts \\
-    \texttt{report/*.tex} & Report drafting from JSON summaries & Accepted outline; manually edited for honesty about uniform HOLD \\
+    \texttt{src/*.py}, \texttt{prompts/*.txt} & Cursor-assisted scaffold and orchestration & Revised: tightened prompts and guards after manual read \\
+    \texttt{README.md}, \texttt{docs/*.md} & Early drafts from Cursor & Revised: accuracy, secrets hygiene, Alpha Vantage notes \\
+    \texttt{report/*.tex} & Initial structure from Cursor; rubric feedback from ChatGPT & Revised: my voice, rubric alignment, quantitative checks \\
+    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: fields, numbers, empty-news behavior \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 \section{What I verified independently}
 \begin{itemize}
-  \item JSON schema fields match assignment requirements (decision, confidence, justification; evaluator block).
-  \item Market data path is non-LLM; strategies do not cross-read before evaluation (code structure).
-  \item Empty-news path is exercised when API key is absent (see \texttt{news\_features.note}).
+  \item JSON outputs include required decisions, confidence, justification, and evaluator block.
+  \item Strategies are invoked in parallel in code; evaluator runs after strategy outputs are fixed for that ticker.
+  \item Market data assembly (\texttt{src/market\_data.py}) is deterministic from APIs; empty or rate-limited Alpha Vantage responses degrade gracefully (\texttt{news\_features.note}).
 \end{itemize}
 
 \section{One weak or surprising model output (example)}
-\textbf{Issue:} occasional language inconsistency when news is missing (e.g., wording that overstates ``high volatility'' when realized vol is comparatively low).
+\textbf{Issue:} With sparse news, models occasionally over-interpret volatility language relative to the numeric JSON.
 
-\textbf{Response:} tightened prompts to forbid citing indicators absent from JSON; added evaluator text normalization for contradictory agreement language in code (\texttt{src/evaluator.py}).
-
-\section{Optional excerpt (evaluator, TSLA)}
-\small
-\begin{verbatim}
-"analysis": "All strategy agents converge on the same decision for this
-ticker. They differ slightly in rationale emphasis, but the final
-recommendation is aligned."
-\end{verbatim}
+\textbf{Response:} Prompt edits to ground claims in provided fields; evaluator normalization in \texttt{src/evaluator.py} for contradictory agreement wording when decisions are actually unanimous.
 
 \end{document}
