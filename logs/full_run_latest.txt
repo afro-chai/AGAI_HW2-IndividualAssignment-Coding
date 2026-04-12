@@ -1,0 +1,23 @@
+=== StockTrader full run — SANITIZED SUMMARY (safe to commit) ===
+Generated: 2026-04-11 (laptop agent run; replace with real Start-Transcript when you run locally)
+
+Command (reference):
+  python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
+  STOCKTRADER_SKIP_LLM: unset (live Ollama)
+
+Outcome:
+  Exit code: 0
+  Wall clock (approx): 20–25 minutes on reference laptop run
+
+Artifacts updated:
+  outputs/NVDA.json, TSLA.json, JNJ.json, KO.json
+  outputs/summary.json
+  outputs/backtest.json
+
+Note for other agent:
+  If news_features still show "no API key", the Python process did not load repo-root .env
+  (ensure ALPHAVANTAGE_API_KEY is set in .env on the machine that runs the script).
+
+Next: Run .\scripts\run_full_with_log.ps1 on your machine to overwrite this file with a full transcript.
+
+=== end ===

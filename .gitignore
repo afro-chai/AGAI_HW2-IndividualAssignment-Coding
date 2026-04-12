@@ -10,5 +10,4 @@ docs/assets/alphavantage-welcome.png
 # Local assignment brief / notes (not part of submission tree)
 Instructions/
 
-# Full-run transcripts (can be large; may echo env warnings — keep local)
-logs/full_run*.txt
+# Run transcripts live under logs/ — commit sanitized copies only (never paste API keys into logs).
