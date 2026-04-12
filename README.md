@@ -112,7 +112,7 @@ python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest
 
 ### Full run with transcript log
 
-From repo root (writes `logs/full_run_<timestamp>.txt` and `logs/full_run_latest.txt`; logs are gitignored):
+From repo root (writes `logs/full_run_<timestamp>.txt` and `logs/full_run_latest.txt`). **Commit** transcripts only if they contain **no secrets** — see [`logs/README.md`](logs/README.md).
 
 ```powershell
 .\scripts\run_full_with_log.ps1
