@@ -1,3 +1,3 @@
 # `docs/assets`
 
-- **`alphavantage-welcome.png`** — Alpha Vantage key-confirmation or welcome screenshot for documentation. The repo may contain a minimal placeholder PNG so the path exists; replace it with your actual screenshot locally if required for your course packet.
+- **`alphavantage-welcome.png`** — Optional local file (Alpha Vantage welcome / key confirmation). **Gitignored** — create it on your machine if needed for your report; never commit screenshots that may show your API key.

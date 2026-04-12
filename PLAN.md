@@ -8,7 +8,7 @@
 - **Models:** Ollama via `OllamaChatCompletionClient`; optional LiteLLM via `LITELLM_*` in `src/llm_factory.py`.
 - **Strategies:** News Sentiment Follower, Volatility Averse, Moral Trader (`strategy_c`); bonus backtest in `src/backtest.py` → `outputs/backtest.json`.
 - **Alpha Vantage:** Key obtained; stored only in **local** `.env` (gitignored). Integration notes: [`docs/ALPHA_VANTAGE.md`](docs/ALPHA_VANTAGE.md). Code: `src/market_data.py` (NEWS_SENTIMENT, optional env tuning in `.env.example`).
-- **Docs pushed:** `README.md`, `docs/HANDOFF_NEXT_AGENT.md`, `docs/ALPHA_VANTAGE.md`, `docs/assets/`, `.env.example` updates.
+- **Docs pushed:** `README.md`, `docs/HANDOFF_NEXT_AGENT.md`, `docs/ALPHA_VANTAGE.md`, `docs/assets/README.md`, `.env.example` updates. (Welcome/key screenshot path is **gitignored** — not in repo.)
 - **Report sources in repo:** `report/comparative_analysis.tex`, `report/ai_use_appendix.tex`, `report/LATEX_BUILD.md`, `report/report_checklist.md`.
 
 ### Left to do

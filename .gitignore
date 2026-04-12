@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 .env
+# May show API key in a screenshot — keep local only
+docs/assets/alphavantage-welcome.png
 *.egg-info/
 .pytest_cache/
 

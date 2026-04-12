@@ -30,10 +30,6 @@ Optional env **`ALPHAVANTAGE_MIN_INTERVAL_SEC`**: minimum seconds between Alpha 
 - **[Trading Agents](https://trading-agents.ai/)** — institutional-style equity research tooling; cited by Alpha Vantage as an example direction (not a dependency of this repo).
 - **[Alpha Vantage MCP](https://mcp.alphavantage.co/)** — Model Context Protocol server so assistants can query Alpha Vantage through a standard MCP interface; this homework uses direct `httpx` calls instead, but MCP is a reasonable capstone or report citation for “how else to integrate market data with agents.”
 
-## Key confirmation screenshot
+## Key confirmation screenshot (local only)
 
-Welcome / key-issued screen (replace placeholder with your own capture if you prefer):
-
-![Alpha Vantage welcome / API key confirmation](assets/alphavantage-welcome.png)
-
-The repository may ship a **tiny placeholder** image at that path so the link resolves in Git. **Overwrite** `docs/assets/alphavantage-welcome.png` locally with your real welcome email screenshot for submissions. For **public** GitHub repos, avoid committing images that clearly display a live API key; rotate the key at [Alpha Vantage support](https://www.alphavantage.co/support/#api-key) if it was ever exposed.
+If you keep a welcome / key-issued screen capture for your report, save it as **`docs/assets/alphavantage-welcome.png`** on your machine. That filename is **gitignored** so a screenshot that might expose your API key is never pushed. Do not commit key images; rotate the key at [Alpha Vantage support](https://www.alphavantage.co/support/#api-key) if it was ever exposed in a public repo.

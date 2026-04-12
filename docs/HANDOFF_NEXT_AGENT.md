@@ -33,7 +33,7 @@ src/           # main.py, market_data.py, orchestration.py, evaluator.py, backte
 prompts/       # strategy_a.txt, strategy_b.txt, evaluator.txt, + named strategy files
 outputs/       # per-ticker JSON, summary.json, backtest.json (regenerate for submission)
 report/        # report.pdf, ai appendix — student deliverables
-docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (e.g. key welcome screenshot)
+docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (optional local screenshots; key image gitignored)
 ```
 
 **Instructions folder:** If present locally, it may be gitignored; assignment text lives in course materials, not required in repo for code to run.
@@ -63,7 +63,7 @@ docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (e.g. key welcome scree
    - Key is issued; **store the value only in local `.env`** at repo root (`ALPHAVANTAGE_API_KEY=...`). Do not commit `.env` or embed the key in README/handoff/issues.
    - On a **new clone or machine:** copy `.env.example` → `.env` and paste the key again (or copy your private `.env` over securely).
    - API reference: [alphavantage.co/documentation](https://www.alphavantage.co/documentation/) (NEWS_SENTIMENT). Key signup: [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key). Build notes for *this* repo: [`ALPHA_VANTAGE.md`](ALPHA_VANTAGE.md). Optional citations for reports: [Trading Agents](https://trading-agents.ai/), [Alpha Vantage MCP](https://mcp.alphavantage.co/).
-   - Welcome/key screenshot for docs: [`assets/alphavantage-welcome.png`](assets/alphavantage-welcome.png) (overwrite placeholder with your capture if needed; avoid leaking keys in **public** repos).
+   - Optional welcome/key screenshot: save locally as `docs/assets/alphavantage-welcome.png` (**gitignored**, not in remote — hygiene).
    - Free tier has **request limits**; empty/no news handling is already in code. Use `ALPHAVANTAGE_MIN_INTERVAL_SEC` if you burst too many tickers.
 
 3. **Re-run full pipeline for submission-quality JSON**
