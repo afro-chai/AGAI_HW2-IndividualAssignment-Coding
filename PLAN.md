@@ -23,13 +23,17 @@
    pip install -r requirements.txt
    ```
 
-5. **Full live run** (real LLM outputs — not stubs):
+5. **Full live run** (real LLM outputs — not stubs). Prefer the logging wrapper (same command, plus `logs/full_run_latest.txt`):
+   ```powershell
+   .\scripts\run_full_with_log.ps1
+   ```
+   Or manually:
    ```powershell
    $env:PYTHONPATH = (Get-Location).Path
    Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
    python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
    ```
-   - Expect `outputs/<TICKER>.json`, `outputs/summary.json`, `outputs/backtest.json` with **non-stub** justifications and, ideally, **news_features** populated when the key works.
+   - Expect `outputs/<TICKER>.json`, `outputs/summary.json`, `outputs/backtest.json` with **non-stub** justifications and, ideally, **news_features** populated when `ALPHAVANTAGE_API_KEY` is in **repo-root `.env`** (not only a one-off terminal variable).
 
 6. **Quality check** — Open `outputs/summary.json`: note agreements vs disagreements. If everything is still HOLD everywhere, consider rerunning after AV data loads or adjusting tickers; document honestly in the report.
 

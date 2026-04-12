@@ -110,6 +110,14 @@ $env:PYTHONPATH = (Get-Location).Path
 python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest
 ```
 
+### Full run with transcript log
+
+From repo root (writes `logs/full_run_<timestamp>.txt` and `logs/full_run_latest.txt`; logs are gitignored):
+
+```powershell
+.\scripts\run_full_with_log.ps1
+```
+
 ---
 
 ## Architecture (brief)
