@@ -645,7 +645,7 @@
       "asof": "2025-09-09",
       "signal_news_follower": "HOLD",
       "signal_volatility_averse": "HOLD",
-      "forward_return_20d": -0.008219
+      "forward_return_20d": -0.00822
     },
     {
       "ticker": "KO",
@@ -673,7 +673,7 @@
       "asof": "2025-07-30",
       "signal_news_follower": "HOLD",
       "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.001164
+      "forward_return_20d": 0.001163
     }
   ]
 }

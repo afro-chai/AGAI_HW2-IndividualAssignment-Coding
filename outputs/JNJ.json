@@ -17,32 +17,152 @@
     "beta_proxy_spy": 0.046
   },
   "news_features": {
-    "articles_count": 0,
-    "avg_sentiment_score": null,
-    "articles": [],
-    "note": "no API key"
+    "articles_count": 20,
+    "avg_sentiment_score": 0.10895274999999997,
+    "articles": [
+      {
+        "title": "Massachusetts Financial Services Co. MA Increases Stock Position in Qiagen N.V. $QGEN",
+        "summary": "Massachusetts Financial Services Co. MA recently increased its stock holdings in Qiagen N.V. by 1.1% during the fourth quarter, bringing its total to over 24 million shares valued at approximately $1.09 billion. This comes as Qiagen reported better-than-expected Q4 earnings and revenue, while setting optimistic guidance for FY2026. Despite a \"Hold\" consensus rating and a $55.20 price target, the s",
+        "source": "MarketBeat",
+        "overall_sentiment_score": 0.167299
+      },
+      {
+        "title": "57,274 Shares in Johnson & Johnson $JNJ Purchased by Robinhood Asset Management LLC",
+        "summary": "Robinhood Asset Management LLC has acquired a new stake of 57,274 shares in Johnson & Johnson (JNJ), valued at approximately $11.85 million, making it their 24th-largest position. The move comes as several brokerages, including Morgan Stanley, have increased their price targets and maintained \"Overweight\" ratings on JNJ. Despite some insider selling and ongoing risks like litigation and biosimilar",
+        "source": "MarketBeat",
+        "overall_sentiment_score": 0.306041
+      },
+      {
+        "title": "Raleigh Capital Management Inc. Sells 4,297 Shares of Johnson & Johnson $JNJ",
+        "summary": "Raleigh Capital Management Inc. reduced its stake in Johnson & Johnson by 26.9%, selling 4,297 shares and now holding 11,668 shares valued at $2.415 million. This makes J&J the firm's 29th largest holding, representing about 0.9% of its portfolio. Various analysts have raised price targets for J&J, with a consensus \"Moderate Buy\" rating, while insider selling totaling $7.36 million has been observ",
+        "source": "MarketBeat",
+        "overall_sentiment_score": 0.215645
+      },
+      {
+        "title": "Global X S&P 500 Quality Dividend ETF (QDIV) ETF Holders - Institutional Ownership",
+        "summary": "This article provides an overview of the Global X S&P 500 Quality Dividend ETF (QDIV), including its current stock price, financial ratios, dividend yield, and top holdings. It notes that there is no institutional ownership data or guru trade data available for public viewing without a premium membership. The article also encourages users to take a free trial to access more detailed information.",
+        "source": "GuruFocus",
+        "overall_sentiment_score": 0.003773
+      },
+      {
+        "title": "Avantor Inc stock (US05352A1007): Is its lab supply dominance strong enough for U.S. investor upside",
+        "summary": "Avantor Inc. (AVTR) provides critical products and services to the life sciences industry, enabling research and biopharma in the U.S. The company operates an asset-light model, supplying essential lab materials and services, making it a \"pick-and-shovel\" play for investors seeking exposure to the booming American biotech sector without direct drug development risks. While benefiting from strong R",
+        "source": "AD HOC NEWS",
+        "overall_sentiment_score": 0.216289
+      },
+      {
+        "title": "Alcon launches Clareon TruPlus monofocal and toric IOL",
+        "summary": "Alcon has introduced its new Clareon TruPlus monofocal and toric intraocular lens (IOL) in the U.S. This advanced IOL, debuting at the American Society of Cataract and Refractive Surgery (ASCRS) annual meeting, is designed to offer increased depth of focus while maintaining high-quality distance vision, primarily correcting pre-existing corneal astigmatism. The Clareon TruPlus features proprietary",
+        "source": "Eyes On Eyecare",
+        "overall_sentiment_score": 0.477567
+      },
+      {
+        "title": "Avalo Therapeutics (NASDAQ: AVTX) sets 2026 virtual meeting and ESPP changes",
+        "summary": "Avalo Therapeutics (NASDAQ: AVTX) has scheduled its 2026 Annual Meeting of Stockholders for June 2, 2026, which will be held virtually. Shareholders will vote on the election of seven directors, the approval of a Second Amended and Restated 2016 Employee Stock Purchase Plan (ESPP) with changes including an annual share increase cap and extended \"evergreen\" feature, and the ratification of Ernst & ",
+        "source": "Stock Titan",
+        "overall_sentiment_score": 0.042429
+      },
+      {
+        "title": "iShares Core Dividend Growth ETF (DGRO) Stock Price, Holdings, Dividend Yield",
+        "summary": "The article provides a detailed overview of the iShares Core Dividend Growth ETF (DGRO), including its current stock price, holdings, dividend yield, and key financial statistics. As of January 31, 2026, DGRO has 396 holdings with a total portfolio value of $37.41 billion, and its top holdings include Exxon Mobil Corp, Johnson & Johnson, and JPMorgan Chase & Co. The ETF's performance metrics, hist",
+        "source": "GuruFocus",
+        "overall_sentiment_score": 0.345604
+      },
+      {
+        "title": "Pfizer Inc. stock (US7170811035): Is its post-COVID pivot strong enough to unlock new upside?",
+        "summary": "This article examines Pfizer's strategic pivot from its COVID-19 related windfall towards oncology and rare diseases, assessing its potential to deliver new upside for investors. It highlights Pfizer's core business model, key products, competitive position, and the risks involved, emphasizing its appeal to U.S. investors seeking defensive healthcare exposure and steady dividends. Analyst views ge",
+        "source": "AD HOC NEWS",
+        "overall_sentiment_score": 0.174657
+      },
+      {
+        "title": "Johnson & Johnson (NYSE:JNJ) Stock Price Expected to Rise, Morgan Stanley Analyst Says",
+        "summary": "Morgan Stanley has increased its price target for Johnson & Johnson (NYSE:JNJ) to $267, maintaining an \"overweight\" rating, suggesting an 11.4% upside. This comes amidst a \"Moderate Buy\" consensus from other analysts with an average price target of $238.17. While the stock benefits from a strong dividend streak and new device launches, it faces headwinds from insider selling and ongoing litigation",
+        "source": "MarketBeat",
+        "overall_sentiment_score": 0.333495
+      },
+      {
+        "title": "Abbott Laboratories stock hits 52-week low at $100.85",
+        "summary": "Abbott Laboratories stock has reached a 52-week low of $100.85, marking a 20.39% decline over the past year for the $175.86 billion healthcare company. Despite this downturn, InvestingPro analysis indicates the stock may be undervalued, supported by a 56-year history of sustained dividends. Recent strategic moves, including the acquisition of Exact Sciences and integration with Flatiron Health, al",
+        "source": "Investing.com South Africa",
+        "overall_sentiment_score": -0.090892
+      },
+      {
+        "title": "RBC Capital reiterates Abbvie stock Outperform rating at $260 target",
+        "summary": "RBC Capital has reiterated an Outperform rating on AbbVie (NYSE:ABBV) with a $260 price target, ahead of its Q1 2026 earnings report on April 29th. The firm anticipates in-line results for key products Skyrizi and Rinvoq, but suggests a clear beat will be necessary to shift the current negative sentiment surrounding the stock. Despite this, RBC Capital maintains a constructive medium-term view for",
+        "source": "Investing.com",
+        "overall_sentiment_score": 0.017487
+      },
+      {
+        "title": "New Johnson & Johnson lens data shows 96% distance spectacle independence",
+        "summary": "Johnson & Johnson is set to present new clinical data for its TECNIS PureSee IOL at the ASCRS 2026 meeting, demonstrating excellent contrast sensitivity and an extended range of vision. The data, spanning two major studies, shows high patient satisfaction, low visual symptoms, and 96% spectacle independence for distance vision. This IOL is a next-generation Extended Depth of Focus (EDOF) lens desi",
+        "source": "Stock Titan",
+        "overall_sentiment_score": 0.421381
+      },
+      {
+        "title": "BDTX: What Silevertinib Data Say About EGFR NSCLC Upside",
+        "summary": "Black Diamond Therapeutics (BDTX) is banking on its single asset, silevertinib, a fourth-generation EGFR inhibitor for EGFR-mutant NSCLC. The company highlights its broad activity against various EGFR mutations, strong CNS responses, and consistent safety profile, with critical updates expected in 2026. The stock's future hinges on clinical execution, regulatory progress, and securing late-stage p",
+        "source": "qz.com",
+        "overall_sentiment_score": 0.155698
+      },
+      {
+        "title": "Top 12 Pharma Companies: Eli Lilly Shoots To The Top, Merck Tumbles",
+        "summary": "Eli Lilly has risen to the top of the pharmaceutical company rankings, while Merck experienced a decline. This article provides an overview of the top 12 pharma companies, detailing shifts in their market positions. The information aims to keep readers updated on significant changes within the biopharmaceutical industry.",
+        "source": "Citeline News & Insights",
+        "overall_sentiment_score": 0.010342
+      },
+      {
+        "title": "Aaron Wealth Advisors LLC Increases Stock Position in Johnson & Johnson $JNJ",
+        "summary": "Aaron Wealth Advisors LLC significantly increased its stake in Johnson & Johnson (NYSE:JNJ) by 15.3% in the fourth quarter, now holding 41,305 shares valued at approximately $8.55 million. The stock currently holds a \"Moderate Buy\" consensus rating with a target price of $237.57, driven by upbeat analyst sentiment and the European launch of its VARIPULSE Pro pulsed field ablation system. Despite i",
+        "source": "MarketBeat",
+        "overall_sentiment_score": 0.327395
+      },
+      {
+        "title": "Is It Time To Reassess Johnson & Johnson (JNJ) After Its Strong 1-Year Share Price Run?",
+        "summary": "Johnson & Johnson (JNJ) has seen a strong 66.8% return over the last year, prompting a reassessment of its current valuation. A Discounted Cash Flow (DCF) analysis suggests the stock is undervalued by 33.7% with an intrinsic value of $363.77 per share compared to its current price of $241. While its P/E ratio of 21.68x is above the industry average, it's below Simply Wall St's Fair Ratio of 27.05x",
+        "source": "Simply Wall Street",
+        "overall_sentiment_score": 0.195321
+      },
+      {
+        "title": "iShares MSCI World ETF Braces for a Tumultuous Quarter",
+        "summary": "The iShares MSCI World ETF (URTH) is facing a challenging Q2 2026 due to new U.S. tariffs impacting healthcare and technology sectors, intense fee competition from rival ETFs, and a significant change to MSCI's index calculation methodology. Despite these headwinds, institutional investors like the Royal Bank of Canada are maintaining their positions due to the fund's liquidity and track record, a",
+        "source": "Aktiencheck",
+        "overall_sentiment_score": -0.224712
+      },
+      {
+        "title": "Southern Co. Stock Could Join Dividend Aristocrats. Why It May Return 10%.",
+        "summary": "Southern Co. is set to become a new member of the Dividend Aristocrats index, offering investors steady dividend payouts amid market uncertainty. The company's consistent earnings growth and a 3% yield are expected to contribute to a potential 10% return this year. This makes it an attractive option for those seeking dependable income.",
+        "source": "Barron's",
+        "overall_sentiment_score": 0.186916
+      },
+      {
+        "title": "BDTX: Insights from Silevertinib Data on EGFR NSCLC Growth Potential",
+        "summary": "Black Diamond Therapeutics (BDTX) is focusing its growth strategy on silevertinib, a next-generation EGFR inhibitor for non-small cell lung cancer (NSCLC) that can cross the blood-brain barrier. Early data shows broad mutation coverage and strong CNS efficacy, addressing critical unmet needs, especially the C797S resistance mutation. While the company's valuation is tied to silevertinib's clinical",
+        "source": "Bitget",
+        "overall_sentiment_score": 0.1024
+      }
+    ]
   },
   "strategy_a": {
     "name": "News Sentiment Follower",
     "decision": "HOLD",
-    "confidence": 8,
-    "justification": "Recent price action shows a decline of -1.86% over the last 30 days, with current price at $238.46. Volatility is low at 0.009844. No news available due to API key issue."
+    "confidence": 6,
+    "justification": "Recent news sentiment is mixed, with some articles showing positive sentiment (e.g., 0.306041) and others negative (e.g., -0.090892). However, the overall average sentiment score of 0.10895274999999997 is relatively neutral. Additionally, the stock price has been volatile in recent days (-1.86% 30-day change), which may indicate a lack of clear direction. Given this context, I lean towards HOLD unless there are any extreme price movements that would suggest otherwise."
   },
   "strategy_b": {
     "name": "Volatility Averse",
     "decision": "HOLD",
-    "confidence": 8,
-    "justification": "Low volatility_30d (0.009844) and std_daily_return_90d (0.010491) indicate stable price behavior. max_single_day_drop_90d (-0.023115) is within acceptable bounds. No significant news features or API key issue present."
+    "confidence": 6,
+    "justification": "Standardized volatility metrics indicate low turbulence (std_daily_return_90d = 0.010491, atr_14 = 4.2214), and the recent price drop is within acceptable bounds (-max_single_day_drop_90d = -0.023115). The overall sentiment score from news articles suggests a moderate positive tone (avg_sentiment_score = 0.10895274999999997) with no extreme negative sentiments. However, the beta_proxy_spy value of 0.046 indicates some level of market risk, which is not sufficient to trigger an aggressive action."
   },
   "strategy_c": {
     "name": "Moral Trader",
     "decision": "HOLD",
-    "confidence": 3,
-    "justification": "Low volatility (0.009844) and stable moving averages suggest a lack of recent market disruptions. However, the absence of news articles and API key note raises concerns about potential information asymmetry. Further analysis is required to confirm this stance."
+    "confidence": 6,
+    "justification": "The stock has a strong consensus rating of Moderate Buy with an average price target of $238.17, driven by upbeat analyst sentiment and the European launch of its VARIPULSE Pro pulsed field ablation system. However, insider selling totaling $7.36 million has been observed, which may pose some risk. Additionally, the company faces headwinds from litigation and biosimilar competition. The overall sentiment score is positive, but not overly bullish, suggesting a cautious approach."
   },
   "evaluator": {
     "agents_agree": true,
     "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
-    "pattern_note": "Moral Trader"
+    "pattern_note": "Moral Trader's outlier pattern is the only one with a positive price target, whereas News Sentiment Follower and Volatility Averse have more cautious stances."
   }
 }

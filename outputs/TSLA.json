@@ -20,29 +20,29 @@
     "articles_count": 0,
     "avg_sentiment_score": null,
     "articles": [],
-    "note": "no API key"
+    "note": "Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints"
   },
   "strategy_a": {
     "name": "News Sentiment Follower",
     "decision": "HOLD",
     "confidence": 8,
-    "justification": "Recent price action shows a strong downtrend (pct_change_30d = -14.44), but volatility is relatively low (volatility_30d = 0.023797). Without news sentiment, the decision leans towards HOLD due to lack of clear directional bias."
+    "justification": "No recent news available (articles_count = 0) and avg_sentiment_score is null. Current price ($348.95) is near the moving average (370.85). Volatility (0.023797) is low, suggesting a relatively stable market. The recent drop (-14.44%) may be a buying opportunity."
   },
   "strategy_b": {
     "name": "Volatility Averse",
     "decision": "HOLD",
     "confidence": 8,
-    "justification": "Low turbulence (std_daily_return_90d = 0.023364) and acceptable drawdown behavior (-max_single_day_drop_90d = -0.054215). Volatility is moderate (atr_14 = 15.43), but not elevated. No news features available."
+    "justification": "Current price ($348.95) is near the moving average (370.85). Volatility (0.023797) and max single-day drop (-0.054215) are low. ATR (15.43) suggests moderate risk, but beta proxy (1.527) indicates relatively stable price behavior."
   },
   "strategy_c": {
     "name": "Moral Trader",
     "decision": "HOLD",
     "confidence": 6,
-    "justification": "High volatility (0.023797) and significant price drop (-14.44%) in the last 30 days, coupled with a beta proxy value of 1.527, suggest potential moral hazard or opacity. Lack of news articles and API key prevents further analysis."
+    "justification": "Lack of news articles and low volatility (0.023797) suggest a stable market environment. However, the significant price drop (-14.44%) over the past 30 days indicates potential risks. The moving averages (MA20: 370.85, MA50: 394.31) are above the current price, suggesting a bullish trend. Further analysis is required to confirm this decision."
   },
   "evaluator": {
     "agents_agree": true,
     "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
-    "pattern_note": ""
+    "pattern_note": "Moral Trader: outlier pattern - significant price drop over past 30 days"
   }
 }
