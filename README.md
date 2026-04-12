@@ -6,6 +6,8 @@ Multi-agent stock signal system: **News Sentiment Follower**, **Volatility Avers
 
 **Target remote:** [https://github.com/afro-chai/AGAI_HW2-IndividualAssignment-Coding.git](https://github.com/afro-chai/AGAI_HW2-IndividualAssignment-Coding.git)
 
+**Continuing on another machine?** See [`docs/HANDOFF_NEXT_AGENT.md`](docs/HANDOFF_NEXT_AGENT.md) (Ollama setup on a new PC, Alpha Vantage `.env`, and what the next agent should do).
+
 ## Repository layout (course spec)
 
 This repo matches the assignment tree: `README.md`, `requirements.txt`, `src/`, `prompts/`, `outputs/`, `report/`. (The brief used a `stocktrader/` wrapper; here the **clone root is the project root**.)
