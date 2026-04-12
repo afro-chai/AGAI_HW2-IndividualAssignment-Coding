@@ -239,11 +239,14 @@ def market_payload_asof(ticker: str, asof: pd.Timestamp, hist_window: pd.DataFra
     daily_ret = close.pct_change().dropna()
     std_90 = float(daily_ret.std()) if len(daily_ret) else float("nan")
     max_drop_90 = float(daily_ret.min()) if len(daily_ret) else float("nan")
+    vol_30 = float(daily_ret.tail(30).std()) if len(daily_ret) >= 10 else None
     atr_14 = _atr(tail_90, 14)
     last_px = float(close.iloc[-1])
     ma20 = float(close.tail(20).mean()) if len(close) >= 20 else None
     ma50 = float(close.tail(50).mean()) if len(close) >= 50 else None
     ret_5d = float(close.iloc[-1] / close.iloc[-6] - 1) if len(close) >= 6 else 0.0
+    px_30_ago = float(close.iloc[-22]) if len(close) >= 22 else float("nan")
+    pct_30 = float((last_px / px_30_ago - 1) * 100) if px_30_ago == px_30_ago and px_30_ago else None
 
     summary = {
         "ticker": ticker,
@@ -252,9 +255,11 @@ def market_payload_asof(ticker: str, asof: pd.Timestamp, hist_window: pd.DataFra
         "moving_avg_20d": round(ma20, 4) if ma20 else None,
         "moving_avg_50d": round(ma50, 4) if ma50 else None,
         "std_daily_return_90d": round(std_90, 6),
+        "volatility_30d": round(vol_30, 6) if vol_30 is not None and vol_30 == vol_30 else None,
         "atr_14": round(atr_14, 4) if atr_14 == atr_14 else None,
         "max_single_day_drop_90d": round(max_drop_90, 6),
         "return_5d": round(ret_5d, 6),
+        "pct_change_30d": round(pct_30, 2) if pct_30 is not None and pct_30 == pct_30 else None,
     }
     return {
         "ticker": ticker,

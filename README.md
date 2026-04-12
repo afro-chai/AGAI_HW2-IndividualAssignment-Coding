@@ -128,7 +128,7 @@ From repo root (writes `logs/full_run_<timestamp>.txt` and `logs/full_run_latest
 - `src/llm_factory.py` — Ollama vs LiteLLM-backed `ChatCompletionClient`.
 - `src/orchestration.py` — Builds three fresh `AssistantAgent`s per ticker; `asyncio.gather` for parallel strategies; evaluator pass.
 - `src/evaluator.py`, `src/strategies.py` — Prompts + parsing helpers.
-- `src/backtest.py` — Point-in-time heuristic scorecard for bonus (deterministic, documented).
+- `src/backtest.py` — **Historical backtest** (assignment): runs **both graded strategies** as deterministic proxies on **the same tickers** over many **past as-of dates** (weekly samples, up to ~730d yfinance), scores signals vs **forward** returns, writes `outputs/backtest.json` with per-ticker and overall hit rates and `assignment_backtest` / `scoring_rule` prose (see file for full spec).
 - `prompts/*.txt` — Saved prompts for grading.
 
 LangGraph / LangChain can be added later as subgraphs or RAG without replacing AutoGen agents.
@@ -138,7 +138,17 @@ LangGraph / LangChain can be added later as subgraphs or RAG without replacing A
 ## Honest scope notes
 
 - **Graded “two strategies”** are News Sentiment Follower (`strategy_a`) and Volatility Averse (`strategy_b`). **Moral Trader** is `strategy_c` (third-agent bonus + capstone hook).
-- **Backtest** uses transparent **heuristic** signals aligned with each philosophy so graders get `backtest.json` without hundreds of local LLM calls. Compare to live LLM behavior in the report.
+
+### Historical backtest (required scorecard)
+
+When you pass `--backtest`, the pipeline writes **`outputs/backtest.json`**. That artifact is the **historical backtest** the brief asks for:
+
+- **Same stocks** as the live run (`--tickers` or defaults from `src/main.py`).
+- **Defined past period:** up to **730 calendar days** of OHLC per name, with **26 weekly as-of dates** per ticker (configurable in `run_backtest`), then **20 trading-day** forward return to label “what would have been ideal.”
+- **Both strategies:** implemented as **transparent heuristics** in `src/backtest.py` (`_signal_news_proxy`, `_signal_vol_averse`) that mirror the **philosophy** of the News and Volatility prompts—not a replay of live Ollama on every historical day (that would be prohibitively slow and non-deterministic).
+- **Scorecard:** `per_ticker[].hit_rate_news` vs `hit_rate_volatility`, `winner_heuristic` per ticker, `overall_winner`, plus **`overall_hit_rate_*`** and top-level strings **`assignment_backtest`**, **`historical_period`**, **`scoring_rule`**, **`strategies_compared`** so the JSON **states explicitly** what was run.
+
+Compare heuristic outcomes to **live** LLM decisions in your report; they measure related but different objects.
 
 ---
 
