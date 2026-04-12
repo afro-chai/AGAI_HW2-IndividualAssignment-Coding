@@ -11,32 +11,32 @@
     "LMT",
     "FRO"
   ],
-  "total_agreements": 5,
-  "total_disagreements": 0,
+  "total_agreements": 2,
+  "total_disagreements": 3,
   "results": [
     {
       "ticker": "PLTR",
       "a_decision": "HOLD",
-      "b_decision": "HOLD",
-      "c_decision": "HOLD",
-      "agree_core_ab": true,
-      "unanimous": true,
-      "agree": true
+      "b_decision": "SELL",
+      "c_decision": "SELL",
+      "agree_core_ab": false,
+      "unanimous": false,
+      "agree": false
     },
     {
       "ticker": "TTE",
-      "a_decision": "HOLD",
+      "a_decision": "BUY",
       "b_decision": "HOLD",
       "c_decision": "HOLD",
-      "agree_core_ab": true,
-      "unanimous": true,
-      "agree": true
+      "agree_core_ab": false,
+      "unanimous": false,
+      "agree": false
     },
     {
       "ticker": "GOLD",
-      "a_decision": "HOLD",
-      "b_decision": "HOLD",
-      "c_decision": "HOLD",
+      "a_decision": "SELL",
+      "b_decision": "SELL",
+      "c_decision": "SELL",
       "agree_core_ab": true,
       "unanimous": true,
       "agree": true
@@ -53,11 +53,11 @@
     {
       "ticker": "FRO",
       "a_decision": "HOLD",
-      "b_decision": "HOLD",
+      "b_decision": "SELL",
       "c_decision": "HOLD",
-      "agree_core_ab": true,
-      "unanimous": true,
-      "agree": true
+      "agree_core_ab": false,
+      "unanimous": false,
+      "agree": false
     }
   ],
   "note": "agree/unanimous reflects three agents when strategy_c present."

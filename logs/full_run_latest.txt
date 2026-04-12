@@ -1,27 +1,22 @@
 === StockTrader full run — SANITIZED SUMMARY (safe to commit) ===
-Generated: 2026-04-12 (ten-ticker defense basket; live Ollama)
+Generated: 2026-04-12 (five-ticker basket post–git pull)
 
-Command (reference):
+Command:
   .\.venv\Scripts\python.exe -u -m src.main --backtest --ticker-workers 2
-  (repo root; PYTHONPATH=repo; STOCKTRADER_SKIP_LLM unset)
+  PYTHONPATH=repo root; STOCKTRADER_SKIP_LLM unset
+
+Tickers: PLTR, TTE, GOLD, LMT, FRO
 
 Outcome:
   Exit code: 0
-  Wall clock (approx): 25 minutes (reference machine; 40 Ollama generations + yfinance + AV)
+  Wall clock (approx): 15 minutes (reference machine)
 
-Tickers (default basket):
-  PLTR, NVDA, LMT, RTX, TTE, E, GOLD, CRWD, FRO, NOC
+Summary (outputs/summary.json):
+  total_agreements: 2  (unanimous three-way: GOLD SELL, LMT HOLD)
+  total_disagreements: 3  (PLTR, TTE, FRO)
 
-Alpha Vantage:
-  Most tickers: articles_count 0 after free-tier daily cap; news_features.note explains limits.
-  NVDA: alternate pacing-style note (space free-tier calls).
-  Code scrubs echoed key substrings from AV informational text before JSON is written.
+Alpha Vantage: mostly empty feeds (articles_count 0); notes vary (daily cap vs pacing).
 
-Decisions (summary.json): unanimous HOLD on all ten (A/B/C); total_agreements 10, total_disagreements 0.
-
-Artifacts:
-  outputs/*.json, outputs/summary.json, outputs/backtest.json
-
-Next: Run .\scripts\run_full_with_log.ps1 for a full transcript; rotate API keys if ever exposed outside scrubbed outputs.
+Artifacts: outputs/*.json, summary.json, backtest.json
 
 === end ===

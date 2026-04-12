@@ -24,25 +24,25 @@
   },
   "strategy_a": {
     "name": "News Sentiment Follower",
-    "decision": "HOLD",
+    "decision": "SELL",
     "confidence": 8,
-    "justification": "No recent news available (articles_count = 0) and avg_sentiment_score is null. Current price ($43.98) is near the moving average ($43.244). Volatility remains low (volatility_30d = 0.032859)."
+    "justification": "No usable news available. No sentiment score to consider. Strong down (-12.86%) with elevated volatility (0.032859) suggests a SELL lean. Holding due to lack of information, but caution advised as price is near 50-day moving average."
   },
   "strategy_b": {
     "name": "Volatility Averse",
-    "decision": "HOLD",
-    "confidence": 8,
-    "justification": "Current price ($43.98) is near the moving average (MA20: $43.244). Volatility (std_daily_return_90d: 0.039968, atr_14: 2.3607) is relatively low. No significant news or events detected."
+    "decision": "SELL",
+    "confidence": 1,
+    "justification": "Elevated turbulence: std_daily_return_90d > 0.022 (0.039968), max_single_day_drop_90d > -0.054 (-0.082773). Large 30d drawdown: pct_change_30d <= -12 (-12.86). Volatility is high: volatility_30d > 0.024 (0.032859). Calm tape not present."
   },
   "strategy_c": {
     "name": "Moral Trader",
-    "decision": "HOLD",
+    "decision": "SELL",
     "confidence": 5,
-    "justification": "Lack of news articles and low volatility (0.032859) suggest a stable market, while recent price drop (-12.86%) may indicate a potential buying opportunity. Moving averages (MA20: 43.244, MA50: 50.6213) are relatively close to current price, indicating a possible range-bound trading environment."
+    "justification": "Narrative risk: empty news packet with API key note. Macro sensitivity: beta_proxy_spy > 1.25. Volatility mismatch: rosy headlines (null avg_sentiment_score) + sharp drawdown (-12.86 pct_change_30d)."
   },
   "evaluator": {
     "agents_agree": true,
     "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
-    "pattern_note": "Moral Trader prioritizes recent price movements over news articles and volatility metrics."
+    "pattern_note": "News BUY vs Vol SELL"
   }
 }

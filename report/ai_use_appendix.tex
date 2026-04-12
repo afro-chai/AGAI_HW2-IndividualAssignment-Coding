@@ -108,7 +108,7 @@ ticker. They differ slightly in rationale emphasis, but the final
 recommendation is aligned."
 \end{verbatim}
 
-\noindent\textbf{Aggregate snapshot (illustrative):} the retained \texttt{outputs/summary.json} for the \textbf{default five-ticker} defense basket shows \texttt{total\_agreements: 5} (live Ollama decisions/confidences carried over from the 2026-04-12 run for symbols still in the basket). I verified per-ticker JSON, including \texttt{news\_features} (often empty under Alpha Vantage \textbf{daily} free-tier limits) and confidence spreads. Upstream AV notes can echo a raw key substring; \texttt{src/market\_data.py} scrubs that pattern before writing JSON, and I re-scanned committed files so secrets do not ship in \texttt{outputs/}.
+\noindent\textbf{Aggregate snapshot (illustrative):} after the latest \texttt{git pull}, a fresh live run produced \texttt{total\_agreements: 2} and \texttt{total\_disagreements: 3} on the \textbf{five-ticker} basket (\texttt{outputs/summary.json}, 2026-04-12). I verified per-ticker JSON, including \texttt{news\_features} (often empty) and split decisions (e.g.\ PLTR HOLD vs.\ SELL, TTE BUY vs.\ HOLD). Alpha Vantage informational strings are scrubbed in \texttt{src/market\_data.py} before JSON is written.
 
 \section{File-level attribution (accept / revise / reject)}
 \begin{table}[h]

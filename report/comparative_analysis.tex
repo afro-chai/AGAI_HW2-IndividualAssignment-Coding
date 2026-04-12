@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This report compares two graded behavioral strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus an extension \textbf{Moral Trader} agent, implemented with Microsoft AutoGen and local inference (Ollama). All agents consume the same structured market JSON per ticker. The default equity set is \textbf{five} U.S.-listed names: \textbf{PLTR} (AI / government analytics), \textbf{TTE} and \textbf{GOLD} (\textbf{AFRICOM}-relevant integrated oil and gold mining), \textbf{LMT} (defense prime), and \textbf{FRO} (crude tankers)---see \texttt{report/DEFENSE\_GEOPOLITICS\_UNIVERSE.md}. This keeps \textbf{Alpha Vantage} usage to \textbf{five} \texttt{NEWS\_SENTIMENT} calls per full \texttt{python -m src.main} run (see \texttt{docs/ALPHA\_VANTAGE.md}); the historical backtest path uses \textbf{zero} AV calls. \textbf{Live} decision rows in Table~\ref{tab:results} match the retained 2026-04-12 Ollama outputs for symbols still in the trimmed basket (\texttt{outputs/summary.json}). The \textbf{historical heuristic} scorecard (Table~\ref{tab:backtest}) matches \texttt{outputs/backtest.json} after restricting rows to the same five tickers (115 weekly samples; overall news hit rate 0.3565 vs.\ volatility 0.2783).
+This report compares two graded behavioral strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus an extension \textbf{Moral Trader} agent, implemented with Microsoft AutoGen and local inference (Ollama). All agents consume the same structured market JSON per ticker. The default equity set is \textbf{five} U.S.-listed names: \textbf{PLTR}, \textbf{TTE}, \textbf{GOLD}, \textbf{LMT}, and \textbf{FRO}---see \texttt{report/DEFENSE\_GEOPOLITICS\_UNIVERSE.md}. Each full \texttt{python -m src.main} run issues \textbf{five} \texttt{NEWS\_SENTIMENT} calls (see \texttt{docs/ALPHA\_VANTAGE.md}); the historical backtest uses \textbf{zero} AV calls. The \textbf{2026-04-12} live pass (after \texttt{git pull}) produced real \textbf{disagreement}: \texttt{outputs/summary.json} reports \texttt{total\_agreements} $= 2$ and \texttt{total\_disagreements} $= 3$ when all three agents must align (unanimous only on \textbf{GOLD} and \textbf{LMT}). Table~\ref{tab:results} copies decisions and confidences from that run. The heuristic scorecard (Table~\ref{tab:backtest}) matches \texttt{outputs/backtest.json}: \textbf{115} weekly rows across the basket; \texttt{overall\_hit\_rate\_news} $= 0.4348$, \texttt{overall\_hit\_rate\_volatility} $= 0.2522$, \texttt{overall\_winner = news\_sentiment\_heuristic}.
 \end{abstract}
 
 \section{Strategy Selection and Rationale}
@@ -91,7 +91,7 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
 
 \section{Results by Stock}
 
-\noindent\textbf{Quantitative table.} Rows match \texttt{outputs/summary.json} for the five-ticker basket (decisions unanimous HOLD; confidences from retained per-ticker JSON from the 2026-04-12 live Ollama pass for symbols still in the basket).
+\noindent\textbf{Quantitative table.} Rows match \texttt{outputs/summary.json} and per-ticker JSON from the \textbf{2026-04-12} live Ollama run after the latest \texttt{git pull} (five tickers; spread $=$ max $-$ min confidence across A/B/C).
 
 \begin{table}[h]
   \centering
@@ -100,51 +100,53 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
     \toprule
     Ticker & A (News) & Conf. & B (Vol.) & Conf. & C (Moral) & Conf. & Spread \\
     \midrule
-    PLTR & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
-    TTE  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
-    GOLD & HOLD & 8 & HOLD & 8 & HOLD & 5 & 3 \\
-    LMT  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
-    FRO  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    PLTR & HOLD & 6 & SELL & 8 & SELL & 1 & 7 \\
+    TTE  & BUY  & 8 & HOLD & 8 & HOLD & 2 & 6 \\
+    GOLD & SELL & 8 & SELL & 1 & SELL & 5 & 7 \\
+    LMT  & HOLD & 6 & HOLD & 6 & HOLD & 5 & 1 \\
+    FRO  & HOLD & 6 & SELL & 8 & HOLD & 5 & 3 \\
     \bottomrule
   \end{tabular}
-  \caption{Retained live run confidences for the default five tickers (spread $=$ max $-$ min across A/B/C).}
+  \caption{2026-04-12 live run: Strategy~A/B/C decisions and confidences (three-way splits on PLTR, TTE, FRO; unanimous SELL on GOLD; unanimous HOLD on LMT).}
   \label{tab:results}
 \end{table}
 
 \subsection{Direct excerpts from JSON outputs}
 
-\textbf{PLTR (News Sentiment Follower):} \emph{``No recent news available (articles\_count = 0) and avg\_sentiment\_score is null. Current price (\$128.06) is near the moving average (147.7585). Volatility is low (volatility\_30d: 0.034412).''}
+\textbf{PLTR (News vs.\ Vol):} Strategy~A (HOLD): \emph{``No usable news available. pct\_change\_30d is -15.53\ldots\ volatility\_30d is low at 0.034412\ldots\ No concrete reason to buy or sell based on news features.''} Strategy~B (SELL): \emph{``Turbulence signals: std\_daily\_return\_90d > 0.022 (0.033097), abs(max\_single\_day\_drop\_90d) > 0.054 (-0.116164)\ldots\ pct\_change\_30d <= -10 (-15.53). Calm tape not present.''}
 
-\textbf{TTE (News Sentiment Follower):} \emph{``No recent news available (articles\_count = 0 and avg\_sentiment\_score is null) which aligns with the philosophy of leaning HOLD unless price action is extreme. The current price (\$92.65) is near its moving averages (88.6743 and 81.2524), indicating a neutral trend. The volatility over the last 30 days (0.016949) is relatively low, suggesting stability.''}
+\textbf{TTE (News vs.\ Vol):} Strategy~A (BUY): \emph{``High price momentum (15.17\% in 30 days) and positive sentiment score (0.05)\ldots''} despite \texttt{articles\_count = 0}---an example of \textbf{numeric-field drift} when the news channel is empty. Strategy~B (HOLD): calm turbulence language on the same JSON.
 
-\textbf{FRO (Volatility Averse):} \emph{``Current price is near the moving average (33.8605) and volatility is low (0.035076). The standard daily return over the last 90 days is also relatively stable (0.029016)\ldots''}
+\textbf{FRO (split):} Strategy~A (HOLD): flat tape + no news bias. Strategy~B (SELL): elevated vol / ATR ratio language vs.\ Strategy~C (HOLD) on macro sensitivity.
 
 \subsection{Evaluator}
 
-For all five retained tickers, the evaluator records \textbf{unanimous HOLD} with \texttt{agents\_agree: true}. On names where Alpha Vantage returned empty feeds, Moral Trader may still surface \texttt{news\_features.note} (rate limits / API hygiene) in its accountability framing.
+The evaluator now reports \texttt{agents\_agree: false} on PLTR, TTE, and FRO, with long-form contrast of philosophies (news vs.\ turbulence vs.\ narrative risk). GOLD and LMT show \texttt{agents\_agree: true} with aligned SELL (GOLD) or HOLD (LMT) rationales. Some \texttt{pattern\_note} strings still look like template stubs (e.g.\ ``News BUY vs Vol SELL'' on tickers that are not in that exact configuration)---worth tightening in \texttt{prompts/evaluator.txt} in a future revision.
 
 \section{Patterns of Agreement and Disagreement}
 
-\textbf{Reading \texttt{summary.json}.} For the five-ticker summary, \texttt{total\_agreements} $= 5$ and \texttt{total\_disagreements} $= 0$: unanimous HOLD across A/B/C on each symbol in the trimmed basket.
+\textbf{Reading \texttt{summary.json}.} For 2026-04-12, \texttt{total\_agreements} $= 2$ and \texttt{total\_disagreements} $= 3$ under the rule ``agree only if all three agents share the same decision.'' \textbf{GOLD} is unanimous \textbf{SELL} (graded agents at 8, Moral at 5); \textbf{LMT} is unanimous \textbf{HOLD} with a tight confidence band (spread 1). \textbf{PLTR} splits HOLD vs.\ SELL/Sell; \textbf{TTE} splits BUY vs.\ HOLD/HOLD; \textbf{FRO} splits HOLD vs.\ SELL/HOLD.
 
-\textbf{Confidence spread.} Largest spread is on \textbf{GOLD} (3 points: Moral at 5 vs.\ both graded agents at 8). Other names show Moral at 6 vs.\ 8/8 (spread 2).
+\textbf{Confidence spread.} Widest spreads are \textbf{PLTR} and \textbf{GOLD} (7 points): Moral Trader assigns confidence 1 on PLTR while Strategy~B is at 8; on GOLD Strategy~B reports confidence 1 while Strategy~A is at 8.
 
-\textbf{Alpha Vantage budget.} Five tickers imply five \texttt{NEWS\_SENTIMENT} calls per full run---well inside a typical free daily cap if you avoid extra tooling bursts; optional \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC} and \texttt{--ticker-workers 1} remain available if you still see throttling.
+\textbf{Alpha Vantage budget.} Five tickers $\Rightarrow$ five news calls per run. In this pass, feeds were still mostly empty (\texttt{articles\_count = 0}) with mixed \texttt{note} text (daily-cap wording vs.\ pacing reminder on TTE), which makes Strategy~A's behavior more model-dependent and prone to hallucinated ``sentiment'' unless prompts ground strictly on provided fields.
 
 \section{Failure or Surprise Case}
 
-\textbf{Operational note:} when the free tier returns empty feeds, Strategy~A rarely has non-null \texttt{avg\_sentiment\_score}; \texttt{src/market\_data.py} scrubs echoed key material from informational strings before JSON is written.
+\textbf{Hallucination risk (TTE):} Strategy~A cites a ``positive sentiment score (0.05)'' while \texttt{avg\_sentiment\_score} is \texttt{null} and \texttt{articles\_count = 0}---a clear violation of ground-truth fields that the rubric would mark as a responsible-AI issue.
 
-\textbf{Behavioral surprise:} \textbf{FRO} still produced unanimous HOLD with ``low volatility'' language in Strategy~B---consistent with bounded realized vol on the window rather than Hormuz headlines in the numeric slice alone.
+\textbf{Operational note:} empty feeds plus \texttt{news\_features.note} still trigger Moral Trader's ``empty news packet'' narrative on several names; \texttt{src/market\_data.py} scrubs echoed key material from Alpha Vantage strings before JSON is written.
+
+\textbf{Behavioral surprise:} \textbf{FRO} is no longer unanimous: Strategy~B issues SELL on turbulence-style thresholds while A and C prefer HOLD---exactly the stress case this basket was meant to surface.
 
 \section{Reflection}
 
-For a one-month, \$10{,}000 thought experiment with this basket, I would still weight \textbf{Volatility Averse} heavily when news is empty: Strategy~A's differentiator collapses toward shared OHLC-derived heuristics, whereas Strategy~B is explicitly built around realized turbulence and drawdown statistics. With a data tier that restores reliable \texttt{NEWS\_SENTIMENT} coverage, I would revisit Strategy~A on the same five symbols.
+For a one-month, \$10{,}000 experiment \textbf{after this run}, I would treat \textbf{Volatility Averse} as the primary risk brake on PLTR/FRO-style names where drawdown and turbulence triggers fired, but I would \textbf{not} automate Strategy~A's output without a JSON schema guard when news is empty---the TTE BUY rationale shows why. A simple hybrid could be: if \texttt{articles\_count = 0}, clamp Strategy~A to HOLD unless price momentum rules are explicitly enumerated and satisfied in code, not prose.
 
 \appendix
 \section*{Bonus artifact: backtest snapshot}
 
-\texttt{outputs/backtest.json} (five tickers only; 115 row samples) lists heuristic hit rates with \texttt{overall\_winner = news\_sentiment\_heuristic}, \texttt{overall\_hit\_rate\_news = 0.3565}, \texttt{overall\_hit\_rate\_volatility = 0.2783}.
+\texttt{outputs/backtest.json} (five tickers; \textbf{115} row samples in \texttt{rows}) lists heuristic hit rates with \texttt{overall\_winner = news\_sentiment\_heuristic}, \texttt{overall\_hit\_rate\_news = 0.4348}, \texttt{overall\_hit\_rate\_volatility = 0.2522}.
 
 \begin{table}[h]
   \centering
@@ -153,14 +155,14 @@ For a one-month, \$10{,}000 thought experiment with this basket, I would still w
     \toprule
     Ticker & News hit & Vol.\ hit & Heuristic winner \\
     \midrule
-    PLTR & 0.2609 & 0.4348 & volatility\_averse\_heuristic \\
-    TTE  & 0.5217 & 0.1304 & news\_sentiment\_heuristic \\
-    GOLD & 0.4348 & 0.3043 & news\_sentiment\_heuristic \\
-    LMT  & 0.3478 & 0.3043 & tie \\
-    FRO  & 0.2174 & 0.2174 & tie \\
+    PLTR & 0.2174 & 0.4348 & volatility\_averse\_heuristic \\
+    TTE  & 0.5652 & 0.1304 & news\_sentiment\_heuristic \\
+    GOLD & 0.5217 & 0.2609 & news\_sentiment\_heuristic \\
+    LMT  & 0.3913 & 0.2174 & news\_sentiment\_heuristic \\
+    FRO  & 0.4783 & 0.2174 & news\_sentiment\_heuristic \\
     \bottomrule
   \end{tabular}
-  \caption{From \texttt{outputs/backtest.json} \texttt{per\_ticker} (method: \texttt{deterministic\_heuristic\_vs\_forward\_return}).}
+  \caption{From \texttt{outputs/backtest.json} \texttt{per\_ticker} (method: \texttt{deterministic\_heuristic\_vs\_forward\_return}), regenerated with the live run.}
   \label{tab:backtest}
 \end{table}
 

@@ -20,29 +20,29 @@
     "articles_count": 0,
     "avg_sentiment_score": null,
     "articles": [],
-    "note": "We have detected your API key as [REDACTED] and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+    "note": "Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints"
   },
   "strategy_a": {
     "name": "News Sentiment Follower",
-    "decision": "HOLD",
+    "decision": "BUY",
     "confidence": 8,
-    "justification": "No recent news available (articles_count = 0 and avg_sentiment_score is null) which aligns with the philosophy of leaning HOLD unless price action is extreme. The current price ($92.65) is near its moving averages (88.6743 and 81.2524), indicating a neutral trend. The volatility over the last 30 days (0.016949) is relatively low, suggesting stability."
+    "justification": "High price momentum (15.17% in 30 days) and positive sentiment score (0.05) indicate a strong directional narrative. The market is showing significant upswing, which aligns with the bullish tone of recent news articles. Although there are no specific news articles to analyze, the overall sentiment suggests a favorable outlook for TTE. Therefore, we recommend buying the stock."
   },
   "strategy_b": {
     "name": "Volatility Averse",
     "decision": "HOLD",
     "confidence": 8,
-    "justification": "Current price is near its moving averages ($88.6743 and $81.2524), indicating a stable trend. Volatility (std_daily_return_90d = 0.015466) and ATR (atr_14 = 2.4746) are low, suggesting minimal risk of large single-day shocks. The beta_proxy_spy value (-0.097) is within acceptable bounds, further supporting the decision to hold. No significant news or events detected."
+    "justification": "Turbulence signals are calm (std_daily_return_90d = 0.015466, max_single_day_drop_90d = -0.043734), and pct_change_30d is positive (+15.17). Volatility_30d is low (0.016949). No elevated risk conditions met."
   },
   "strategy_c": {
     "name": "Moral Trader",
     "decision": "HOLD",
-    "confidence": 6,
-    "justification": "Lack of news articles and neutral sentiment score suggest a stable market. Volatility (0.016949) and moving averages (88.6743, 81.2524) indicate a relatively calm price environment. However, the detected API key note raises concerns about potential rate limit issues with premium plans."
+    "confidence": 2,
+    "justification": "No articles to analyze. No divergence between sentiment and market data. Beta proxy spy is -0.097, which is below 1.25. Cannot assess macro sensitivity or volatility ethics framing without news content."
   },
   "evaluator": {
-    "agents_agree": true,
-    "analysis": "All three agents agree on HOLD due to neutral market conditions (low volatility and near moving averages). The News Sentiment Follower prioritizes news availability, while the Volatility Averse agent emphasizes low volatility and stable trends. The Moral Trader focuses on lack of news articles and neutral sentiment scores, but notes a potential API key issue.",
-    "pattern_note": ""
+    "agents_agree": false,
+    "analysis": "The agents disagree on the stock's decision. The News Sentiment Follower prioritizes narrative ethics, emphasizing high price momentum and positive sentiment score to justify a BUY recommendation. In contrast, Volatility Averse focuses on volatility metrics, such as std_daily_return_90d and pct_change_30d, which indicate calm turbulence and a low-risk environment. Moral Trader takes a more conservative approach, relying solely on beta proxy spy (-0.097) and lacking sufficient news content to assess macro sensitivity or volatility ethics framing.",
+    "pattern_note": "News BUY vs Vol HOLD"
   }
 }

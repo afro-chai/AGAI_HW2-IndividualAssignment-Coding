@@ -1,44 +1,56 @@
-﻿{
+{
+  "assignment_backtest": "Historical backtest: both graded strategies (News Sentiment Follower vs Volatility Averse) are evaluated on the same tickers over many past as-of dates using transparent deterministic proxies; hit rates show which philosophy better matched subsequent returns. Live AutoGen agents are not re-run on full history.",
+  "historical_period": "Up to 730 calendar days of OHLCV per ticker from yfinance; 26 weekly as-of dates per ticker (spacing ~7 trading days); then forward 20-trading-day realized return for scoring.",
+  "scoring_rule": "For each row: ideal action is BUY if forward return > 2%, SELL if < -2%, else HOLD; hit if strategy signal matches ideal. Per-ticker hit_rate_* = hits / valid samples.",
+  "strategies_compared": [
+    {
+      "name": "News Sentiment Follower",
+      "implementation": "Heuristic proxy _signal_news_proxy (no historical Alpha Vantage); uses momentum fields when sentiment absent."
+    },
+    {
+      "name": "Volatility Averse",
+      "implementation": "Heuristic proxy _signal_vol_averse using std, max drop, ATR/price, optional vol fields from point-in-time JSON."
+    }
+  ],
   "method": "deterministic_heuristic_vs_forward_return",
   "disclaimer": "Not identical to live LLM agents; transparent proxy signals for grading artifact.",
   "weeks": 26,
   "forward_days": 20,
   "overall_winner": "news_sentiment_heuristic",
-  "overall_hit_rate_news": 0.3565,
-  "overall_hit_rate_volatility": 0.2783,
+  "overall_hit_rate_news": 0.4348,
+  "overall_hit_rate_volatility": 0.2522,
   "per_ticker": [
     {
       "ticker": "PLTR",
-      "hit_rate_news": 0.2609,
+      "hit_rate_news": 0.2174,
       "hit_rate_volatility": 0.4348,
       "winner_heuristic": "volatility_averse_heuristic"
     },
     {
       "ticker": "TTE",
-      "hit_rate_news": 0.5217,
+      "hit_rate_news": 0.5652,
       "hit_rate_volatility": 0.1304,
       "winner_heuristic": "news_sentiment_heuristic"
     },
     {
       "ticker": "GOLD",
-      "hit_rate_news": 0.4348,
-      "hit_rate_volatility": 0.3043,
+      "hit_rate_news": 0.5217,
+      "hit_rate_volatility": 0.2609,
       "winner_heuristic": "news_sentiment_heuristic"
     },
     {
       "ticker": "LMT",
-      "hit_rate_news": 0.3478,
-      "hit_rate_volatility": 0.3043,
-      "winner_heuristic": "tie"
+      "hit_rate_news": 0.3913,
+      "hit_rate_volatility": 0.2174,
+      "winner_heuristic": "news_sentiment_heuristic"
     },
     {
       "ticker": "FRO",
-      "hit_rate_news": 0.2174,
+      "hit_rate_news": 0.4783,
       "hit_rate_volatility": 0.2174,
-      "winner_heuristic": "tie"
+      "winner_heuristic": "news_sentiment_heuristic"
     }
   ],
-
   "rows": [
     {
       "ticker": "PLTR",
@@ -57,7 +69,7 @@
     {
       "ticker": "PLTR",
       "asof": "2026-02-19",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "SELL",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.154126
     },
@@ -92,7 +104,7 @@
     {
       "ticker": "PLTR",
       "asof": "2025-12-29",
-      "signal_news_follower": "SELL",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": -0.145673
     },
@@ -113,7 +125,7 @@
     {
       "ticker": "PLTR",
       "asof": "2025-11-26",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "SELL",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.138385
     },
@@ -148,14 +160,14 @@
     {
       "ticker": "PLTR",
       "asof": "2025-10-08",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.023643
     },
     {
       "ticker": "PLTR",
       "asof": "2025-09-29",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.057699
     },
@@ -169,7 +181,7 @@
     {
       "ticker": "PLTR",
       "asof": "2025-09-09",
-      "signal_news_follower": "BUY",
+      "signal_news_follower": "SELL",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.122013
     },
@@ -197,170 +209,9 @@
     {
       "ticker": "PLTR",
       "asof": "2025-07-30",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": -0.011916
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2026-03-11",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.039417
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2026-03-02",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.115457
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2026-02-19",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.038469
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2026-02-09",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.025634
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2026-01-29",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.05714
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2026-01-20",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.128025
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2026-01-08",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.202801
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-12-29",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.221736
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-12-17",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.226711
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-12-08",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.067665
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-11-26",
-      "signal_news_follower": "SELL",
-      "signal_volatility_averse": "HOLD",
-      "forward_return_20d": 0.071643
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-11-17",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.021033
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-11-06",
-      "signal_news_follower": "SELL",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.028335
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-10-28",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.068674
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-10-17",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.059336
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-10-08",
-      "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.07953
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-09-29",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": -0.010305
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-09-18",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.041447
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-09-09",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.118168
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-08-28",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.076321
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-08-19",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.080416
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-08-08",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.086529
-    },
-    {
-      "ticker": "LMT",
-      "asof": "2025-07-30",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
-      "forward_return_20d": 0.085483
     },
     {
       "ticker": "TTE",
@@ -379,7 +230,7 @@
     {
       "ticker": "TTE",
       "asof": "2026-02-19",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.157137
     },
@@ -540,7 +391,7 @@
     {
       "ticker": "GOLD",
       "asof": "2026-02-19",
-      "signal_news_follower": "SELL",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": -0.24799
     },
@@ -561,7 +412,7 @@
     {
       "ticker": "GOLD",
       "asof": "2026-01-20",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.370906
     },
@@ -575,7 +426,7 @@
     {
       "ticker": "GOLD",
       "asof": "2025-12-29",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.6155
     },
@@ -631,14 +482,14 @@
     {
       "ticker": "GOLD",
       "asof": "2025-10-08",
-      "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "HOLD",
       "forward_return_20d": -0.087771
     },
     {
       "ticker": "GOLD",
       "asof": "2025-09-29",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.036968
     },
@@ -685,9 +536,170 @@
       "forward_return_20d": 0.070061
     },
     {
+      "ticker": "LMT",
+      "asof": "2026-03-11",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "HOLD",
+      "forward_return_20d": -0.039417
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2026-03-02",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": -0.115457
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2026-02-19",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "HOLD",
+      "forward_return_20d": -0.038469
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2026-02-09",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "HOLD",
+      "forward_return_20d": 0.025634
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2026-01-29",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "HOLD",
+      "forward_return_20d": 0.05714
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2026-01-20",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "HOLD",
+      "forward_return_20d": 0.128025
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2026-01-08",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "HOLD",
+      "forward_return_20d": 0.202801
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-12-29",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.221736
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-12-17",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.226711
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-12-08",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.067665
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-11-26",
+      "signal_news_follower": "SELL",
+      "signal_volatility_averse": "HOLD",
+      "forward_return_20d": 0.071643
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-11-17",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.021033
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-11-06",
+      "signal_news_follower": "SELL",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": -0.028335
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-10-28",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": -0.068674
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-10-17",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": -0.059336
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-10-08",
+      "signal_news_follower": "BUY",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": -0.07953
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-09-29",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": -0.010305
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-09-18",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.041447
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-09-09",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.118168
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-08-28",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.076321
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-08-19",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.080416
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-08-08",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.086529
+    },
+    {
+      "ticker": "LMT",
+      "asof": "2025-07-30",
+      "signal_news_follower": "HOLD",
+      "signal_volatility_averse": "SELL",
+      "forward_return_20d": 0.085483
+    },
+    {
       "ticker": "FRO",
       "asof": "2026-03-11",
-      "signal_news_follower": "SELL",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.072374
     },
@@ -708,7 +720,7 @@
     {
       "ticker": "FRO",
       "asof": "2026-02-09",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.210997
     },
@@ -722,7 +734,7 @@
     {
       "ticker": "FRO",
       "asof": "2026-01-20",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.283951
     },
@@ -751,28 +763,28 @@
       "ticker": "FRO",
       "asof": "2025-12-08",
       "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
+      "signal_volatility_averse": "HOLD",
       "forward_return_20d": 0.006806
     },
     {
       "ticker": "FRO",
       "asof": "2025-11-26",
       "signal_news_follower": "SELL",
-      "signal_volatility_averse": "SELL",
+      "signal_volatility_averse": "HOLD",
       "forward_return_20d": -0.072704
     },
     {
       "ticker": "FRO",
       "asof": "2025-11-17",
       "signal_news_follower": "BUY",
-      "signal_volatility_averse": "SELL",
+      "signal_volatility_averse": "HOLD",
       "forward_return_20d": -0.111067
     },
     {
       "ticker": "FRO",
       "asof": "2025-11-06",
       "signal_news_follower": "HOLD",
-      "signal_volatility_averse": "SELL",
+      "signal_volatility_averse": "HOLD",
       "forward_return_20d": -0.014334
     },
     {
@@ -799,7 +811,7 @@
     {
       "ticker": "FRO",
       "asof": "2025-09-29",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.045156
     },
@@ -820,7 +832,7 @@
     {
       "ticker": "FRO",
       "asof": "2025-08-28",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.114382
     },
@@ -841,7 +853,7 @@
     {
       "ticker": "FRO",
       "asof": "2025-07-30",
-      "signal_news_follower": "HOLD",
+      "signal_news_follower": "BUY",
       "signal_volatility_averse": "SELL",
       "forward_return_20d": 0.094984
     }
