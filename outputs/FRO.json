@@ -1,0 +1,48 @@
+{
+  "ticker": "FRO",
+  "run_date": "2026-04-12",
+  "market_data_summary": {
+    "ticker": "FRO",
+    "run_date": "2026-04-12",
+    "current_price": 34.34,
+    "price_30d_ago": 32.47,
+    "pct_change_30d": 5.76,
+    "avg_daily_volume": 4807276,
+    "volatility_30d": 0.035076,
+    "moving_avg_20d": 33.8605,
+    "moving_avg_50d": 32.6167,
+    "std_daily_return_90d": 0.029016,
+    "atr_14": 1.7157,
+    "max_single_day_drop_90d": -0.062595,
+    "beta_proxy_spy": 0.956
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "We have detected your API key as [REDACTED] and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "No recent news available (articles_count = 0) and avg_sentiment_score is null. Current price ($34.34) is near the moving average ($33.86). Volatility remains low (volatility_30d = 0.035076)."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Current price is near the moving average (33.8605) and volatility is low (0.035076). The standard daily return over the last 90 days is also relatively stable (0.029016), indicating a possible middling regime. No significant news or events are detected, maintaining confidence in holding the position."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 6,
+    "justification": "Low volatility (0.035076) and stable moving averages (MA20: 33.8605, MA50: 32.6167) suggest a lack of recent disorder. The absence of news articles and neutral sentiment score further supports this assessment."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All three agents agree on the decision to HOLD, indicating a consensus based on low volatility and stable moving averages. The News Sentiment Follower prioritizes recent news availability and sentiment scores, while Volatility Averse focuses on historical price movements and standard daily returns. Moral Trader emphasizes low volatility and stable moving averages without referencing news or sentiment. This alignment suggests that all three strategies value stability over external factors.",
+    "pattern_note": ""
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "ticker": "CRWD",
+  "run_date": "2026-04-12",
+  "market_data_summary": {
+    "ticker": "CRWD",
+    "run_date": "2026-04-12",
+    "current_price": 379.02,
+    "price_30d_ago": 442.03,
+    "pct_change_30d": -14.25,
+    "avg_daily_volume": 4222213,
+    "volatility_30d": 0.032248,
+    "moving_avg_20d": 405.556,
+    "moving_avg_50d": 407.5012,
+    "std_daily_return_90d": 0.030608,
+    "atr_14": 20.8122,
+    "max_single_day_drop_90d": -0.098482,
+    "beta_proxy_spy": 1.137
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "We have detected your API key as [REDACTED] and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "No recent news available (articles_count=0) and avg_sentiment_score is null. Current price ($379.02) is near its 20d moving average ($405.556), suggesting a potential buying opportunity. However, the lack of sentiment analysis makes it difficult to make an informed decision."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Current price ($379.02) is near the moving average (405.556), and volatility (0.032248) is low. The standard daily return over the past 90 days (std_daily_return_90d: 0.030608) is also relatively stable, indicating a moderate risk profile. Given these factors, holding the position with caution seems prudent."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 6,
+    "justification": "Low volatility (0.032248) and stable moving averages suggest a lack of significant market disruptions. However, the note on API key usage raises concerns about potential information asymmetry and its impact on market behavior."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
+    "pattern_note": "News Sentiment Follower: mentions sentiment analysis (avg_sentiment_score) and articles_count"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "ticker": "TTE",
+  "run_date": "2026-04-12",
+  "market_data_summary": {
+    "ticker": "TTE",
+    "run_date": "2026-04-12",
+    "current_price": 92.65,
+    "price_30d_ago": 80.4449,
+    "pct_change_30d": 15.17,
+    "avg_daily_volume": 2637263,
+    "volatility_30d": 0.016949,
+    "moving_avg_20d": 88.6743,
+    "moving_avg_50d": 81.2524,
+    "std_daily_return_90d": 0.015466,
+    "atr_14": 2.4746,
+    "max_single_day_drop_90d": -0.043734,
+    "beta_proxy_spy": -0.097
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "We have detected your API key as [REDACTED] and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "No recent news available (articles_count = 0 and avg_sentiment_score is null) which aligns with the philosophy of leaning HOLD unless price action is extreme. The current price ($92.65) is near its moving averages (88.6743 and 81.2524), indicating a neutral trend. The volatility over the last 30 days (0.016949) is relatively low, suggesting stability."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Current price is near its moving averages ($88.6743 and $81.2524), indicating a stable trend. Volatility (std_daily_return_90d = 0.015466) and ATR (atr_14 = 2.4746) are low, suggesting minimal risk of large single-day shocks. The beta_proxy_spy value (-0.097) is within acceptable bounds, further supporting the decision to hold. No significant news or events detected."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 6,
+    "justification": "Lack of news articles and neutral sentiment score suggest a stable market. Volatility (0.016949) and moving averages (88.6743, 81.2524) indicate a relatively calm price environment. However, the detected API key note raises concerns about potential rate limit issues with premium plans."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All three agents agree on HOLD due to neutral market conditions (low volatility and near moving averages). The News Sentiment Follower prioritizes news availability, while the Volatility Averse agent emphasizes low volatility and stable trends. The Moral Trader focuses on lack of news articles and neutral sentiment scores, but notes a potential API key issue.",
+    "pattern_note": ""
+  }
+}

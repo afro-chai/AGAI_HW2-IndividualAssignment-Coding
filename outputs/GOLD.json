@@ -1,0 +1,48 @@
+{
+  "ticker": "GOLD",
+  "run_date": "2026-04-12",
+  "market_data_summary": {
+    "ticker": "GOLD",
+    "run_date": "2026-04-12",
+    "current_price": 43.98,
+    "price_30d_ago": 50.47,
+    "pct_change_30d": -12.86,
+    "avg_daily_volume": 633330,
+    "volatility_30d": 0.032859,
+    "moving_avg_20d": 43.244,
+    "moving_avg_50d": 50.6213,
+    "std_daily_return_90d": 0.039968,
+    "atr_14": 2.3607,
+    "max_single_day_drop_90d": -0.082773,
+    "beta_proxy_spy": 2.242
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "We have detected your API key as [REDACTED] and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "No recent news available (articles_count = 0) and avg_sentiment_score is null. Current price ($43.98) is near the moving average ($43.244). Volatility remains low (volatility_30d = 0.032859)."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Current price ($43.98) is near the moving average (MA20: $43.244). Volatility (std_daily_return_90d: 0.039968, atr_14: 2.3607) is relatively low. No significant news or events detected."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 5,
+    "justification": "Lack of news articles and low volatility (0.032859) suggest a stable market, while recent price drop (-12.86%) may indicate a potential buying opportunity. Moving averages (MA20: 43.244, MA50: 50.6213) are relatively close to current price, indicating a possible range-bound trading environment."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
+    "pattern_note": "Moral Trader prioritizes recent price movements over news articles and volatility metrics."
+  }
+}

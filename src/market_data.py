@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 import threading
 import time
 from datetime import date, datetime, timezone
@@ -18,6 +19,14 @@ import yfinance as yf
 # Free tier: respect per-minute / daily limits (see docs/ALPHA_VANTAGE.md).
 _AV_THROTTLE_LOCK = threading.Lock()
 _AV_LAST_CALL_MONO = 0.0
+# Alpha Vantage sometimes echoes the API key inside Note/Information text; never persist that.
+_AV_KEY_ECHO = re.compile(r"(?i)\bAPI key as\s+[A-Za-z0-9]{8,48}\b")
+
+
+def _scrub_alpha_vantage_public_text(msg: str) -> str:
+    if not msg:
+        return msg
+    return _AV_KEY_ECHO.sub("API key as [REDACTED]", msg)
 
 
 def _repo_root() -> Path:
@@ -113,21 +122,22 @@ def fetch_alpha_vantage_news(ticker: str, limit: int = 20) -> dict[str, Any]:
         r.raise_for_status()
         data = r.json()
     except Exception as e:  # noqa: BLE001
-        return {"articles_count": 0, "avg_sentiment_score": None, "articles": [], "error": str(e)}
+        return {"articles_count": 0, "avg_sentiment_score": None, "articles": [], "error": _scrub_alpha_vantage_public_text(str(e))}
     err = data.get("Error Message")
     if err:
         return {
             "articles_count": 0,
             "avg_sentiment_score": None,
             "articles": [],
-            "note": str(err)[:500],
+            "note": _scrub_alpha_vantage_public_text(str(err)[:500]),
         }
     if "feed" not in data:
+        raw_note = str(data.get("Note") or data.get("Information") or "empty_or_rate_limit")
         return {
             "articles_count": 0,
             "avg_sentiment_score": None,
             "articles": [],
-            "note": str(data.get("Note") or data.get("Information") or "empty_or_rate_limit"),
+            "note": _scrub_alpha_vantage_public_text(raw_note),
         }
     feed = data["feed"][:limit_use]
     scores: list[float] = []

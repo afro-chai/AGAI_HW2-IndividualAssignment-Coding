@@ -1,0 +1,48 @@
+{
+  "ticker": "LMT",
+  "run_date": "2026-04-12",
+  "market_data_summary": {
+    "ticker": "LMT",
+    "run_date": "2026-04-12",
+    "current_price": 613.72,
+    "price_30d_ago": 649.47,
+    "pct_change_30d": -5.5,
+    "avg_daily_volume": 1636343,
+    "volatility_30d": 0.01655,
+    "moving_avg_20d": 625.181,
+    "moving_avg_50d": 636.5219,
+    "std_daily_return_90d": 0.017856,
+    "atr_14": 16.3093,
+    "max_single_day_drop_90d": -0.048215,
+    "beta_proxy_spy": 0.327
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "We have detected your API key as [REDACTED] and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "No recent news available (articles_count = 0) and avg_sentiment_score is null. Price action ($613.72) does not strongly conflict with the philosophy of recent headlines overriding mild technical noise. Volatility_30d (0.01655) is relatively low, suggesting a stable market context."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Current price ($613.72) is near the moving average (625.181), and volatility (0.01655) is low. The standard daily return over the last 90 days (0.017856) is also relatively stable, indicating a moderate risk profile. Given these conditions, holding the position seems prudent."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 6,
+    "justification": "Lack of recent news articles and low volatility (0.01655) suggest a stable market environment. However, the note on API key usage and rate limits may indicate potential for future disruptions or regulatory changes, which could impact LMT's performance."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All three agents agree to HOLD with varying degrees of confidence (8, 8, and 6). The News Sentiment Follower prioritizes recent news availability and sentiment scores, while the Volatility Averse agent focuses on price action, volatility, and moving averages. The Moral Trader emphasizes market stability and potential regulatory changes.",
+    "pattern_note": ""
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "ticker": "NOC",
+  "run_date": "2026-04-12",
+  "market_data_summary": {
+    "ticker": "NOC",
+    "run_date": "2026-04-12",
+    "current_price": 673.73,
+    "price_30d_ago": 733.18,
+    "pct_change_30d": -8.11,
+    "avg_daily_volume": 824890,
+    "volatility_30d": 0.018211,
+    "moving_avg_20d": 697.7695,
+    "moving_avg_50d": 709.1873,
+    "std_daily_return_90d": 0.018673,
+    "atr_14": 17.595,
+    "max_single_day_drop_90d": -0.055027,
+    "beta_proxy_spy": 0.165
+  },
+  "news_features": {
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "We have detected your API key as [REDACTED] and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+  },
+  "strategy_a": {
+    "name": "News Sentiment Follower",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "No recent news available (articles_count = 0) and avg_sentiment_score is null. Current price ($673.73) is near the moving average ($697.77). Volatility remains low (volatility_30d: 0.018211)."
+  },
+  "strategy_b": {
+    "name": "Volatility Averse",
+    "decision": "HOLD",
+    "confidence": 8,
+    "justification": "Current price ($673.73) is near the moving average (697.7695). Volatility (0.018211) and standard daily return (0.018673) are low. No significant news detected, and max single-day drop (-0.055027) is within acceptable limits."
+  },
+  "strategy_c": {
+    "name": "Moral Trader",
+    "decision": "HOLD",
+    "confidence": 6,
+    "justification": "Lack of news articles and low volatility (0.018211) suggest a stable market, while the recent price drop (-8.11%) may be attributed to API rate limit issues rather than fundamental company performance. No clear indication of moral hazard or opacity in the provided data."
+  },
+  "evaluator": {
+    "agents_agree": true,
+    "analysis": "All three agents agree on a HOLD decision, indicating a shared emphasis on low volatility and lack of recent news articles as key factors in their decision-making process.",
+    "pattern_note": ""
+  }
+}

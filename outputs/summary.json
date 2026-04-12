@@ -5,14 +5,29 @@
     "Moral Trader"
   ],
   "stocks_analyzed": [
+    "PLTR",
     "NVDA",
-    "TSLA",
-    "JNJ",
-    "KO"
+    "LMT",
+    "RTX",
+    "TTE",
+    "E",
+    "GOLD",
+    "CRWD",
+    "FRO",
+    "NOC"
   ],
-  "total_agreements": 4,
+  "total_agreements": 10,
   "total_disagreements": 0,
   "results": [
+    {
+      "ticker": "PLTR",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
     {
       "ticker": "NVDA",
       "a_decision": "HOLD",
@@ -23,7 +38,7 @@
       "agree": true
     },
     {
-      "ticker": "TSLA",
+      "ticker": "LMT",
       "a_decision": "HOLD",
       "b_decision": "HOLD",
       "c_decision": "HOLD",
@@ -32,7 +47,7 @@
       "agree": true
     },
     {
-      "ticker": "JNJ",
+      "ticker": "RTX",
       "a_decision": "HOLD",
       "b_decision": "HOLD",
       "c_decision": "HOLD",
@@ -41,7 +56,52 @@
       "agree": true
     },
     {
-      "ticker": "KO",
+      "ticker": "TTE",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "E",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "GOLD",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "CRWD",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "FRO",
+      "a_decision": "HOLD",
+      "b_decision": "HOLD",
+      "c_decision": "HOLD",
+      "agree_core_ab": true,
+      "unanimous": true,
+      "agree": true
+    },
+    {
+      "ticker": "NOC",
       "a_decision": "HOLD",
       "b_decision": "HOLD",
       "c_decision": "HOLD",

@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-This report compares two graded behavioral strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus an extension \textbf{Moral Trader} agent, implemented with Microsoft AutoGen and local inference (Ollama). All agents consume the same structured market JSON per ticker. The default equity set is \textbf{ten} U.S.-listed names spanning defense primes, AI analytics, semiconductors, \textbf{AFRICOM-relevant} energy and gold (TotalEnergies, Eni, Barrick), cybersecurity, and crude tankers---chosen to stress headline density and heterogeneous volatility (see \texttt{report/DEFENSE\_GEOPOLITICS\_UNIVERSE.md}). After each full run, quantitative claims in this PDF should be reconciled with \texttt{outputs/summary.json}, per-ticker \texttt{outputs/*.json}, and \texttt{outputs/backtest.json}. Expect roughly \textbf{50--90 minutes} wall time on a laptop for ten tickers (40 Ollama generations plus Alpha Vantage pacing).
+This report compares two graded behavioral strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus an extension \textbf{Moral Trader} agent, implemented with Microsoft AutoGen and local inference (Ollama). All agents consume the same structured market JSON per ticker. The default equity set is \textbf{ten} U.S.-listed names spanning defense primes, AI analytics, semiconductors, \textbf{AFRICOM-relevant} energy and gold (TotalEnergies, Eni, Barrick), cybersecurity, and crude tankers (see \texttt{report/DEFENSE\_GEOPOLITICS\_UNIVERSE.md}). The \textbf{final committed run} is dated \textbf{2026-04-12}: wall clock about \textbf{25 minutes} on the reference laptop (\texttt{--ticker-workers 2}, live Ollama, \texttt{STOCKTRADER\_SKIP\_LLM} unset). Alpha Vantage returned \textbf{empty news feeds} for most symbols after the free tier's \textbf{daily request budget} was exhausted mid-batch; \texttt{news\_features.note} carries Alpha Vantage's own explanation (API keys are \textbf{scrubbed} in \texttt{src/market\_data.py} before JSON is written). Quantitative rows below match \texttt{outputs/summary.json} for that run: \textbf{ten unanimous HOLD} decisions (\texttt{total\_agreements}=10, \texttt{total\_disagreements}=0).
 \end{abstract}
 
 \section{Strategy Selection and Rationale}
@@ -96,7 +96,7 @@ Table~\ref{tab:stocks} lists the \textbf{default ten} tickers (see universe doc 
 
 \section{Results by Stock}
 
-\noindent\textbf{Quantitative table.} After \texttt{python -m src.main --backtest} with the default list, copy \texttt{a\_decision}, \texttt{b\_decision}, \texttt{c\_decision}, and confidences from \texttt{outputs/summary.json} (and per-ticker files) into your PDF build. The table below is the \textbf{schema} to fill:
+\noindent\textbf{Quantitative table.} Rows below match the \textbf{2026-04-12} committed \texttt{outputs/summary.json} and per-ticker JSON (decisions unanimous HOLD; confidences from strategy blocks).
 
 \begin{table}[h]
   \centering
@@ -105,49 +105,81 @@ Table~\ref{tab:stocks} lists the \textbf{default ten} tickers (see universe doc 
     \toprule
     Ticker & A (News) & Conf. & B (Vol.) & Conf. & C (Moral) & Conf. & Spread \\
     \midrule
-    PLTR & --- & --- & --- & --- & --- & --- & --- \\
-    NVDA & --- & --- & --- & --- & --- & --- & --- \\
-    LMT  & --- & --- & --- & --- & --- & --- & --- \\
-    RTX  & --- & --- & --- & --- & --- & --- & --- \\
-    TTE  & --- & --- & --- & --- & --- & --- & --- \\
-    E    & --- & --- & --- & --- & --- & --- & --- \\
-    GOLD & --- & --- & --- & --- & --- & --- & --- \\
-    CRWD & --- & --- & --- & --- & --- & --- & --- \\
-    FRO  & --- & --- & --- & --- & --- & --- & --- \\
-    NOC  & --- & --- & --- & --- & --- & --- & --- \\
+    PLTR & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    NVDA & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    LMT  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    RTX  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    TTE  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    E    & HOLD & 8 & HOLD & 8 & HOLD & 7 & 1 \\
+    GOLD & HOLD & 8 & HOLD & 8 & HOLD & 5 & 3 \\
+    CRWD & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    FRO  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
+    NOC  & HOLD & 8 & HOLD & 8 & HOLD & 6 & 2 \\
     \bottomrule
   \end{tabular}
-  \caption{Populate from latest \texttt{outputs/summary.json} after a full ten-ticker run. Spread is max minus min confidence across A/B/C.}
+  \caption{2026-04-12 live run. Spread is max minus min confidence across A/B/C.}
   \label{tab:results}
 \end{table}
 
 \subsection{Direct excerpts from JSON outputs}
 
-Paste short \texttt{justification} excerpts from \texttt{outputs/<TICKER>.json} for the run you submit---prioritize names where \texttt{news\_features.articles\_count} $>0$ and any ticker where \texttt{news\_features.note} documents Alpha Vantage throttling (operational asymmetry across a batch).
+\textbf{PLTR (News Sentiment Follower):} \emph{``No recent news available (articles\_count = 0) and avg\_sentiment\_score is null. Current price (\$128.06) is near the moving average (147.7585). Volatility is low (volatility\_30d: 0.034412).''}
+
+\textbf{NVDA (News Sentiment Follower):} \emph{``No recent news available (articles\_count = 0, avg\_sentiment\_score is null). Current price (\$188.63) is near the moving average (\$177.42) and volatility is low (volatility\_30d = 0.02242)\ldots''} (Same batch: \texttt{news\_features.note} records Alpha Vantage asking to \emph{space out} free-tier calls rather than the daily-cap wording seen on other symbols.)
+
+\textbf{FRO (Volatility Averse):} \emph{``Current price is near the moving average (33.8605) and volatility is low (0.035076). The standard daily return over the last 90 days is also relatively stable (0.029016)\ldots''}
 
 \subsection{Evaluator}
 
-The evaluator compares the three strategy payloads per ticker. Inspect \texttt{pattern\_note} when present for emphasis differences even under unanimous decisions.
+For all ten tickers on 2026-04-12, the evaluator records \textbf{unanimous HOLD} with \texttt{agents\_agree: true}. \texttt{pattern\_note} appears on several names (e.g.\ PLTR) where Moral Trader flags \textbf{data-access / rate-limit language} in \texttt{news\_features.note} as an accountability theme even though A/B stayed anchored on price and volatility metrics.
 
 \section{Patterns of Agreement and Disagreement}
 
-\textbf{Reading \texttt{summary.json}.} With ten tickers, \texttt{total\_agreements} $+$ \texttt{total\_disagreements} $= 10$ (each row is one ticker). A higher disagreement count is \emph{more likely} with this basket than with a consumer-staple mix, but \textbf{not guaranteed}: local LLM conservatism and similar realized-vol regimes can still produce unanimous HOLD.
+\textbf{Reading \texttt{summary.json}.} For 2026-04-12, \texttt{total\_agreements} $= 10$ and \texttt{total\_disagreements} $= 0$: every ticker shows unanimous HOLD across A/B/C despite mixed tape (e.g.\ PLTR down $\approx 15.5\%$ over 30 days vs.\ quieter defense primes). This basket was chosen to \emph{invite} disagreement, but the local models converged on conservative action once headline sentiment was largely absent.
 
-\textbf{Alpha Vantage at scale.} Ten tickers imply ten \texttt{NEWS\_SENTIMENT} requests per full pass; free-tier pacing may leave some tickers with empty \texttt{feed} while others populate---use \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC} and/or \texttt{--ticker-workers 1} if you need more uniform news coverage.
+\textbf{Confidence spread.} Largest spread is on \textbf{GOLD} (3 points: Moral at 5 vs.\ both graded agents at 8). Several names show Moral at 6 vs.\ 8/8 (spread 2); \textbf{E} is tightest (Moral 7 vs.\ 8/8).
+
+\textbf{Alpha Vantage at scale.} Ten tickers imply ten \texttt{NEWS\_SENTIMENT} calls per pass; the committed run hit the \textbf{free daily cap} partway through, so most files show \texttt{articles\_count = 0} with an informational \texttt{note}. Mitigations: premium tier, split runs across days, \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}, and/or \texttt{--ticker-workers 1} to reduce burst pressure.
 
 \section{Failure or Surprise Case}
 
-Document \textbf{one} concrete failure or surprise from your retained JSON: e.g.\ Moral Trader prose contradicting numeric \texttt{avg\_sentiment\_score}, throttle messages mid-batch, or unanimous HOLD on a high-beta tanker name despite headline-rich tape.
+\textbf{Operational surprise:} Alpha Vantage's response body included a \textbf{daily limit} explanation for most tickers after the 25-calls/day budget was exhausted, so Strategy~A rarely had non-null \texttt{avg\_sentiment\_score} in the retained JSON. (The upstream message can echo a raw key string; this repository scrubs that pattern in \texttt{src/market\_data.py} and redacts committed outputs---\textbf{rotate the key} if it was ever exposed outside the scrubbed copy.)
+
+\textbf{Behavioral surprise:} even \textbf{FRO} (tankers, Hormuz-beta framing in the universe note) produced unanimous HOLD with ``low volatility'' language in Strategy~B---consistent with bounded realized vol on the window rather than geopolitical drama in the numeric slice alone.
+
+\textbf{Evaluator surprise:} Moral Trader sometimes elevates \texttt{news\_features.note} (rate limits / API hygiene) into the moral frame when articles are empty, which is honest as a \emph{governance} story but not the same as detecting fraud in prices.
 
 \section{Reflection}
 
-For a one-month, \$10{,}000 thought experiment, justify \textbf{one} graded strategy using evidence from your run (e.g., robustness of Strategy~B when news is throttled vs.\ Strategy~A when headlines are strong but mixed).
+For a one-month, \$10{,}000 thought experiment with this basket, I would still choose \textbf{Volatility Averse} first: when Alpha Vantage is empty or quota-blocked, Strategy~A's differentiator collapses toward the same OHLC-derived heuristics, whereas Strategy~B is explicitly built around realized turbulence and drawdown statistics. If I upgraded to a data tier that restored reliable \texttt{NEWS\_SENTIMENT} coverage, I would revisit Strategy~A on the same symbols---the basket was chosen partly to stress-test headline disagreement once feeds populate.
 
 \appendix
 \section*{Bonus artifact: backtest snapshot}
 
-\texttt{outputs/backtest.json} is regenerated for whatever ticker list you pass to \texttt{python -m src.main}. Its \texttt{per\_ticker} block lists heuristic hit rates and \texttt{winner\_heuristic} per symbol; \texttt{overall\_winner} aggregates across the batch. Copy the small hit-rate table into the PDF after each run, or reference the file directly in appendices.
+\texttt{outputs/backtest.json} for the same committed run lists heuristic hit rates (26 weeks, 20-day forward returns) with \texttt{overall\_winner = news\_sentiment\_heuristic}.
 
-\noindent\textbf{Contrast with live agents.} The backtest uses deterministic proxies on historical slices; live agents consume today's summarized JSON---the two objects differ by design (see \texttt{src/backtest.py} disclaimer in JSON).
+\begin{table}[h]
+  \centering
+  \footnotesize
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    Ticker & News hit & Vol.\ hit & Heuristic winner \\
+    \midrule
+    PLTR & 0.2609 & 0.4348 & volatility\_averse\_heuristic \\
+    NVDA & 0.3043 & 0.3913 & volatility\_averse\_heuristic \\
+    LMT  & 0.3478 & 0.3043 & tie \\
+    RTX  & 0.3043 & 0.1739 & news\_sentiment\_heuristic \\
+    TTE  & 0.5217 & 0.1304 & news\_sentiment\_heuristic \\
+    E    & 0.4783 & 0.3043 & news\_sentiment\_heuristic \\
+    GOLD & 0.4348 & 0.3043 & news\_sentiment\_heuristic \\
+    CRWD & 0.3043 & 0.5217 & volatility\_averse\_heuristic \\
+    FRO  & 0.2174 & 0.2174 & tie \\
+    NOC  & 0.3478 & 0.3043 & tie \\
+    \bottomrule
+  \end{tabular}
+  \caption{From \texttt{outputs/backtest.json} \texttt{per\_ticker} (method: \texttt{deterministic\_heuristic\_vs\_forward\_return}).}
+\end{table}
+
+\noindent\textbf{Contrast with live agents.} The backtest scores transparent heuristics on historical rows; live agents consume today's summarized JSON and returned unanimous HOLD on 2026-04-12---the objects differ by design (see the \texttt{disclaimer} field in \texttt{backtest.json}).
 
 \end{document}

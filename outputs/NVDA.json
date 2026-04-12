@@ -1,9 +1,9 @@
 {
   "ticker": "NVDA",
-  "run_date": "2026-04-11",
+  "run_date": "2026-04-12",
   "market_data_summary": {
     "ticker": "NVDA",
-    "run_date": "2026-04-11",
+    "run_date": "2026-04-12",
     "current_price": 188.63,
     "price_30d_ago": 186.03,
     "pct_change_30d": 1.4,
@@ -17,152 +17,32 @@
     "beta_proxy_spy": 1.86
   },
   "news_features": {
-    "articles_count": 20,
-    "avg_sentiment_score": 0.24809650000000003,
-    "articles": [
-      {
-        "title": "A Look At Analog Devices (ADI) Valuation As Geopolitics Ease And AI Demand Supports Semiconductor Momentum",
-        "summary": "Analog Devices (ADI) is gaining attention due to eased geopolitical tensions and increased AI demand, driving its stock up 98.42% over the past year. Analysts see a fair value of $379.64, suggesting it is currently undervalued despite its recent rally. However, the company's high P/E ratio compared to the industry average raises concerns about valuation risk if future growth expectations are not m",
-        "source": "Simply Wall Street",
-        "overall_sentiment_score": 0.345258
-      },
-      {
-        "title": "Cadence (CDNS), Nvidia (NVDA) Expand Agentic AI Collaboration",
-        "summary": "Cadence Design Systems Inc. announced an expanded collaboration with Nvidia to launch a portfolio of agentic AI and physical AI-accelerated solutions. These new tools are designed to automate complex workflows and optimize for Nvidia Grace CPUs and Blackwell GPUs, offering significantly increased throughput and lower power consumption. Industry leaders like Honda and Micron are already utilizing t",
-        "source": "Insider Monkey",
-        "overall_sentiment_score": 0.302859
-      },
-      {
-        "title": "Synopsys Stock (SNPS) Opinions on AI Chip Design Tailwinds",
-        "summary": "Synopsys (SNPS) is seen as a key beneficiary of the AI chip design surge due to its essential electronic design automation software, with rising demand from companies like Amazon and Nvidia. Despite a dip in share prices amidst broader tech shifts, analysts and investors believe the company's EDA tools are resilient against AI disruption, especially with its integration of Ansys. Insider trading d",
-        "source": "Quiver Quantitative",
-        "overall_sentiment_score": 0.230132
-      },
-      {
-        "title": "Analysis of Buffett's Investment in VeriSign",
-        "summary": "VeriSign, a company dominating the domain registration market, reported strong financials in 2025 with $1.6 billion in revenue and $826 million in net income, but faces a cautious growth outlook for 2026. Despite its robust cash flow, VeriSign's forward P/E ratio of 27.7 suggests potential overvaluation compared to alternatives like Sirius XM Holdings, which offers a more attractive P/E of 7.4 and",
-        "source": "Intellectia AI",
-        "overall_sentiment_score": 0.065426
-      },
-      {
-        "title": "Micron Technology, Inc. Trade Ideas \u2014 BSESOF:MTE",
-        "summary": "This article compiles various trade ideas and technical analyses for Micron Technology (NASDAQ: MU, BSESOF: MTE) from multiple traders. Many analysts identify potential bullish reversal patterns such as double bottoms and hammer patterns, often citing upcoming earnings reports or key support levels as catalysts. Conversely, some maintain a bearish outlook, pointing to a death cross, trend breakdow",
-        "source": "TradingView",
-        "overall_sentiment_score": 0.091167
-      },
-      {
-        "title": "QUALCOMM Incorporated Trade Ideas \u2014 BSESOF:QCI",
-        "summary": "This article compiles various trading ideas and technical analyses for QUALCOMM Incorporated (QCI) from multiple contributors on TradingView. It covers diverse perspectives, including potential buy/sell points, gap fills, chart patterns like ascending triangles and cup and handles, and consideration of market factors like the global chip shortage and 5G rollout. Traders offer bullish and bearish o",
-        "source": "TradingView",
-        "overall_sentiment_score": 0.251969
-      },
-      {
-        "title": "iShares MSCI World ETF Braces for a Dual Shock",
-        "summary": "The iShares MSCI World ETF is facing significant changes due to a brutal fee war and a looming index methodology overhaul in May 2026. While recent geopolitical calm led to investor inflows, aggressive fee reductions by competitors threaten its market position. The index revision and the potential IPO of SpaceX could dramatically reshape the fund's portfolio, including a significant reweighting of",
-        "source": "AD HOC NEWS",
-        "overall_sentiment_score": -0.038857
-      },
-      {
-        "title": "World Investment Advisors Grows Stock Position in Microsoft Corporation $MSFT",
-        "summary": "World Investment Advisors significantly increased its stake in Microsoft Corporation (NASDAQ:MSFT) by 22.1% in Q4, making it their third-largest holding. The fund now owns 272,424 shares valued at $131.75 million. Analyst ratings are generally positive, with a \"Moderate Buy\" consensus and an average price target of $586.26, despite some recent target trims. Insider activity shows a director buying",
-        "source": "MarketBeat",
-        "overall_sentiment_score": 0.089158
-      },
-      {
-        "title": "Ritholtz Wealth Management Acquires 1,146 Shares of ASML Holding N.V. $ASML",
-        "summary": "Ritholtz Wealth Management increased its stake in ASML Holding N.V. by 22.3% in Q4 2025, purchasing an additional 1,146 shares to hold a total of 6,280 shares valued at $6.719 million. Several other institutional investors also adjusted their positions in ASML. The company also announced an increase in its quarterly dividend to $3.1771 per share, leading to an annualized dividend of $12.71 and a y",
-        "source": "MarketBeat",
-        "overall_sentiment_score": 0.530984
-      },
-      {
-        "title": "Ritholtz Wealth Management Purchases 8,358 Shares of Seagate Technology Holdings PLC $STX",
-        "summary": "Ritholtz Wealth Management increased its stake in Seagate Technology Holdings PLC by 64.5% in the fourth quarter, purchasing 8,358 additional shares and bringing their total holdings to 21,321 shares valued at $5.872 million. This comes as institutional investors now own 92.87% of the stock. Despite this, insiders have sold 113,635 shares totaling approximately $47.13 million over the past three m",
-        "source": "MarketBeat",
-        "overall_sentiment_score": 0.436368
-      },
-      {
-        "title": "Parthenon LLC Takes Position in Seagate Technology Holdings PLC $STX",
-        "summary": "Parthenon LLC has acquired a new position in Seagate Technology Holdings PLC, purchasing 2,000 shares valued at approximately $551,000 during the fourth quarter. This move comes as institutional investors collectively own 92.87% of the company's stock, and analysts maintain a \"Moderate Buy\" consensus rating with an average target price of $486.21. Recent insider selling has also been noted, while ",
-        "source": "MarketBeat",
-        "overall_sentiment_score": 0.403331
-      },
-      {
-        "title": "Sowell Financial Services LLC Invests $418,000 in Lumentum Holdings Inc. $LITE",
-        "summary": "Sowell Financial Services LLC initiated a new position in Lumentum Holdings Inc. worth $418,000 during the fourth quarter. This move comes as institutional ownership in Lumentum is high, and analysts have raised price targets citing strong AI-driven demand, despite some insider selling and valuation concerns. The company recently reported significant revenue growth and converted convertible notes,",
-        "source": "MarketBeat",
-        "overall_sentiment_score": 0.44763
-      },
-      {
-        "title": "Applied Finance Valuation Large Cap ETF (VSLU) ETF Holders - Institutional Ownership",
-        "summary": "GuruFocus provides an overview of the Applied Finance Valuation Large Cap ETF (VSLU), detailing its current market data, top holdings, and portfolio statistics. It notes that institutional ownership and guru trades for VSLU are not available without a premium membership. The article also provides general investment disclaimers from GuruFocus.",
-        "source": "GuruFocus",
-        "overall_sentiment_score": 0.037833
-      },
-      {
-        "title": "CoreWeave secures multi-year deal with Anthropic to power Claude AI expansion",
-        "summary": "CoreWeave has signed a multi-year, multibillion-dollar agreement with Anthropic to provide cloud infrastructure for its Claude AI models, with compute capacity rolling out later in 2026. This deal positions CoreWeave as a key infrastructure provider for nine of the top ten AI model companies and follows a significant partnership expansion with Meta. CoreWeave projects substantial revenue growth fo",
-        "source": "MLQ.ai",
-        "overall_sentiment_score": 0.677539
-      },
-      {
-        "title": "Is TCW\u2019s Exit Reframing Flex\u2019s (FLEX) Balance Between Cyclical Risk And AI Upside?",
-        "summary": "TCW Relative Value Mid Cap Fund has exited its position in Flex Ltd. (FLEX) due to concerns about the uncertainty in the automotive and industrial markets, despite Flex's involvement in AI data infrastructure. This highlights the ongoing debate for investors balancing Flex's exposure to cyclical sectors against its potential growth in AI data centers. Flex's collaboration with NVIDIA on the 800 VD",
-        "source": "Simply Wall Street",
-        "overall_sentiment_score": 0.146638
-      },
-      {
-        "title": "SCHX ETF | Schwab U.S. Large-Cap ETF",
-        "summary": "This page provides detailed information on the Schwab U.S. Large-Cap ETF (SCHX), including its current stock price, performance metrics like PE and PB ratios, dividend yield, and top holdings such as NVDA, AAPL, and MSFT. It also offers access to historical financial data, interactive charts, and tools for premium members. The ETF holds 750 stocks with a total value of $62.80 billion.",
-        "source": "GuruFocus",
-        "overall_sentiment_score": 0.146666
-      },
-      {
-        "title": "Is Cohu\u2019s (COHU) New Eclipse Orders Quietly Redefining Its High-Performance Computing Test Strategy?",
-        "summary": "Cohu, Inc. recently secured US$30 million in follow-on orders for its Eclipse test platform, including a PAICe Prescriptive software subscription, for next-generation high-performance computing processors. These orders, following a multi-unit Eclipse win in March 2026 for AI datacenter processors, strengthen Cohu's position in advanced computing test and aim to translate increasing chip complexity",
-        "source": "Simply Wall Street",
-        "overall_sentiment_score": 0.212883
-      },
-      {
-        "title": "Aberdeen Group plc Lowers Position in Alphabet Inc. $GOOGL",
-        "summary": "Aberdeen Group plc reduced its stake in Alphabet Inc. (NASDAQ:GOOGL) by 1.7% in the fourth quarter, selling 136,024 shares and now holding 8,049,743 shares valued at $2.52 billion, making it their fifth-largest holding. Despite this, positive sentiment from AI/cloud partnerships, analyst upgrades, and monetization tailwinds continue to support Alphabet's stock, while regulatory risks and an analys",
-        "source": "MarketBeat",
-        "overall_sentiment_score": 0.259847
-      },
-      {
-        "title": "Ubiquiti (NYSE:UI) Rating Lowered to \"Hold\" at Wall Street Zen",
-        "summary": "Ubiquiti (NYSE:UI) has been downgraded by Wall Street Zen from a \"buy\" to a \"hold\" rating, despite a strong quarterly performance with EPS of $3.88 and revenue of $814.9M. The stock is currently trading near its 52-week high of $925, which is significantly above the average analyst consensus target price of $615.67, leading to mixed analyst views. Institutional investors have made minor adjustment",
-        "source": "MarketBeat",
-        "overall_sentiment_score": 0.043107
-      },
-      {
-        "title": "Could Investing $10,000 in SCHB Make You a Millionaire?",
-        "summary": "The article explores whether an investment of $10,000 in the Schwab U.S. Broad Market ETF (SCHB) could lead to becoming a millionaire. Given SCHB's historical average annual returns of 13.66% over the past 16 years, the article calculates that a $10,000 investment could grow to $1 million in 36 years. It highlights SCHB as a low-cost, diversified option for long-term investors seeking exposure to ",
-        "source": "The Globe and Mail",
-        "overall_sentiment_score": 0.359639
-      }
-    ]
+    "articles_count": 0,
+    "avg_sentiment_score": null,
+    "articles": [],
+    "note": "Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints"
   },
   "strategy_a": {
     "name": "News Sentiment Follower",
     "decision": "HOLD",
-    "confidence": 6,
-    "justification": "Recent news articles exhibit mixed sentiment, with some strongly positive (e.g., Ritholtz Wealth Management's increased stake in ASML Holding N.V.) and others weakly negative (e.g., Insider Monkey's summary of Synopsys Stock). However, the overall market data suggests a steady upward trend, with NVDA's current price at $188.63 and a 30-day percentage change of 1.4%. The average daily volume is substantial, indicating liquidity. Given these factors, I lean towards HOLD unless extreme price action contradicts this analysis."
+    "confidence": 8,
+    "justification": "No recent news available (articles_count = 0, avg_sentiment_score is null). Current price ($188.63) is near the moving average ($177.42) and volatility is low (volatility_30d = 0.02242). The recent price action (pct_change_30d = 1.4) suggests a potential buying opportunity, but without news context, it's difficult to make an informed decision."
   },
   "strategy_b": {
     "name": "Volatility Averse",
     "decision": "HOLD",
-    "confidence": 6,
-    "justification": "Volatility is moderate (std_daily_return_90d = 0.021665, atr_14 = 5.195). The recent price drop (-0.054561) is not extreme, and the beta_proxy_spy indicates a relatively stable stock. News sentiment is mixed, but overall_sentiment_score averages are generally positive. No strong buy or sell signals are present."
+    "confidence": 8,
+    "justification": "Current price is near the moving average (177.4205) and volatility is low (0.02242). The standard daily return over the last 90 days is also relatively stable (0.021665), which suggests a moderate risk profile. Given these conditions, holding the stock seems to be a reasonable choice."
   },
   "strategy_c": {
     "name": "Moral Trader",
     "decision": "HOLD",
     "confidence": 6,
-    "justification": "The stock has shown significant price movements coinciding with suspiciously well-timed positioning language in headlines, such as the recent announcement of a multi-year deal with Anthropic to power Claude AI expansion. However, the overall sentiment score for the news articles is mixed, and the company's high P/E ratio compared to the industry average raises concerns about valuation risk. Additionally, the stock has shown volatility in its price movements, which may indicate market uncertainty."
+    "justification": "Low volatility (0.02242) and stable moving averages suggest a lack of recent market disruptions. However, the note from Alpha Vantage highlights potential for increased price pressure due to API request limits, which may impact trading decisions."
   },
   "evaluator": {
     "agents_agree": true,
     "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
-    "pattern_note": "Moral Trader outlier: prioritizes news article language and valuation risk, whereas News Sentiment Follower and Volatility Averse focus on market data trends."
+    "pattern_note": "Moral Trader's outlier pattern is the consideration of potential risks despite holding a neutral stance."
   }
 }

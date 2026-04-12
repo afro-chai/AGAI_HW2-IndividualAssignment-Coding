@@ -108,7 +108,7 @@ ticker. They differ slightly in rationale emphasis, but the final
 recommendation is aligned."
 \end{verbatim}
 
-\noindent\textbf{Aggregate snapshot (illustrative):} the committed \texttt{outputs/summary.json} for the 2026-04-11 run shows \texttt{total\_agreements: 4} with live Ollama despite heterogeneous tape---I verified per-ticker JSON, including \texttt{news\_features} (populated vs.\ empty + \texttt{note}) and confidence spreads, rather than trusting prose alone.
+\noindent\textbf{Aggregate snapshot (illustrative):} the committed \texttt{outputs/summary.json} for the \textbf{2026-04-12} ten-ticker defense basket shows \texttt{total\_agreements: 10} (live Ollama). I verified per-ticker JSON, including \texttt{news\_features} (mostly empty after Alpha Vantage \textbf{daily} free-tier limits) and confidence spreads. Upstream AV notes can echo a raw key substring; \texttt{src/market\_data.py} scrubs that pattern before writing JSON, and I re-scanned committed files so secrets do not ship in \texttt{outputs/}.
 
 \section{File-level attribution (accept / revise / reject)}
 \begin{table}[h]
@@ -130,13 +130,13 @@ recommendation is aligned."
 \begin{itemize}
   \item JSON outputs include required decisions, confidence, justification, and evaluator block.
   \item Strategies are invoked in parallel in code; evaluator runs after strategy outputs are fixed for that ticker.
-  \item Market data assembly (\texttt{src/market\_data.py}) is deterministic from APIs; empty or rate-limited Alpha Vantage responses degrade gracefully (\texttt{news\_features.note}).
+  \item Market data assembly (\texttt{src/market\_data.py}) is deterministic from APIs; empty or rate-limited Alpha Vantage responses degrade gracefully (\texttt{news\_features.note}), and a small scrub helper removes echoed key material from Alpha Vantage informational strings before JSON is written.
 \end{itemize}
 
 \section{One weak or surprising model output (example)}
 \textbf{Issue 1 (example):} Moral Trader prose occasionally contradicted numeric \texttt{avg\_sentiment\_score} in retained JSON---prompt tightening and manual review.
 
-\textbf{Issue 2 (example):} Alpha Vantage free tier returned pacing \texttt{note} for some tickers mid-batch while others received full feeds---operational asymmetry; use \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC} and/or fewer concurrent tickers.
+\textbf{Issue 2 (example):} On a ten-ticker pass, Alpha Vantage returned empty feeds with \texttt{note} text explaining \textbf{daily} free-tier caps (and, on NVDA in the same run, a \textbf{spacing} message). Mitigate with premium tier, \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}, \texttt{--ticker-workers 1}, or splitting runs across days.
 
 \textbf{Response:} Tighter prompts to cite only signed fields; optional \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}; evaluator guard in \texttt{src/evaluator.py} for contradictory ``agreement'' wording when decisions are unanimous.
 
