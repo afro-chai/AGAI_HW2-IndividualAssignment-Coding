@@ -30,7 +30,7 @@
 README.md
 requirements.txt
 src/           # main.py, market_data.py, orchestration.py, evaluator.py, backtest.py, llm_factory.py, schemas.py, strategies.py
-prompts/       # strategy_a.txt, strategy_b.txt, evaluator.txt, + named strategy files
+prompts/       # strategy_news_sentiment.txt, strategy_volatility_averse.txt, strategy_moral_trader.txt, evaluator.txt (+ README)
 outputs/       # per-ticker JSON, summary.json, backtest.json (regenerate for submission)
 report/        # report.pdf, ai appendix, DEFENSE_GEOPOLITICS_UNIVERSE.md — student deliverables
 docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (optional local screenshots; key image gitignored)
