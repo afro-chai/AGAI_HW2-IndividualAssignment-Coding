@@ -92,7 +92,7 @@ From the repository root (after activating the virtual environment):
 pip install -r requirements.txt
 $env:PYTHONPATH = (Get-Location).Path
 Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
-python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
+python -m src.main --backtest --ticker-workers 2
 \end{verbatim}
 
 \noindent\textbf{Transcript (optional):} \texttt{.\textbackslash scripts\textbackslash run\_full\_with\_log.ps1} wraps the same command with \texttt{Start-Transcript} so a desktop pull can include a scrubbed \texttt{logs/full\_run\_latest.txt}.
@@ -121,7 +121,7 @@ recommendation is aligned."
     \texttt{src/*.py}, \texttt{prompts/*.txt} & Cursor-assisted scaffold and orchestration & Revised: tightened prompts and guards after manual read \\
     \texttt{README.md}, \texttt{docs/*.md} & Early drafts from Cursor & Revised: accuracy, secrets hygiene, Alpha Vantage notes \\
     \texttt{report/*.tex} & Initial structure from Cursor; rubric feedback from ChatGPT & Revised: my voice, rubric alignment, quantitative checks \\
-    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: decisions, confidences, news counts; mixed success (20 articles on NVDA/JNJ/KO; TSLA throttled in one batch) \\
+    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: decisions, confidences, \texttt{news\_features}; watch Alpha Vantage pacing on ten tickers \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -134,9 +134,9 @@ recommendation is aligned."
 \end{itemize}
 
 \section{One weak or surprising model output (example)}
-\textbf{Issue 1:} On KO, Moral Trader prose described sentiment as ``slightly negative'' while the payload's \texttt{avg\_sentiment\_score} was positive---a contradiction with the numeric channel.
+\textbf{Issue 1 (example):} Moral Trader prose occasionally contradicted numeric \texttt{avg\_sentiment\_score} in retained JSON---prompt tightening and manual review.
 
-\textbf{Issue 2:} Alpha Vantage free tier returned a pacing \texttt{note} for TSLA in the same four-ticker batch where other tickers received 20 articles---operational asymmetry, not a missing key.
+\textbf{Issue 2 (example):} Alpha Vantage free tier returned pacing \texttt{note} for some tickers mid-batch while others received full feeds---operational asymmetry; use \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC} and/or fewer concurrent tickers.
 
 \textbf{Response:} Tighter prompts to cite only signed fields; optional \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}; evaluator guard in \texttt{src/evaluator.py} for contradictory ``agreement'' wording when decisions are unanimous.
 

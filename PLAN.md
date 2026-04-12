@@ -31,8 +31,11 @@
    ```powershell
    $env:PYTHONPATH = (Get-Location).Path
    Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
-   python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
+   python -m src.main --backtest --ticker-workers 2
    ```
+
+   Default tickers: ten defense/geopolitics names (see `report/DEFENSE_GEOPOLITICS_UNIVERSE.md`).
+
    - Expect `outputs/<TICKER>.json`, `outputs/summary.json`, `outputs/backtest.json` with **non-stub** justifications and, ideally, **news_features** populated when `ALPHAVANTAGE_API_KEY` is in **repo-root `.env`** (not only a one-off terminal variable).
 
 6. **Quality check** — Open `outputs/summary.json`: note agreements vs disagreements. If everything is still HOLD everywhere, consider rerunning after AV data loads or adjusting tickers; document honestly in the report.
@@ -59,7 +62,8 @@
 
 - **Implementation:** AutoGen `AssistantAgent`, parallel strategies, evaluator; see `src/`.
 - **Alpha Vantage:** Integrated in `src/market_data.py`; key lives only in **local** `.env`.
-- **Docs:** `README.md`, `docs/ALPHA_VANTAGE.md`, handoff doc, LaTeX drafts under `report/`.
+- **Docs:** `README.md`, `docs/ALPHA_VANTAGE.md`, handoff doc, `report/DEFENSE_GEOPOLITICS_UNIVERSE.md`, LaTeX under `report/`.
+- **Default tickers:** ten defense/geopolitics names in `src/main.py` (`DEFAULT_TICKERS`).
 
 ### Left to do (until submission)
 

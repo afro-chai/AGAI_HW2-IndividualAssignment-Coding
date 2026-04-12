@@ -32,7 +32,7 @@ requirements.txt
 src/           # main.py, market_data.py, orchestration.py, evaluator.py, backtest.py, llm_factory.py, schemas.py, strategies.py
 prompts/       # strategy_a.txt, strategy_b.txt, evaluator.txt, + named strategy files
 outputs/       # per-ticker JSON, summary.json, backtest.json (regenerate for submission)
-report/        # report.pdf, ai appendix — student deliverables
+report/        # report.pdf, ai appendix, DEFENSE_GEOPOLITICS_UNIVERSE.md — student deliverables
 docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (optional local screenshots; key image gitignored)
 ```
 
@@ -74,7 +74,7 @@ docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (optional local screens
      pip install -r requirements.txt
      $env:PYTHONPATH = (Get-Location).Path
      Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
-     python -m src.main --tickers NVDA,TSLA,JNJ,KO --backtest --ticker-workers 2
+     python -m src.main --backtest --ticker-workers 2
      ```
 
 4. **Report**

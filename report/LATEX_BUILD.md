@@ -1,5 +1,7 @@
 # Building PDFs from LaTeX
 
+Ticker research catalog (defense / geopolitics / AFRICOM): [`DEFENSE_GEOPOLITICS_UNIVERSE.md`](DEFENSE_GEOPOLITICS_UNIVERSE.md).
+
 From this `report/` directory (with a LaTeX distribution installed, e.g. MiKTeX or TeX Live):
 
 ```powershell

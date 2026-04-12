@@ -14,7 +14,8 @@ from src.orchestration import run_parallel_analysis
 REPO_ROOT = Path(__file__).resolve().parents[1]
 load_dotenv(REPO_ROOT / ".env")
 
-DEFAULT_TICKERS = ["NVDA", "TSLA", "JNJ", "KO"]
+# Defense / geopolitics / AFRICOM-heavy basket — see report/DEFENSE_GEOPOLITICS_UNIVERSE.md
+DEFAULT_TICKERS = ["PLTR", "NVDA", "LMT", "RTX", "TTE", "E", "GOLD", "CRWD", "FRO", "NOC"]
 
 
 def _out_dir() -> Path:
