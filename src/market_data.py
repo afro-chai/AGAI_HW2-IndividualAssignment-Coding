@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import os
+import threading
+import time
 from datetime import date, datetime, timezone
 from typing import Any
 
@@ -10,6 +12,28 @@ import httpx
 import numpy as np
 import pandas as pd
 import yfinance as yf
+
+# Alpha Vantage NEWS_SENTIMENT: https://www.alphavantage.co/documentation/
+# Free tier: respect per-minute / daily limits (see docs/ALPHA_VANTAGE.md).
+_AV_THROTTLE_LOCK = threading.Lock()
+_AV_LAST_CALL_MONO = 0.0
+
+
+def _throttle_alpha_vantage() -> None:
+    """Optional spacing between AV calls to reduce rate-limit errors (set ALPHAVANTAGE_MIN_INTERVAL_SEC)."""
+    try:
+        sec = float(os.environ.get("ALPHAVANTAGE_MIN_INTERVAL_SEC") or "0")
+    except ValueError:
+        sec = 0.0
+    if sec <= 0:
+        return
+    global _AV_LAST_CALL_MONO
+    with _AV_THROTTLE_LOCK:
+        now = time.monotonic()
+        wait = _AV_LAST_CALL_MONO + sec - now
+        if wait > 0:
+            time.sleep(wait)
+        _AV_LAST_CALL_MONO = time.monotonic()
 
 
 def _true_range(high: pd.Series, low: pd.Series, close: pd.Series) -> pd.Series:
@@ -33,17 +57,42 @@ def _atr(df: pd.DataFrame, period: int = 14) -> float:
 
 
 def fetch_alpha_vantage_news(ticker: str, limit: int = 20) -> dict[str, Any]:
+    """NEWS_SENTIMENT endpoint; see https://www.alphavantage.co/documentation/ (Alpha Intelligence)."""
     key = os.environ.get("ALPHAVANTAGE_API_KEY", "").strip()
     if not key:
         return {"articles_count": 0, "avg_sentiment_score": None, "articles": [], "note": "no API key"}
+    try:
+        lim_env = int(os.environ.get("ALPHAVANTAGE_NEWS_LIMIT") or str(limit))
+    except ValueError:
+        lim_env = limit
+    # Docs: limit is optional; use a bounded value (typical max 1000 for feed size).
+    limit_use = min(max(1, lim_env), 1000)
+    sort_raw = (os.environ.get("ALPHAVANTAGE_NEWS_SORT") or "").strip().upper()
+    allowed_sort = {"LATEST", "EARLIEST", "RELEVANCE"}
     url = "https://www.alphavantage.co/query"
-    params = {"function": "NEWS_SENTIMENT", "tickers": ticker, "limit": limit, "apikey": key}
+    params: dict[str, str] = {
+        "function": "NEWS_SENTIMENT",
+        "tickers": ticker,
+        "limit": str(limit_use),
+        "apikey": key,
+    }
+    if sort_raw in allowed_sort:
+        params["sort"] = sort_raw
+    _throttle_alpha_vantage()
     try:
         r = httpx.get(url, params=params, timeout=30.0)
         r.raise_for_status()
         data = r.json()
     except Exception as e:  # noqa: BLE001
         return {"articles_count": 0, "avg_sentiment_score": None, "articles": [], "error": str(e)}
+    err = data.get("Error Message")
+    if err:
+        return {
+            "articles_count": 0,
+            "avg_sentiment_score": None,
+            "articles": [],
+            "note": str(err)[:500],
+        }
     if "feed" not in data:
         return {
             "articles_count": 0,
@@ -51,7 +100,7 @@ def fetch_alpha_vantage_news(ticker: str, limit: int = 20) -> dict[str, Any]:
             "articles": [],
             "note": str(data.get("Note") or data.get("Information") or "empty_or_rate_limit"),
         }
-    feed = data["feed"][:limit]
+    feed = data["feed"][:limit_use]
     scores: list[float] = []
     articles: list[dict[str, Any]] = []
     for item in feed:

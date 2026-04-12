@@ -33,7 +33,7 @@ src/           # main.py, market_data.py, orchestration.py, evaluator.py, backte
 prompts/       # strategy_a.txt, strategy_b.txt, evaluator.txt, + named strategy files
 outputs/       # per-ticker JSON, summary.json, backtest.json (regenerate for submission)
 report/        # report.pdf, ai appendix — student deliverables
-docs/          # this handoff
+docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (e.g. key welcome screenshot)
 ```
 
 **Instructions folder:** If present locally, it may be gitignored; assignment text lives in course materials, not required in repo for code to run.
@@ -42,7 +42,7 @@ docs/          # this handoff
 
 ## 4. What was already implemented (don’t redo unless broken)
 
-- **Market data:** `src/market_data.py` — yfinance + volatility features; Alpha Vantage news with empty/rate-limit handling.
+- **Market data:** `src/market_data.py` — yfinance + volatility features; Alpha Vantage **NEWS_SENTIMENT** with empty/rate-limit/`Error Message` handling; optional sort/limit/throttle via env (see [`ALPHA_VANTAGE.md`](ALPHA_VANTAGE.md)).
 - **Orchestration:** `src/orchestration.py` — three parallel strategy agents per ticker + evaluator.
 - **LLM:** `src/llm_factory.py` — Ollama default; optional LiteLLM OpenAI-compatible proxy via env.
 - **Speed:** `OLLAMA_NUM_PREDICT`, `OLLAMA_NUM_CTX`, `OLLAMA_TEMPERATURE`; `src/main.py` has `--ticker-workers` (default 2).
@@ -62,7 +62,9 @@ docs/          # this handoff
 2. **Alpha Vantage API key (News Sentiment fidelity)**
    - Key is issued; **store the value only in local `.env`** at repo root (`ALPHAVANTAGE_API_KEY=...`). Do not commit `.env` or embed the key in README/handoff/issues.
    - On a **new clone or machine:** copy `.env.example` → `.env` and paste the key again (or copy your private `.env` over securely).
-   - Doc: [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key). Free tier has **daily request limits**; empty/no news handling is already in code.
+   - API reference: [alphavantage.co/documentation](https://www.alphavantage.co/documentation/) (NEWS_SENTIMENT). Key signup: [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key). Build notes for *this* repo: [`ALPHA_VANTAGE.md`](ALPHA_VANTAGE.md). Optional citations for reports: [Trading Agents](https://trading-agents.ai/), [Alpha Vantage MCP](https://mcp.alphavantage.co/).
+   - Welcome/key screenshot for docs: [`assets/alphavantage-welcome.png`](assets/alphavantage-welcome.png) (overwrite placeholder with your capture if needed; avoid leaking keys in **public** repos).
+   - Free tier has **request limits**; empty/no news handling is already in code. Use `ALPHAVANTAGE_MIN_INTERVAL_SEC` if you burst too many tickers.
 
 3. **Re-run full pipeline for submission-quality JSON**
    - Do **not** set `STOCKTRADER_SKIP_LLM=1` for final outputs.
@@ -107,9 +109,10 @@ docs/          # this handoff
 ## 8. First files to open after pull
 
 1. [`README.md`](../README.md) — full setup
-2. [`src/main.py`](../src/main.py) — CLI entry
-3. [`src/orchestration.py`](../src/orchestration.py) — agent wiring
-4. [`report/report_checklist.md`](../report/report_checklist.md) — report structure
+2. [`ALPHA_VANTAGE.md`](ALPHA_VANTAGE.md) — AV endpoint, limits, related links
+3. [`src/main.py`](../src/main.py) — CLI entry
+4. [`src/orchestration.py`](../src/orchestration.py) — agent wiring
+5. [`report/report_checklist.md`](../report/report_checklist.md) — report structure
 
 ---
 

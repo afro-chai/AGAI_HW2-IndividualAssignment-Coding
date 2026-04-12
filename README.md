@@ -8,6 +8,8 @@ Multi-agent stock signal system: **News Sentiment Follower**, **Volatility Avers
 
 **Continuing on another machine?** See [`docs/HANDOFF_NEXT_AGENT.md`](docs/HANDOFF_NEXT_AGENT.md) (Ollama setup on a new PC, Alpha Vantage `.env`, and what the next agent should do).
 
+**Alpha Vantage (news API):** Implementation notes, rate-limit tips, and citations — [`docs/ALPHA_VANTAGE.md`](docs/ALPHA_VANTAGE.md). Official docs: [alphavantage.co/documentation](https://www.alphavantage.co/documentation/). Related: [Trading Agents](https://trading-agents.ai/) (example ecosystem), [Alpha Vantage MCP](https://mcp.alphavantage.co/) (MCP server for assistants).
+
 ## Repository layout (course spec)
 
 This repo matches the assignment tree: `README.md`, `requirements.txt`, `src/`, `prompts/`, `outputs/`, `report/`. (The brief used a `stocktrader/` wrapper; here the **clone root is the project root**.)
@@ -74,7 +76,10 @@ Recommended minimum quantitative section in the report:
 | `OLLAMA_NUM_PREDICT` | Max generated tokens per call (default `220`, faster) |
 | `OLLAMA_NUM_CTX` | Context window size (default `4096`) |
 | `OLLAMA_TEMPERATURE` | Sampling temperature (default `0.2`) |
-| `ALPHAVANTAGE_API_KEY` | News sentiment |
+| `ALPHAVANTAGE_API_KEY` | News sentiment ([NEWS_SENTIMENT](https://www.alphavantage.co/documentation/)) |
+| `ALPHAVANTAGE_NEWS_LIMIT` | Optional; max articles (1–1000), default 20 |
+| `ALPHAVANTAGE_NEWS_SORT` | Optional; `LATEST`, `EARLIEST`, or `RELEVANCE` |
+| `ALPHAVANTAGE_MIN_INTERVAL_SEC` | Optional; minimum seconds between AV HTTP calls (rate-limit hygiene) |
 | `LITELLM_BASE_URL` | If set, use OpenAI-compatible client (LiteLLM proxy) |
 | `LITELLM_MODEL` | Model id for proxy |
 | `LITELLM_API_KEY` | Proxy API key if required |
