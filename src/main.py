@@ -14,8 +14,8 @@ from src.orchestration import run_parallel_analysis
 REPO_ROOT = Path(__file__).resolve().parents[1]
 load_dotenv(REPO_ROOT / ".env")
 
-# Defense / geopolitics / AFRICOM-heavy basket — see report/DEFENSE_GEOPOLITICS_UNIVERSE.md
-DEFAULT_TICKERS = ["PLTR", "NVDA", "LMT", "RTX", "TTE", "E", "GOLD", "CRWD", "FRO", "NOC"]
+# Five-name defense / geopolitics basket (min. API calls: 1 Alpha Vantage NEWS_SENTIMENT per ticker). See report/DEFENSE_GEOPOLITICS_UNIVERSE.md
+DEFAULT_TICKERS = ["PLTR", "TTE", "GOLD", "LMT", "FRO"]
 
 
 def _out_dir() -> Path:

@@ -8,13 +8,13 @@ Multi-agent stock signal system: **News Sentiment Follower**, **Volatility Avers
 
 **Continuing on another machine?** See [`docs/HANDOFF_NEXT_AGENT.md`](docs/HANDOFF_NEXT_AGENT.md) (Ollama setup on a new PC, Alpha Vantage `.env`, and what the next agent should do).
 
-**Alpha Vantage (news API):** Implementation notes, rate-limit tips, and citations — [`docs/ALPHA_VANTAGE.md`](docs/ALPHA_VANTAGE.md). Official docs: [alphavantage.co/documentation](https://www.alphavantage.co/documentation/). Related: [Trading Agents](https://trading-agents.ai/) (example ecosystem), [Alpha Vantage MCP](https://mcp.alphavantage.co/) (MCP server for assistants).
+**Alpha Vantage:** [`docs/ALPHA_VANTAGE.md`](docs/ALPHA_VANTAGE.md) — **5 `NEWS_SENTIMENT` calls per default run** (one per ticker); backtest uses **0**.
 
 ## Repository layout (course spec)
 
 This repo matches the assignment tree: `README.md`, `requirements.txt`, `src/`, `prompts/`, `outputs/`, `report/`. (The brief used a `stocktrader/` wrapper; here the **clone root is the project root**.)
 
-**Default tickers:** ten defense / geopolitics / AFRICOM-aware names (`PLTR`, `NVDA`, `LMT`, `RTX`, `TTE`, `E`, `GOLD`, `CRWD`, `FRO`, `NOC`) — see [`report/DEFENSE_GEOPOLITICS_UNIVERSE.md`](report/DEFENSE_GEOPOLITICS_UNIVERSE.md). Override with `--tickers A,B,C` if needed.
+**Default tickers (five):** `PLTR`, `TTE`, `GOLD`, `LMT`, `FRO` — AI/gov, **AFRICOM** energy (TTE), **AFRICOM** mining (GOLD), defense prime, crude tankers. See [`report/DEFENSE_GEOPOLITICS_UNIVERSE.md`](report/DEFENSE_GEOPOLITICS_UNIVERSE.md). Override with `--tickers A,B,C`.
 
 ---
 
@@ -46,7 +46,7 @@ Check off as you go (update dates in your fork):
 - [ ] **C1 — Market data** — `market_data.py` returns 90d+ history + volatility + optional AV news; handles empty news.
 - [ ] **C2 — AutoGen strategies** — Three `AssistantAgent` instances, parallel `asyncio.gather`, structured JSON output; no cross-talk between strategies.
 - [ ] **C3 — Evaluator** — Consensus vs split narrative for three decisions; saved in JSON.
-- [ ] **C4 — Tickers + JSON** — default **ten** `outputs/*.json` + `summary.json`; rationale in `report/` (see defense universe doc).
+- [ ] **C4 — Tickers + JSON** — default **five** `outputs/*.json` + `summary.json`; rationale in `report/` (see defense universe doc).
 - [ ] **C5 — Backtest bonus** — `outputs/backtest.json` generated; limitations noted in report.
 - [ ] **C6 — Report + AI appendix** — PDF sections per rubric; honesty on failures.
 - [ ] **C7 — GitHub** — Push to `AGAI_HW2-IndividualAssignment-Coding`; README + pinned `requirements.txt`.
@@ -102,7 +102,7 @@ python -m src.main --backtest
 
 Artifacts: `outputs/<TICKER>.json`, `summary.json`, optional `backtest.json`.
 
-Performance tip: `--ticker-workers 2` (default). With **ten** tickers plus Alpha Vantage, use `--ticker-workers 1` and/or `ALPHAVANTAGE_MIN_INTERVAL_SEC` in `.env` if you hit free-tier throttling.
+Performance tip: `--ticker-workers 2` (default). If Alpha Vantage throttles bursts, set `ALPHAVANTAGE_MIN_INTERVAL_SEC` or `--ticker-workers 1`.
 
 Run with stubs disabled (required for final submission-quality outputs):
 

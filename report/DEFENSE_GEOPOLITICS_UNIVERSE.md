@@ -12,7 +12,7 @@
 |--------|-----------|
 | **1. Global — by field** | AI / platforms, chips, defense primes, gov-tech, big tech cloud, cyber, shipping, LNG, uranium, copper & miners, oil supermajors |
 | **2. Regional — AFRICOM & related** | Africa / MENA footprint: oil majors, mining in conflict-adjacent jurisdictions, cyber |
-| **3. Default ten tickers (this repo)** | The symbols wired into `src/main.py` as `DEFAULT_TICKERS` for the multi-agent run |
+| **3. Default five tickers (this repo)** | The symbols wired into `src/main.py` as `DEFAULT_TICKERS` (minimizes Alpha Vantage calls) |
 | **4. Non-investable / reference-only** | Private cos., state actors, ADR caveats |
 
 Duplicates (e.g. NVDA, Shell, TotalEnergies appearing in multiple lists) appear **once** in the field tables, with cross-tags.
@@ -182,22 +182,17 @@ Duplicates (e.g. NVDA, Shell, TotalEnergies appearing in multiple lists) appear 
 
 ---
 
-## 3. Default ten tickers (this repository)
+## 3. Default five tickers (this repository)
 
-These are the symbols in **`DEFAULT_TICKERS`** in [`src/main.py`](../src/main.py) — chosen for **sector mix**, **volatility smearing** (roughly 2–5 scale from your notes), and **≥3 explicit AFRICOM-linked names** (**TTE**, **E**, **GOLD**).
+These are **`DEFAULT_TICKERS`** in [`src/main.py`](../src/main.py) — **five** liquid U.S. listings for **sector diversity**, **mixed volatility**, and **at least one AFRICOM hook** (here: **TTE** integrated oil Africa–MENA, **GOLD** conflict-adjacent mining). The small basket keeps **Alpha Vantage usage to five `NEWS_SENTIMENT` calls per full run** (see [`docs/ALPHA_VANTAGE.md`](../docs/ALPHA_VANTAGE.md)).
 
 | # | Ticker | Company | Sector bucket | Vol (guide) | Defense / geo hook |
 |---|--------|---------|-----------------|------------|----------------------|
-| 1 | **PLTR** | Palantir | AI / gov analytics | 5 | DoD / NATO software; Golden Dome / contract headlines |
-| 2 | **NVDA** | NVIDIA | Semiconductors | 5 | AI compute for autonomy + surveillance stacks |
-| 3 | **LMT** | Lockheed Martin | Defense prime | 2 | F-35, missiles, budget cycles |
-| 4 | **RTX** | RTX Corp. | Defense prime | 2 | Missile defense, radar |
-| 5 | **TTE** | TotalEnergies | Integrated oil / LNG | 2 | **AFRICOM/MENA:** Africa LNG, Sahel/Mideast footprint |
-| 6 | **E** | Eni | Integrated oil | 2 | **AFRICOM:** Libya, Egypt, West Africa |
-| 7 | **GOLD** | Barrick Gold | Mining | 3 | **AFRICOM:** Mali / DRC gold exposure narratives |
-| 8 | **CRWD** | CrowdStrike | Cybersecurity | 4 | Nation-state + critical infrastructure threats |
-| 9 | **FRO** | Frontline | Crude tankers | 5 | Hormuz / supply disruption → freight rates |
-|10 | **NOC** | Northrop Grumman | Defense / space | 2 | Bombers, nuclear modernization, space |
+| 1 | **PLTR** | Palantir | AI / gov analytics | High | DoD / NATO software; defense contract headlines |
+| 2 | **TTE** | TotalEnergies | Integrated oil / LNG | Low | **AFRICOM / MENA** footprint (Africa LNG, Sahel exposure) |
+| 3 | **GOLD** | Barrick Gold | Mining | Medium | **AFRICOM:** Mali / DRC gold narratives |
+| 4 | **LMT** | Lockheed Martin | Defense prime | Low | F-35, missiles, budget cycles |
+| 5 | **FRO** | Frontline | Crude tankers | High | Hormuz / supply disruption → freight rates |
 
 **Run command (reference):**
 
@@ -205,17 +200,16 @@ These are the symbols in **`DEFAULT_TICKERS`** in [`src/main.py`](../src/main.py
 python -m src.main --backtest --ticker-workers 2
 ```
 
-With **10** tickers, Alpha Vantage free tier pacing matters—set `ALPHAVANTAGE_MIN_INTERVAL_SEC` in `.env` if you see empty feeds mid-batch (see [`docs/ALPHA_VANTAGE.md`](../docs/ALPHA_VANTAGE.md)).
-
 ---
 
 ## 4. Ticker hygiene (yfinance / venue)
 
-- US listings above (**PLTR**, **NVDA**, **LMT**, **RTX**, **TTE**, **E**, **GOLD**, **CRWD**, **FRO**, **NOC**) are chosen for straightforward `yfinance` use in the assignment pipeline.
+- Default list (**PLTR**, **TTE**, **GOLD**, **LMT**, **FRO**) is chosen for straightforward `yfinance` use.
 - **Saudi Aramco (2222)**, **Kazatomprom**, some **ADR/pink** names may need broker-specific symbols—keep them in this universe doc for research, not necessarily in `DEFAULT_TICKERS` without verification.
 
 ---
 
 ## 5. Changelog
 
-- **2026-04:** Universe consolidated from student research notes; default basket moved from four consumer/tech names to **ten defense–geopolitics** names with **three AFRICOM-heavy energy/mining picks** (TTE, E, GOLD).
+- **2026-04 (latest):** Default basket reduced to **five** tickers (`PLTR`, `TTE`, `GOLD`, `LMT`, `FRO`) to **minimize Alpha Vantage daily usage** while keeping **AFRICOM** exposure (TTE, GOLD) and cross-sector spread.
+- **2026-04:** Earlier revision used ten defense–geopolitics names; universe tables above remain the wider pick list.

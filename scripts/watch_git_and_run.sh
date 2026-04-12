@@ -6,8 +6,8 @@
 #   bash scripts/watch_git_and_run.sh
 #
 # API keys: never put them in this file. Use repo-root .env or
-# secrets/alphavantage_api_key.txt (gitignored). For 10 tickers, consider
-# ALPHAVANTAGE_MIN_INTERVAL_SEC in .env to reduce free-tier throttling.
+# secrets/alphavantage_api_key.txt (gitignored). Default five tickers = five
+# AV news calls per run; ALPHAVANTAGE_MIN_INTERVAL_SEC in .env if you still hit throttling.
 #
 set -uo pipefail
 

@@ -1,13 +1,13 @@
 # Full live run (no STOCKTRADER_SKIP_LLM) with transcript log.
 # Usage (from repo root):
 #   .\scripts\run_full_with_log.ps1
-#   .\scripts\run_full_with_log.ps1 -Tickers "PLTR,NVDA,LMT"
+#   .\scripts\run_full_with_log.ps1 -Tickers "PLTR,TTE,GOLD"
 #
-# Time: ~50–90 min typical for default ten tickers (40 Ollama calls + yfinance + Alpha Vantage).
+# Time: ~15–35 min typical for default five tickers (20 Ollama calls + yfinance + Alpha Vantage).
 # Requires: repo-root .env with ALPHAVANTAGE_API_KEY for news (optional but recommended).
 
 param(
-    [string]$Tickers = "PLTR,NVDA,LMT,RTX,TTE,E,GOLD,CRWD,FRO,NOC"
+    [string]$Tickers = "PLTR,TTE,GOLD,LMT,FRO"
 )
 
 $ErrorActionPreference = "Continue"
@@ -22,7 +22,7 @@ $latest = Join-Path $logDir "full_run_latest.txt"
 
 Write-Host "Repo: $RepoRoot"
 Write-Host "Log:  $logFile"
-Write-Host "Estimate: ~50–90 min for 10 tickers (hardware dependent)."
+Write-Host "Estimate: ~15–35 min for 5 tickers (hardware dependent)."
 if (-not (Test-Path (Join-Path $RepoRoot ".env"))) {
     Write-Warning "No .env at repo root — Alpha Vantage key may be missing. Copy .env.example to .env"
 }

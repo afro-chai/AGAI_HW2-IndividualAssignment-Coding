@@ -6,7 +6,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 OUT = REPO / "outputs"
-TICKERS = ["PLTR", "NVDA", "LMT", "RTX", "TTE", "E", "GOLD", "CRWD", "FRO", "NOC"]
+TICKERS = ["PLTR", "TTE", "GOLD", "LMT", "FRO"]
 
 
 def main() -> None:

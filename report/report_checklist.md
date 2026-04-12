@@ -2,7 +2,7 @@
 
 - [ ] Strategy Selection and Rationale
 - [ ] System Architecture + diagram
-- [ ] Stock Selection and Rationale (default **10** defense/geopolitics tickers; see `report/DEFENSE_GEOPOLITICS_UNIVERSE.md`)
+- [ ] Stock Selection and Rationale (default **5** defense/geopolitics tickers; see `report/DEFENSE_GEOPOLITICS_UNIVERSE.md`)
 - [ ] Results by Stock (include JSON excerpts)
 - [ ] Patterns of Agreement and Disagreement (quantitative)
 - [ ] Failure or Surprise Case

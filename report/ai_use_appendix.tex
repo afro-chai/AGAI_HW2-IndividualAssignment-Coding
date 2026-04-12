@@ -108,7 +108,7 @@ ticker. They differ slightly in rationale emphasis, but the final
 recommendation is aligned."
 \end{verbatim}
 
-\noindent\textbf{Aggregate snapshot (illustrative):} the committed \texttt{outputs/summary.json} for the \textbf{2026-04-12} ten-ticker defense basket shows \texttt{total\_agreements: 10} (live Ollama). I verified per-ticker JSON, including \texttt{news\_features} (mostly empty after Alpha Vantage \textbf{daily} free-tier limits) and confidence spreads. Upstream AV notes can echo a raw key substring; \texttt{src/market\_data.py} scrubs that pattern before writing JSON, and I re-scanned committed files so secrets do not ship in \texttt{outputs/}.
+\noindent\textbf{Aggregate snapshot (illustrative):} the retained \texttt{outputs/summary.json} for the \textbf{default five-ticker} defense basket shows \texttt{total\_agreements: 5} (live Ollama decisions/confidences carried over from the 2026-04-12 run for symbols still in the basket). I verified per-ticker JSON, including \texttt{news\_features} (often empty under Alpha Vantage \textbf{daily} free-tier limits) and confidence spreads. Upstream AV notes can echo a raw key substring; \texttt{src/market\_data.py} scrubs that pattern before writing JSON, and I re-scanned committed files so secrets do not ship in \texttt{outputs/}.
 
 \section{File-level attribution (accept / revise / reject)}
 \begin{table}[h]
@@ -121,7 +121,7 @@ recommendation is aligned."
     \texttt{src/*.py}, \texttt{prompts/*.txt} & Cursor-assisted scaffold and orchestration & Revised: tightened prompts and guards after manual read \\
     \texttt{README.md}, \texttt{docs/*.md} & Early drafts from Cursor & Revised: accuracy, secrets hygiene, Alpha Vantage notes \\
     \texttt{report/*.tex} & Initial structure from Cursor; rubric feedback from ChatGPT & Revised: my voice, rubric alignment, quantitative checks \\
-    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: decisions, confidences, \texttt{news\_features}; watch Alpha Vantage pacing on ten tickers \\
+    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: decisions, confidences, \texttt{news\_features}; five tickers $\Rightarrow$ five AV news calls per full run \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -136,7 +136,7 @@ recommendation is aligned."
 \section{One weak or surprising model output (example)}
 \textbf{Issue 1 (example):} Moral Trader prose occasionally contradicted numeric \texttt{avg\_sentiment\_score} in retained JSON---prompt tightening and manual review.
 
-\textbf{Issue 2 (example):} On a ten-ticker pass, Alpha Vantage returned empty feeds with \texttt{note} text explaining \textbf{daily} free-tier caps (and, on NVDA in the same run, a \textbf{spacing} message). Mitigate with premium tier, \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}, \texttt{--ticker-workers 1}, or splitting runs across days.
+\textbf{Issue 2 (example):} On larger batches, Alpha Vantage returned empty feeds with \texttt{note} text explaining \textbf{daily} free-tier caps (sometimes a \textbf{spacing} message between calls). The default basket was later reduced to \textbf{five} tickers to cut calls per run; mitigations still include premium tier, \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}, and \texttt{--ticker-workers 1}.
 
 \textbf{Response:} Tighter prompts to cite only signed fields; optional \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}; evaluator guard in \texttt{src/evaluator.py} for contradictory ``agreement'' wording when decisions are unanimous.
 

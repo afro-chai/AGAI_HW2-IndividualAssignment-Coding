@@ -64,7 +64,7 @@ docs/          # this handoff, ALPHA_VANTAGE.md, assets/ (optional local screens
    - On a **new clone or machine:** copy `.env.example` → `.env` and paste the key again (or copy your private `.env` over securely).
    - API reference: [alphavantage.co/documentation](https://www.alphavantage.co/documentation/) (NEWS_SENTIMENT). Key signup: [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key). Build notes for *this* repo: [`ALPHA_VANTAGE.md`](ALPHA_VANTAGE.md). Optional citations for reports: [Trading Agents](https://trading-agents.ai/), [Alpha Vantage MCP](https://mcp.alphavantage.co/).
    - Optional welcome/key screenshot: save locally as `docs/assets/alphavantage-welcome.png` (**gitignored**, not in remote — hygiene).
-   - Free tier has **request limits**; empty/no news handling is already in code. Use `ALPHAVANTAGE_MIN_INTERVAL_SEC` if you burst too many tickers.
+   - Free tier has **request limits**; empty/no news handling is already in code. Default **five** tickers ⇒ **five** `NEWS_SENTIMENT` calls per full run; use `ALPHAVANTAGE_MIN_INTERVAL_SEC` if you still burst the limit.
 
 3. **Re-run full pipeline for submission-quality JSON**
    - Do **not** set `STOCKTRADER_SKIP_LLM=1` for final outputs.
