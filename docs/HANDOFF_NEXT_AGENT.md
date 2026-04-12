@@ -13,7 +13,7 @@
 | **Machine context** | Prior development on **laptop**; **new desktop** may have a clean OS — assume **no Ollama**, possibly fresh Python/venv. |
 | **Git** | Latest work should be on `master`; student pulls before continuing. |
 | **Local LLM** | App expects **Ollama** at `http://localhost:11434` by default (`OLLAMA_HOST`). Model env: `OLLAMA_MODEL` (e.g. `llama3.2`). |
-| **News API (assignment requirement)** | **Alpha Vantage** free key for News Sentiment Follower. **Due out:** user should obtain key and set `ALPHAVANTAGE_API_KEY` in `.env`. Without it, code still runs: `news_features` shows empty feed and strategies must handle “no news” (implemented). |
+| **News API (assignment requirement)** | **Alpha Vantage** key obtained (student account). Set **`ALPHAVANTAGE_API_KEY` only in repo-root `.env`** (gitignored — **never commit** the key or paste it into tracked docs). Copy `.env` to each machine (laptop/desktop) that runs the pipeline. Without a key in `.env`, code still runs with empty news (implemented). |
 | **Your role as the next agent** | **Guide the user** through: (1) clone/pull, (2) venv + `pip install -r requirements.txt`, (3) **install Ollama + pull a model**, (4) create `.env` from `.env.example` and add **Alpha Vantage key**, (5) run the pipeline without `STOCKTRADER_SKIP_LLM`, (6) finish report PDFs in `report/`. |
 
 ---
@@ -59,10 +59,10 @@ docs/          # this handoff
    - Pull a model: e.g. `ollama pull llama3.2`
    - Ensure the Ollama app/service is running before Python runs.
 
-2. **Alpha Vantage API key (strongly recommended for News strategy fidelity)**
-   - Free key: [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key)
-   - Copy `.env.example` → `.env` in repo root; set `ALPHAVANTAGE_API_KEY=...`
-   - Note: free tier has **daily request limits**; assignment requires handling empty/no news — already in code.
+2. **Alpha Vantage API key (News Sentiment fidelity)**
+   - Key is issued; **store the value only in local `.env`** at repo root (`ALPHAVANTAGE_API_KEY=...`). Do not commit `.env` or embed the key in README/handoff/issues.
+   - On a **new clone or machine:** copy `.env.example` → `.env` and paste the key again (or copy your private `.env` over securely).
+   - Doc: [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key). Free tier has **daily request limits**; empty/no news handling is already in code.
 
 3. **Re-run full pipeline for submission-quality JSON**
    - Do **not** set `STOCKTRADER_SKIP_LLM=1` for final outputs.
@@ -113,4 +113,4 @@ docs/          # this handoff
 
 ---
 
-**End handoff.** The next agent should treat **Ollama install + Alpha Vantage `.env` setup** as the top user-facing onboarding tasks on the new desktop.
+**End handoff.** On a **new desktop**, prioritize **Ollama install** and a **local `.env`** with `ALPHAVANTAGE_API_KEY` (same key as the student’s Alpha Vantage account — never put secrets in git).
