@@ -97,36 +97,53 @@
   </figure>
 
   <div class="wt-repo-wrap" id="repo-map">
-    <h2>Repository map (clickable)</h2>
+    <h2>Repository layout (clickable)</h2>
     <div class="wt-repo-tree">AGAI_HW2-IndividualAssignment-Coding/
-├── <a href="../../README.md">README.md</a> — grader-facing setup &amp; checklist
+├── <a href="../../README.md">README.md</a>
 ├── <a href="../../requirements.txt">requirements.txt</a>
 ├── <a href="../../.env.example">.env.example</a>
+├── <a href="../../.gitignore">.gitignore</a>
 ├── src/
-│   ├── <a href="../../src/README.md">README.md</a> — execution flow, Mermaid, module map
-│   ├── <a href="../../src/main.py">main.py</a> — CLI, tickers, summary + optional backtest
-│   ├── <a href="../../src/orchestration.py">orchestration.py</a> — parallel strategies + evaluator
-│   ├── <a href="../../src/market_data.py">market_data.py</a> — yfinance + Alpha Vantage
-│   └── <a href="../../src/evaluator.py">evaluator.py</a> — branching evaluator task
+│   ├── <a href="../../src/README.md">README.md</a>
+│   ├── <a href="../../src/__init__.py">__init__.py</a>
+│   ├── <a href="../../src/main.py">main.py</a> — CLI, merge JSON, summary, optional backtest
+│   ├── <a href="../../src/orchestration.py">orchestration.py</a> — parallel strategies + evaluator calls
+│   ├── <a href="../../src/market_data.py">market_data.py</a> — yfinance + optional Alpha Vantage
+│   ├── <a href="../../src/strategies.py">strategies.py</a> — strategy agent wiring
+│   ├── <a href="../../src/evaluator.py">evaluator.py</a> — evaluator task + pattern_note
+│   ├── <a href="../../src/schemas.py">schemas.py</a> — Pydantic shapes
+│   ├── <a href="../../src/llm_factory.py">llm_factory.py</a> — Ollama / LiteLLM client
+│   └── <a href="../../src/backtest.py">backtest.py</a> — optional historical scorecard
 ├── prompts/
+│   ├── <a href="../../prompts/README.md">README.md</a>
 │   ├── <a href="../../prompts/strategy_news_sentiment.txt">strategy_news_sentiment.txt</a>
 │   ├── <a href="../../prompts/strategy_volatility_averse.txt">strategy_volatility_averse.txt</a>
 │   ├── <a href="../../prompts/strategy_moral_trader.txt">strategy_moral_trader.txt</a>
 │   └── <a href="../../prompts/evaluator.txt">evaluator.txt</a>
-├── outputs/ — committed sample JSON for grading
+├── outputs/
+│   ├── <a href="../../outputs/README.md">README.md</a>
+│   ├── <a href="../../outputs/summary.json">summary.json</a> · <a href="../../outputs/backtest.json">backtest.json</a>
+│   └── <a href="../../outputs/PLTR.json">PLTR.json</a> … <a href="../../outputs/FRO.json">FRO.json</a> (per-ticker samples)
 └── report/
+    ├── <a href="../README.md">README.md</a>
     ├── <a href="../comparative_analysis.tex">comparative_analysis.tex</a>
+    ├── <a href="../ai_use_appendix.tex">ai_use_appendix.tex</a>
+    ├── <a href="../DEFENSE_GEOPOLITICS_UNIVERSE.md">DEFENSE_GEOPOLITICS_UNIVERSE.md</a>
     └── walkthrough/  <span class="wt-you-are-here">◀— you are here</span>
+        ├── <a href="README.md">README.md</a>
+        ├── <a href="walkthrough.css">walkthrough.css</a> · <a href="agent_canvas.css">agent_canvas.css</a> · <a href="project_hub.css">project_hub.css</a> · <a href="site_nav.css">site_nav.css</a>
         ├── <a href="StockTrader_Walkthrough_Home.html">StockTrader_Walkthrough_Home.html</a> (this page)
-        ├── <a href="Walkthrough_Papers.html">Walkthrough_Papers.html</a> — written report + AI appendix (HTML hub)
-        ├── <a href="Walkthrough_MarketData.html">Walkthrough_MarketData.html</a> — data layer, default tickers, 15 substitute-symbol panels
-        ├── <a href="Walkthrough_Artifacts.html">Walkthrough_Artifacts.html</a> — outputs, write order, sample files
+        ├── <a href="Walkthrough_Papers.html">Walkthrough_Papers.html</a> — PDFs + LaTeX hub
+        ├── <a href="Walkthrough_MarketData.html">Walkthrough_MarketData.html</a>
+        ├── <a href="Walkthrough_Artifacts.html">Walkthrough_Artifacts.html</a>
         ├── <a href="StockTrader_MultiAgent_System_Canvas.html">StockTrader_MultiAgent_System_Canvas.html</a>
         ├── <a href="AgentCanvas_StrategyA_NewsSentiment.html">AgentCanvas_StrategyA_NewsSentiment.html</a>
         ├── <a href="AgentCanvas_StrategyB_VolatilityAverse.html">AgentCanvas_StrategyB_VolatilityAverse.html</a>
         ├── <a href="AgentCanvas_StrategyC_MoralTrader.html">AgentCanvas_StrategyC_MoralTrader.html</a>
-        └── <a href="AgentCanvas_Evaluator.html">AgentCanvas_Evaluator.html</a></div>
-    <p class="wt-repo-note">Diagram is conceptual; arrows match <code>orchestration.py</code>. Open HTML from the repo clone so relative links to <code>src/</code>, <code>prompts/</code>, and <code>outputs/</code> resolve.</p>
+        ├── <a href="AgentCanvas_Evaluator.html">AgentCanvas_Evaluator.html</a>
+        ├── <a href="build_side_homes.py">build_side_homes.py</a> · <a href="gen_agent_canvases.py">gen_agent_canvases.py</a> · <a href="wrap_html_lines.py">wrap_html_lines.py</a>
+        └── img/ — <a href="img/readme-conceptual-architecture.png">readme-conceptual-architecture.png</a> (README figure)</div>
+    <p class="wt-repo-note">Tree matches the committed repository layout (see root <a href="../../README.md">README</a> architecture section). Open HTML from a clone so links to <code>src/</code>, <code>prompts/</code>, and <code>outputs/</code> resolve. Optional submission PDFs may live under <code>report/</code> next to the <code>.tex</code> sources.</p>
   </div>
 
   <footer class="wt-footer">

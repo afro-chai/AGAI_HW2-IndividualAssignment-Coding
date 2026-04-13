@@ -78,16 +78,42 @@ list gaps, missing quantitative evidence, or unclear claims only.
 Do not rewrite the whole report; bullet prioritized fixes.
 \end{verbatim}
 
-\section{Representative model output (pipeline excerpt)}
-Evaluator-style consolidation (example pattern; exact wording varies by run):
+\section{Representative outputs (authoring tools; not Ollama runtime)}
+This subsection is about \textbf{generative assistance while building the project and the report}---what came back from \textbf{Cursor} and \textbf{ChatGPT} when I used the kinds of prompts in the previous section. It is \textbf{not} a sample of the StockTrader pipeline's on-ticker LLM outputs (Ollama strategy/evaluator text inside \texttt{outputs/*.json}); those are assignment \emph{runtime} inference and are disclosed elsewhere in this appendix. The patterns below are paraphrased or shortened; they show how the tools tended to \emph{continue} a thread---scaffolding, checks, documentation---rather than only mirroring my prompt text.
 
+\subsection*{Repository scaffold and layout (Cursor)}
 \begin{verbatim}
-"analysis": "All strategy agents converge on the same decision for this
-ticker. They differ slightly in rationale emphasis, but the final
-recommendation is aligned."
+Proposed tree: src/main.py CLI, src/orchestration.py with asyncio.gather
+for three AssistantAgent calls, prompts/*.txt, outputs/ for JSON.
+Add schemas.py for Pydantic shapes; wire evaluator after strategies.
+You should trace one ticker end-to-end and confirm no cross-strategy
+reads before evaluation.
 \end{verbatim}
 
-\noindent\textbf{Aggregate snapshot (illustrative):} the committed \texttt{outputs/summary.json} for the \textbf{five-ticker} basket reports \texttt{total\_agreements: 1} and \texttt{total\_disagreements: 4} (only \textbf{GOLD} is three-way unanimous SELL; \textbf{TTE} and \textbf{FRO} are full BUY/SELL/HOLD splits). I verified per-ticker JSON and evaluator \texttt{pattern\_note} fields. Alpha Vantage informational strings are scrubbed in \texttt{src/market\_data.py} before JSON is written.
+\subsection*{Hygiene and secrets (Cursor; follow-up to HANDOFF / .env work)}
+\begin{verbatim}
+Keep ALPHAVANTAGE_API_KEY only in repo-root .env (gitignored). Optional
+secrets/alphavantage_api_key.txt path is documented in secrets/README.md;
+confirm .gitignore covers .env and secrets/. I can suggest a pre-commit
+grep for key-like strings; you run it locally before push.
+\end{verbatim}
+
+\subsection*{README and grader-facing docs (Cursor)}
+\begin{verbatim}
+Draft bullets: venv activate (PowerShell), PYTHONPATH at repo root,
+python -m src.main --backtest. Note STOCKTRADER_SKIP_LLM for CI vs full
+Ollama run. Tone: factual, no key material in README.
+\end{verbatim}
+
+\subsection*{Rubric stress-test (ChatGPT; responds to draft + rubric paste)}
+\begin{verbatim}
+Prioritized gaps: (1) Tie narrative numbers to a named committed run or
+outputs/*.json snapshot. (2) Say explicitly when news_features was empty.
+(3) One paragraph on Moral Trader as extension vs graded pair. I am
+not rewriting your PDF---address these, then tighten wording yourself.
+\end{verbatim}
+
+\noindent\textbf{How I used these outputs.} I did \textbf{not} treat any block as authoritative: I compared suggestions against the assignment, my own code reading, and CLI runs; rejected or rewrote generic or wrong steps; and separated this workflow from \textbf{Ollama}, which only runs inside \texttt{src/} for strategies and the evaluator when executing the pipeline. If a reply mostly repeated an earlier prompt, I asked for a concrete delta or stopped using that thread.
 
 \section{File-level attribution (accept / revise / reject)}
 \noindent
