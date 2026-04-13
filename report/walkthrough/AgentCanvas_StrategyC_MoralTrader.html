@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Agent canvas — Strategy C (Moral Trader)</title>
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#f5f3ff; color:#0f172a; line-height:1.5; }
+    header { background:#5b21b6; color:#fff; padding:1rem 1.25rem; }
+    nav { background:#ddd6fe; padding:0.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; }
+    nav a { color:#5b21b6; font-weight:600; text-decoration:none; }
+    main { max-width:720px; margin:0 auto; padding:1.25rem; }
+    .panel { background:#fff; border:1px solid #a78bfa; border-radius:10px; padding:1rem; margin-bottom:1rem; }
+    .panel h2 { margin:0 0 0.5rem; font-size:1rem; }
+    code { background:#ede9fe; padding:0.1em 0.35em; border-radius:4px; font-size:0.9em; }
+  </style>
+</head>
+<body>
+  <header><h1>Strategy C — Moral Trader (extension)</h1></header>
+  <nav>
+    <a href="StockTrader_Walkthrough_Home.html">Home</a>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A</a>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
+    <strong>Strategy C</strong>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+  </nav>
+  <main>
+    <div class="panel">
+      <h2>Role</h2>
+      <p>Third parallel branch: <strong>narrative opacity, accountability, governance</strong> framing on the same JSON (optional extension for the course).</p>
+    </div>
+    <div class="panel">
+      <h2>Code & prompt</h2>
+      <p><code>prompts/strategy_moral_trader.txt</code> · output key <code>strategy_c</code>.</p>
+    </div>
+    <div class="panel">
+      <h2>I/O</h2>
+      <p><strong>IN:</strong> same payload as A/B.<br/><strong>OUT:</strong> <code>strategy_c</code>; evaluator uses all three for <code>agents_agree</code> (unanimous three-way).</p>
+    </div>
+  </main>
+</body>
+</html>

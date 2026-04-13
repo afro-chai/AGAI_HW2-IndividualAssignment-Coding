@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>StockTrader — Architecture walkthrough (home)</title>
+  <style>
+    :root { --ink:#0f172a; --muted:#475569; --line:#94a3b8; --fill:#f8fafc; --accent:#1d4ed8; --card:#fff; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, Segoe UI, Roboto, sans-serif; color:var(--ink); background:var(--fill); line-height:1.5; }
+    header { background:var(--ink); color:#fff; padding:1.25rem 1.5rem; }
+    header h1 { margin:0; font-size:1.35rem; font-weight:700; }
+    header p { margin:0.35rem 0 0; opacity:0.85; font-size:0.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:0.5rem 1rem; padding:0.75rem 1.5rem; background:#e2e8f0; border-bottom:1px solid var(--line); }
+    nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    nav a:hover { text-decoration:underline; }
+    main { max-width:920px; margin:0 auto; padding:1.5rem; }
+    .lede { font-size:1.05rem; color:var(--muted); margin-bottom:1.5rem; }
+    .diagram-wrap { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem; margin:1rem 0 2rem; }
+    .diagram-wrap h2 { margin:0 0 0.75rem; font-size:1rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); }
+    svg { width:100%; height:auto; display:block; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-top:1.5rem; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem; }
+    .card h3 { margin:0 0 0.5rem; font-size:0.95rem; }
+    .card p { margin:0; font-size:0.88rem; color:var(--muted); }
+    .card a { font-weight:600; color:var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>StockTrader — multi-agent walkthrough</h1>
+    <p>94815 Agentic Technologies · HW2 · Same topology as <code>report/comparative_analysis.tex</code> (TikZ figure)</p>
+  </header>
+  <nav aria-label="Walkthrough pages">
+    <span><strong>Home</strong></span>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A — News</a>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B — Volatility</a>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C — Moral</a>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+  </nav>
+  <main>
+    <p class="lede">
+      One <strong>market JSON</strong> per ticker is built from yfinance (+ optional Alpha Vantage news). Three
+      <strong>AutoGen <code>AssistantAgent</code></strong> instances run <em>in parallel</em> with isolated prompts; their structured outputs feed a single
+      <strong>evaluator</strong> pass. No strategy sees another strategy’s text until evaluation.
+    </p>
+    <div class="diagram-wrap">
+      <h2>Conceptual diagram (3 + 1 agents)</h2>
+      <svg viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg" aria-label="Market data fans out to three strategy agents, then evaluator">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+          </marker>
+        </defs>
+        <rect x="200" y="16" width="240" height="56" rx="10" fill="#1e293b" stroke="#0f172a"/>
+        <text x="320" y="42" text-anchor="middle" fill="#fff" font-size="14" font-family="system-ui,sans-serif" font-weight="700">MarketData</text>
+        <text x="320" y="60" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui,sans-serif">yfinance + features + optional AV news</text>
+        <line x1="320" y1="72" x2="320" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="320" y1="100" x2="120" y2="100" stroke="#64748b" stroke-width="2"/>
+        <line x1="320" y1="100" x2="320" y2="100" stroke="#64748b" stroke-width="2"/>
+        <line x1="320" y1="100" x2="520" y2="100" stroke="#64748b" stroke-width="2"/>
+        <line x1="120" y1="100" x2="120" y2="118" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="320" y1="100" x2="320" y2="118" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="520" y1="100" x2="520" y2="118" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="40" y="120" width="160" height="72" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="120" y="148" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="700" font-family="system-ui,sans-serif">Strategy A</text>
+        <text x="120" y="168" text-anchor="middle" fill="#1e40af" font-size="11" font-family="system-ui,sans-serif">News Sentiment</text>
+        <rect x="240" y="120" width="160" height="72" rx="10" fill="#fef3c7" stroke="#d97706"/>
+        <text x="320" y="148" text-anchor="middle" fill="#78350f" font-size="13" font-weight="700" font-family="system-ui,sans-serif">Strategy B</text>
+        <text x="320" y="168" text-anchor="middle" fill="#92400e" font-size="11" font-family="system-ui,sans-serif">Volatility Averse</text>
+        <rect x="440" y="120" width="160" height="72" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
+        <text x="520" y="148" text-anchor="middle" fill="#4c1d95" font-size="13" font-weight="700" font-family="system-ui,sans-serif">Strategy C</text>
+        <text x="520" y="168" text-anchor="middle" fill="#5b21b6" font-size="11" font-family="system-ui,sans-serif">Moral Trader</text>
+        <line x1="120" y1="192" x2="200" y2="260" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="320" y1="192" x2="320" y2="260" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="520" y1="192" x2="440" y2="260" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="200" y="268" width="240" height="64" rx="10" fill="#0f766e" stroke="#0d9488"/>
+        <text x="320" y="296" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="system-ui,sans-serif">Evaluator</text>
+        <text x="320" y="316" text-anchor="middle" fill="#ccfbf1" font-size="11" font-family="system-ui,sans-serif">Compare structured A/B/C · branch-specific prompt</text>
+        <text x="320" y="360" text-anchor="middle" fill="#64748b" font-size="11" font-family="system-ui,sans-serif">→ outputs/&lt;TICKER&gt;.json</text>
+      </svg>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>System canvas</h3>
+        <p>End-to-end control flow, parallelism, and persistence.</p>
+        <p><a href="StockTrader_MultiAgent_System_Canvas.html">Open →</a></p>
+      </div>
+      <div class="card">
+        <h3>Source of truth</h3>
+        <p>Implementation details and Mermaid diagrams live in <code>src/README.md</code> (repository root).</p>
+      </div>
+      <div class="card">
+        <h3>PDF report</h3>
+        <p>Formal write-up and TikZ figure: <code>report/comparative_analysis.tex</code>.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

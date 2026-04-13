@@ -19,7 +19,7 @@ Multi-agent stock signal system for course submission. This README is structured
 | [`src/`](src/) | Application code: CLI, market data, orchestration, strategies, evaluator, backtest. |
 | [`prompts/`](prompts/) | Saved strategy and evaluator prompts (text files for grading). |
 | [`outputs/`](outputs/) | Per-ticker JSON, `summary.json`, optional `backtest.json` (sample outputs included). |
-| [`report/`](report/) | Written analysis (LaTeX sources, defense universe note). |
+| [`report/`](report/) | Written analysis (LaTeX, defense universe note, optional HTML walkthrough under `report/walkthrough/`). |
 | [`requirements.txt`](requirements.txt) | Python dependencies. |
 | [`.env.example`](.env.example) | Example environment file (copy to `.env`, not committed). |
 
@@ -105,7 +105,7 @@ python -m src.main --backtest
 
 ---
 
-## Project productivity checkpoints (optional)
+## Project productivity checkpoints
 
 Use as a personal progress list (not required for graders):
 
@@ -117,12 +117,3 @@ Use as a personal progress list (not required for graders):
 - [x] **C5 — Backtest** — `outputs/backtest.json` when using `--backtest`.
 - [x] **C6 — Report PDFs** — `report/comparative_analysis.tex` → `report.pdf`; AI use appendix per course.
 - [x] **C7 — GitHub** — Pushed `master` with README and `requirements.txt`.
-
----
-
-## Personal checklist (student)
-
-- [x] `.env` present locally (never commit).
-- [x] Run full pipeline without `STOCKTRADER_SKIP_LLM` for final JSON.
-- [x] Build `report/report.pdf` and AI appendix per course naming.
-- [x] Confirm `outputs/` committed reflects the run you cite in the report.

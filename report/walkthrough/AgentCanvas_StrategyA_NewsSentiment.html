@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Agent canvas — Strategy A (News Sentiment)</title>
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#eff6ff; color:#0f172a; line-height:1.5; }
+    header { background:#1e40af; color:#fff; padding:1rem 1.25rem; }
+    nav { background:#bfdbfe; padding:0.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; }
+    nav a { color:#1d4ed8; font-weight:600; text-decoration:none; }
+    main { max-width:720px; margin:0 auto; padding:1.25rem; }
+    .panel { background:#fff; border:1px solid #93c5fd; border-radius:10px; padding:1rem; margin-bottom:1rem; }
+    .panel h2 { margin:0 0 0.5rem; font-size:1rem; }
+    code { background:#e0e7ff; padding:0.1em 0.35em; border-radius:4px; font-size:0.9em; }
+  </style>
+</head>
+<body>
+  <header><h1>Strategy A — News Sentiment Follower</h1></header>
+  <nav>
+    <a href="StockTrader_Walkthrough_Home.html">Home</a>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
+    <strong>Strategy A</strong>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C</a>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+  </nav>
+  <main>
+    <div class="panel">
+      <h2>Role</h2>
+      <p>Weights <strong>headlines and sentiment</strong> when present; uses conservative fallbacks when <code>news_features</code> is empty.</p>
+    </div>
+    <div class="panel">
+      <h2>Code & prompt</h2>
+      <p><code>src/orchestration.py</code> → <code>AssistantAgent</code> with <code>prompts/strategy_news_sentiment.txt</code>.</p>
+      <p>Structured output: <code>src/schemas.py</code> → <code>StrategyStructured</code>.</p>
+    </div>
+    <div class="panel">
+      <h2>I/O</h2>
+      <p><strong>IN:</strong> same market JSON as B/C.<br/><strong>OUT:</strong> <code>strategy_a</code> block in per-ticker JSON.</p>
+    </div>
+  </main>
+</body>
+</html>

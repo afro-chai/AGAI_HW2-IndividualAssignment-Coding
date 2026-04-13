@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Agent canvas — Evaluator</title>
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#ecfdf5; color:#0f172a; line-height:1.5; }
+    header { background:#047857; color:#fff; padding:1rem 1.25rem; }
+    nav { background:#a7f3d0; padding:0.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; }
+    nav a { color:#065f46; font-weight:600; text-decoration:none; }
+    main { max-width:720px; margin:0 auto; padding:1.25rem; }
+    .panel { background:#fff; border:1px solid #34d399; border-radius:10px; padding:1rem; margin-bottom:1rem; }
+    .panel h2 { margin:0 0 0.5rem; font-size:1rem; }
+    code { background:#d1fae5; padding:0.1em 0.35em; border-radius:4px; font-size:0.9em; }
+  </style>
+</head>
+<body>
+  <header><h1>Evaluator — fourth agent (meta)</h1></header>
+  <nav>
+    <a href="StockTrader_Walkthrough_Home.html">Home</a>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A</a>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C</a>
+    <strong>Evaluator</strong>
+  </nav>
+  <main>
+    <div class="panel">
+      <h2>Role</h2>
+      <p>Consumes <strong>three fixed structured outputs</strong>. Must explain <em>why</em> philosophies converge or diverge—not only restate BUY/HOLD/SELL labels.</p>
+    </div>
+    <div class="panel">
+      <h2>Branching logic (<code>evaluator.py</code>)</h2>
+      <ul>
+        <li><strong>Full agreement</strong> — all three decisions equal → task stresses different emphases despite same label.</li>
+        <li><strong>Graded pair agrees, Moral may differ</strong> — explain A/B convergence + Moral’s angle.</li>
+        <li><strong>Graded disagreement</strong> — explain mechanism (e.g. empty news vs tail-risk gates).</li>
+        <li><code>pattern_note</code> is always derived from <code>(News, Vol, Moral)</code> decisions in Python.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>Artifacts</h2>
+      <p><code>evaluator</code> object inside each <code>outputs/&lt;TICKER&gt;.json</code>; schema <code>EvaluatorStructured</code> in <code>schemas.py</code>.</p>
+    </div>
+  </main>
+</body>
+</html>

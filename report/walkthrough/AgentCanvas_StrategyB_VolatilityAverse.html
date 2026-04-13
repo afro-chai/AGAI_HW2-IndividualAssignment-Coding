@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Agent canvas — Strategy B (Volatility Averse)</title>
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#fffbeb; color:#0f172a; line-height:1.5; }
+    header { background:#b45309; color:#fff; padding:1rem 1.25rem; }
+    nav { background:#fde68a; padding:0.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; }
+    nav a { color:#92400e; font-weight:600; text-decoration:none; }
+    main { max-width:720px; margin:0 auto; padding:1.25rem; }
+    .panel { background:#fff; border:1px solid #fbbf24; border-radius:10px; padding:1rem; margin-bottom:1rem; }
+    .panel h2 { margin:0 0 0.5rem; font-size:1rem; }
+    code { background:#fef3c7; padding:0.1em 0.35em; border-radius:4px; font-size:0.9em; }
+  </style>
+</head>
+<body>
+  <header><h1>Strategy B — Volatility Averse</h1></header>
+  <nav>
+    <a href="StockTrader_Walkthrough_Home.html">Home</a>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A</a>
+    <strong>Strategy B</strong>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C</a>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+  </nav>
+  <main>
+    <div class="panel">
+      <h2>Role</h2>
+      <p>Prioritizes <strong>realized turbulence</strong>, drawdown depth, ATR vs price, and calm-tape vs elevated-tape rules. Justifications should read in <strong>plain English first</strong> (see prompt).</p>
+    </div>
+    <div class="panel">
+      <h2>Code & prompt</h2>
+      <p><code>src/orchestration.py</code> → <code>prompts/strategy_volatility_averse.txt</code>.</p>
+      <p>Structured output: <code>StrategyStructured</code> → stored as <code>strategy_b</code>.</p>
+    </div>
+    <div class="panel">
+      <h2>I/O</h2>
+      <p><strong>IN:</strong> same market JSON as A/C.<br/><strong>OUT:</strong> <code>strategy_b</code> in per-ticker JSON.</p>
+    </div>
+  </main>
+</body>
+</html>

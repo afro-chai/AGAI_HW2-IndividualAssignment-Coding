@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>StockTrader — Multi-agent system canvas</title>
+  <style>
+    :root { --ink:#0f172a; --muted:#475569; --line:#cbd5e1; --z1:#eff6ff; --z2:#fffbeb; --z3:#f5f3ff; --z4:#ecfdf5; }
+    body { margin:0; font-family:system-ui,sans-serif; color:var(--ink); background:#f1f5f9; line-height:1.45; }
+    header { background:#0f172a; color:#fff; padding:1rem 1.25rem; }
+    header h1 { margin:0; font-size:1.2rem; }
+    nav { display:flex; flex-wrap:wrap; gap:0.5rem 1rem; padding:0.65rem 1.25rem; background:#e2e8f0; }
+    nav a { color:#1d4ed8; font-weight:600; text-decoration:none; }
+    main { max-width:900px; margin:0 auto; padding:1.25rem; }
+    .zone { border-radius:12px; padding:1rem 1.1rem; margin-bottom:1rem; border:1px solid var(--line); }
+    .z1 { background:var(--z1); border-left:4px solid #2563eb; }
+    .z2 { background:var(--z2); border-left:4px solid #d97706; }
+    .z3 { background:var(--z3); border-left:4px solid #7c3aed; }
+    .z4 { background:var(--z4); border-left:4px solid #059669; }
+    .zone h2 { margin:0 0 0.5rem; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+    .zone ul { margin:0; padding-left:1.1rem; font-size:0.92rem; }
+    pre { background:#0f172a; color:#e2e8f0; padding:0.85rem 1rem; border-radius:8px; overflow:auto; font-size:0.78rem; margin:0.5rem 0 0; }
+  </style>
+</head>
+<body>
+  <header><h1>Multi-agent system canvas — StockTrader</h1></header>
+  <nav>
+    <a href="StockTrader_Walkthrough_Home.html">Home</a>
+    <strong>System canvas</strong>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A</a>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C</a>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+  </nav>
+  <main>
+    <div class="zone z1">
+      <h2>Zone 1 — Entry & concurrency</h2>
+      <ul>
+        <li><code>src/main.py</code>: parses CLI, loads <code>.env</code>, optional <code>--backtest</code>.</li>
+        <li>Per ticker: semaphore-limited <code>asyncio.gather</code> across tickers; inside each ticker, another <code>gather</code> for three strategies.</li>
+      </ul>
+      <pre>asyncio.gather(run_parallel_analysis(t) for t in tickers)</pre>
+    </div>
+    <div class="zone z2">
+      <h2>Zone 2 — Data plane (no LLM)</h2>
+      <ul>
+        <li><code>build_market_payload(ticker)</code> in <code>market_data.py</code>: yfinance summary + optional Alpha Vantage <code>NEWS_SENTIMENT</code>.</li>
+        <li>Output is one JSON-serializable dict passed as the user message body to every strategy.</li>
+      </ul>
+    </div>
+    <div class="zone z3">
+      <h2>Zone 3 — Three parallel LLM branches</h2>
+      <ul>
+        <li><code>orchestration._run_one_strategy</code> × 3 with distinct <code>system_message</code> from <code>prompts/strategy_*.txt</code>.</li>
+        <li>Each returns <code>StrategyStructured</code>: <code>decision</code>, <code>confidence</code>, <code>justification</code>.</li>
+        <li>No agent reads another agent’s output during this phase.</li>
+      </ul>
+    </div>
+    <div class="zone z4">
+      <h2>Zone 4 — Evaluator & artifacts</h2>
+      <ul>
+        <li><code>run_evaluator([a,b,c])</code>: task text branches on unanimity / graded pair agreement (<code>evaluator.py</code>).</li>
+        <li><code>pattern_note</code> is set deterministically from the three decisions (not LLM-invented).</li>
+        <li>Write <code>outputs/&lt;TICKER&gt;.json</code>; then <code>summary.json</code>; optional <code>backtest.json</code> via <code>backtest.py</code>.</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
