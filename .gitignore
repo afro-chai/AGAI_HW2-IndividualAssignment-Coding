@@ -12,23 +12,11 @@ PLAN.md
 report/LATEX_BUILD.md
 report/report_checklist.md
 
-# Run transcripts (keep folder stubs only)
-logs/*
-!logs/README.md
-!logs/.gitkeep
-
-# Secrets: ignore contents; keep README for path documentation
-secrets/*
-!secrets/README.md
-
-# Optional raw key file (legacy path)
-secrets/alphavantage_api_key.txt
-
-# May show API key in a screenshot — keep local only
-docs/assets/alphavantage-welcome.png
+# Entire directories: local-only (not part of the clone for grading)
+docs/
+scripts/
+logs/
+secrets/
 
 # Local assignment brief / notes (not part of submission tree)
 Instructions/
-
-# Note: `scripts/` and `docs/` remain tracked so graders can run helpers and read supplemental docs.
-# To exclude locally only, use `.git/info/exclude` or a second clone.
