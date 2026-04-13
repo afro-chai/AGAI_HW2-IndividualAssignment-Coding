@@ -1,0 +1,1156 @@
+/* StockTrader walkthrough — aesthetic aligned with course reference (maroon + serif + cards) */
+:root {
+  --maroon: #7c1616;
+  --maroon-dark: #5a1010;
+  --maroon-soft: #a33a3a;
+  --ink: #1a1a2e;
+  --muted: #5a5a6a;
+  --line: #d4d4d8;
+  --page-bg: #f7f8fa;
+  --card: #ffffff;
+  --lavender: #faf0f3;
+  --lavender-border: #e8c4cc;
+  --rail: #2d2d35;
+  --link: #4c1d95;
+  --link-hover: #6d28d9;
+  --sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: Georgia, "Palatino Linotype", Palatino, "Book Antiqua", serif;
+}
+
+* { box-sizing: border-box; }
+
+body.wt {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--page-bg);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* —— Top pill navigation —— */
+.wt-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.82rem;
+}
+
+.wt-nav a,
+.wt-nav span.wt-nav-now {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid transparent;
+}
+
+.wt-nav a {
+  background: #fff;
+  border-color: #e4e4e7;
+}
+
+.wt-nav a:hover {
+  border-color: var(--maroon-soft);
+  color: var(--maroon);
+}
+
+.wt-nav span.wt-nav-now {
+  background: #e8e8ec;
+  font-weight: 700;
+  border-color: #d4d4d8;
+}
+
+.wt-nav .wt-sep {
+  color: #a1a1aa;
+  user-select: none;
+}
+
+/* —— Header bar —— */
+.wt-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 2px solid var(--maroon);
+  background: #fff;
+}
+
+.wt-header h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.wt-header .wt-course {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--maroon);
+  letter-spacing: 0.02em;
+}
+
+.wt-header .wt-phase-btn {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--ink);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wt-header .wt-phase-btn:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* —— Lede —— */
+.wt-lede {
+  padding: 1rem 1.25rem;
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 58rem;
+}
+
+/* —— CTA banner (lavender) —— */
+.wt-cta {
+  margin: 0 1.25rem 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--lavender);
+  border: 1px solid var(--lavender-border);
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wt-cta p {
+  margin: 0;
+  flex: 1 1 12rem;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.wt-cta p strong {
+  color: var(--maroon-dark);
+}
+
+.wt-btn-primary {
+  display: inline-block;
+  padding: 0.65rem 1.15rem;
+  background: var(--maroon);
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.wt-btn-primary:hover {
+  background: var(--maroon-dark);
+}
+
+/* —— Section title (small caps maroon) —— */
+.wt-section-title {
+  margin: 0 1.25rem 0.75rem;
+  font-family: var(--serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+/* —— Two-column architecture (pipelines) —— */
+.wt-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 0 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+@media (max-width: 820px) {
+  .wt-panels { grid-template-columns: 1fr; }
+}
+
+.wt-panel {
+  position: relative;
+  padding: 1rem 1rem 1.25rem 1.35rem;
+  min-height: 12rem;
+}
+
+.wt-panel + .wt-panel {
+  border-left: 1px solid var(--line);
+}
+
+@media (max-width: 820px) {
+  .wt-panel + .wt-panel {
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+}
+
+.wt-panel-rail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.55rem;
+  background: var(--rail);
+  color: #fff;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+.wt-panel--live .wt-panel-rail {
+  background: linear-gradient(180deg, #4a5568 0%, #2d3748 100%);
+}
+
+.wt-panel--artifacts .wt-panel-rail {
+  background: linear-gradient(180deg, #276749 0%, #1c4532 100%);
+}
+
+.wt-panel h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wt-env-pill {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: #e4e4e7;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* —— Agent / node cards (clickable) —— */
+.wt-node {
+  display: block;
+  margin-bottom: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fafafa;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.wt-node:hover {
+  border-color: var(--maroon-soft);
+  box-shadow: 0 2px 8px rgba(124, 22, 22, 0.08);
+}
+
+.wt-node.is-static {
+  cursor: default;
+}
+
+.wt-node.is-static:hover {
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.wt-node .wt-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.wt-node .wt-spec {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--maroon);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wt-node .wt-io {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.wt-node .wt-io .wt-k {
+  font-weight: 700;
+  color: var(--maroon-dark);
+  margin-right: 0.25rem;
+}
+
+.wt-arrow-down {
+  text-align: center;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1;
+  margin: 0.15rem 0 0.35rem;
+}
+
+/* —— Single-column conceptual diagram (1 → 3 → 1 + artifacts) —— */
+.wt-diagram-wrap {
+  margin: 0 auto 1.75rem;
+  max-width: min(36rem, calc(100vw - 2.5rem));
+  padding: 1.35rem 1.25rem 1.5rem;
+  background: var(--card);
+  border: 1px solid #1a1a1a;
+  border-radius: 10px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.wt-diagram-wrap .wt-diagram-h {
+  margin: 0 0 1rem;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.wt-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.wt-dia-box {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  margin: 0 auto;
+  padding: 0.65rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  background: #fff;
+  border: 1px solid #111;
+  border-radius: 8px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+a.wt-dia-box:hover {
+  border-color: var(--maroon);
+  box-shadow: 0 2px 10px rgba(124, 22, 22, 0.12);
+}
+
+.wt-dia-box.is-static {
+  cursor: default;
+}
+
+.wt-dia-box.is-static:hover {
+  border-color: #111;
+  box-shadow: none;
+}
+
+.wt-dia-box .wt-dia-sub {
+  display: block;
+  margin-top: 0.25rem;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.wt-dia-svg {
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  display: block;
+  color: #111;
+}
+
+.wt-dia-svg path {
+  stroke: currentColor;
+  stroke-width: 1.25;
+  fill: none;
+}
+
+.wt-dia-row3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 22rem;
+  align-self: center;
+}
+
+.wt-dia-row3 .wt-dia-box {
+  max-width: none;
+  margin: 0;
+  padding: 0.5rem 0.35rem;
+  font-size: 0.72rem;
+  hyphens: auto;
+}
+
+@media (max-width: 380px) {
+  .wt-dia-row3 .wt-dia-box {
+    font-size: 0.65rem;
+    padding: 0.45rem 0.2rem;
+  }
+}
+
+.wt-dia-pipe-label {
+  align-self: stretch;
+  max-width: 22rem;
+  margin: 0.35rem auto 0.15rem;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--maroon-dark);
+  border-top: 1px dashed var(--lavender-border);
+  border-bottom: 1px dashed var(--lavender-border);
+  background: var(--lavender);
+}
+
+.wt-dia-artifacts {
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 0.25rem;
+  align-self: center;
+}
+
+.wt-dia-artifacts .wt-dia-box {
+  max-width: none;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-left-width: 3px;
+  border-left-color: #1c4532;
+}
+
+.wt-dia-artifacts .wt-dia-box .wt-dia-sub {
+  font-weight: 500;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.wt-dia-artifacts a.wt-dia-box:hover {
+  border-left-color: var(--maroon);
+}
+
+.wt-diagram-wrap .wt-diagram-note {
+  margin: 0 auto 0.5rem;
+  max-width: 22rem;
+  text-align: center;
+}
+
+/* —— MarketData hero (diagram + default tickers, not raw code) —— */
+.wt-market-card {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto 0.25rem;
+  padding: 1rem 1rem 0.85rem;
+  background: linear-gradient(180deg, #fafbfc 0%, #fff 55%);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.wt-market-viz {
+  width: 100%;
+  max-width: 22rem;
+  margin: 0 auto 0.65rem;
+  display: block;
+}
+
+.wt-market-viz path,
+.wt-market-viz line {
+  stroke: #1a1a2e;
+  stroke-width: 1.15;
+  fill: none;
+}
+
+.wt-market-viz .wt-mv-fill {
+  fill: #1a1a2e;
+  stroke: none;
+}
+
+.wt-market-viz .wt-mv-muted {
+  fill: var(--muted);
+  font-family: var(--sans);
+  font-size: 7px;
+}
+
+.wt-market-viz .wt-mv-title {
+  fill: var(--ink);
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.wt-market-card .wt-market-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.wt-market-card .wt-market-sub {
+  margin: 0.2rem 0 0.65rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.wt-ticker-table {
+  width: 100%;
+  margin: 0.5rem 0 0;
+  border-collapse: collapse;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.wt-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 0.35rem;
+  border-radius: 8px;
+}
+
+.wt-ticker-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  padding: 0 0 0.4rem;
+}
+
+.wt-ticker-table th,
+.wt-ticker-table td {
+  padding: 0.4rem 0.45rem;
+  border-bottom: 1px solid #ececf0;
+  vertical-align: top;
+}
+
+.wt-ticker-table tr:last-child td {
+  border-bottom: none;
+}
+
+.wt-ticker-table th {
+  background: #f4f4f6;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.wt-ticker-table .wt-th-note {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.wt-market-viz-caption {
+  margin: 0.4rem auto 0.6rem;
+  max-width: 26rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.wt-ticker-table td:first-child,
+.wt-ticker-table th:first-child {
+  text-align: center;
+  width: 1.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.wt-ticker-table code {
+  font-size: 0.95em;
+  font-weight: 700;
+  color: var(--maroon-dark);
+}
+
+.wt-market-foot {
+  margin: 0.65rem 0 0;
+  font-size: 0.68rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.wt-market-foot a {
+  color: var(--link);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.wt-market-foot a:hover {
+  text-decoration: underline;
+}
+
+/* —— Reference universe modals (substitution context) —— */
+.wt-ref-section {
+  margin: 2rem 1.25rem 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.wt-ref-section h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.wt-ref-section > p {
+  margin: 0 0 0.85rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  max-width: 42rem;
+}
+
+.wt-ref-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 42rem;
+}
+
+.wt-ref-btn {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--maroon-soft);
+  background: #fff;
+  color: var(--maroon-dark);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.wt-ref-btn:hover {
+  background: var(--maroon);
+  color: #fff;
+  border-color: var(--maroon);
+}
+
+.wt-ref-btn:focus-visible {
+  outline: 2px solid var(--maroon-soft);
+  outline-offset: 2px;
+}
+
+/* —— Market data dedicated page (refined) —— */
+body.wt.wt-page-mkt {
+  background: linear-gradient(180deg, #eef0f4 0%, var(--page-bg) 12rem);
+}
+
+.wt-mkt-page-shell {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 1rem;
+}
+
+.wt-mkt-hero-panel,
+.wt-mkt-table-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem 1.4rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 16px rgba(26, 26, 46, 0.06);
+}
+
+.wt-mkt-hero-panel .wt-section-title,
+.wt-mkt-table-panel .wt-section-title {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.wt-mkt-section-kicker {
+  margin: 0 0 0.5rem !important;
+}
+
+.wt-mkt-lead {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 36rem;
+}
+
+.wt-mkt-svg {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.04));
+}
+
+.wt-mkt-caption {
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wt-mkt-flow-svg {
+  width: 100%;
+  max-width: 36rem;
+  min-height: 11.5rem;
+  margin: 0.25rem auto 0;
+}
+
+.wt-mkt-doc-note {
+  margin: 0.85rem 0 0;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 3px solid #94a3b8;
+}
+
+.wt-mkt-doc-note a {
+  font-weight: 600;
+}
+
+.wt-ticker-table--striped tbody tr:nth-child(even) {
+  background: #f9f8fb;
+}
+
+.wt-ticker-table--striped tbody tr:hover td {
+  background: #fdf2f3;
+  transition: background 0.12s ease;
+}
+
+.wt-mkt-ref-band {
+  border-top: 1px solid var(--line);
+  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+}
+
+/* —— Artifacts dedicated page —— */
+body.wt.wt-page-art {
+  background: linear-gradient(180deg, #ecfdf5 0%, var(--page-bg) 11rem);
+}
+
+.wt-art-page-shell {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+.wt-art-flow-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem 1.4rem;
+  margin-bottom: 1.35rem;
+  box-shadow: 0 2px 16px rgba(28, 69, 50, 0.07);
+}
+
+.wt-art-flow-panel .wt-section-title,
+.wt-art-cards .wt-section-title,
+.wt-art-aside .wt-section-title {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.wt-art-kicker {
+  margin-bottom: 0.45rem !important;
+}
+
+.wt-art-lead {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.wt-art-svg {
+  width: 100%;
+  max-width: 22rem;
+  margin: 0.5rem auto 0;
+  display: block;
+}
+
+.wt-art-caption {
+  margin: 0.65rem 0 0;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+}
+
+.wt-art-cards {
+  margin-bottom: 1.25rem;
+}
+
+.wt-art-file-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.wt-art-file-list li {
+  margin-bottom: 0.65rem;
+}
+
+.wt-art-file-card {
+  display: block;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  border-left: 4px solid #1c4532;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.wt-art-file-card:hover {
+  border-left-color: var(--maroon);
+  box-shadow: 0 2px 12px rgba(124, 22, 22, 0.08);
+}
+
+.wt-art-file-card--soft {
+  border-left-color: #64748b;
+  background: #f8fafc;
+}
+
+.wt-art-file-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.84rem;
+  margin-bottom: 0.35rem;
+}
+
+.wt-art-file-name code {
+  font-size: 0.9em;
+}
+
+.wt-art-file-desc {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.wt-art-aside {
+  padding: 1rem 1.1rem;
+  border-radius: 10px;
+  border: 1px dashed var(--lavender-border);
+  background: var(--lavender);
+}
+
+.wt-dia-box--artifact-hub {
+  border-left: 3px solid #1c4532;
+  text-align: left;
+  max-width: 22rem;
+  padding-left: 1rem;
+}
+
+a.wt-dia-box--artifact-hub:hover {
+  border-left-color: var(--maroon);
+}
+
+.wt-dialog {
+  max-width: min(34rem, calc(100vw - 2rem));
+  width: 100%;
+  padding: 0;
+  border: 1px solid #111;
+  border-radius: 12px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+}
+
+.wt-dialog::backdrop {
+  background: rgba(26, 26, 46, 0.45);
+}
+
+.wt-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, #faf0f3 0%, #fff 100%);
+  border-bottom: 1px solid var(--line);
+}
+
+.wt-dialog-head h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.wt-dialog-close {
+  flex-shrink: 0;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--ink);
+  background: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.wt-dialog-close:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.wt-dialog-body {
+  margin: 0;
+  padding: 1rem 1.1rem 1.15rem;
+  max-height: min(70vh, 28rem);
+  overflow-y: auto;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.wt-dialog-body h4 {
+  margin: 1rem 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.wt-dialog-body h4:first-child {
+  margin-top: 0;
+}
+
+.wt-dialog-body ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.wt-dialog-body li {
+  margin-bottom: 0.35rem;
+}
+
+.wt-dialog-body p {
+  margin: 0.5rem 0 0;
+}
+
+/* —— Repository map —— */
+.wt-repo-wrap {
+  margin: 0 1.25rem 2rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.wt-repo-wrap h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.wt-repo-tree {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.wt-repo-tree a {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.wt-repo-tree a:hover {
+  text-decoration: underline;
+}
+
+.wt-repo-note {
+  margin-top: 0.75rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* —— Footer —— */
+.wt-footer {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+.wt-footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.wt-footer-row a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.wt-footer-row a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+.wt-footer-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 42rem;
+  margin: 1rem auto 0;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .wt-footer-cols { grid-template-columns: 1fr; }
+}
+
+.wt-footer-cols h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--serif);
+  font-size: 0.68rem;
+  color: var(--maroon);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wt-footer-cols ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wt-footer-cols li {
+  margin-bottom: 0.35rem;
+}
+
+.wt-footer-cols a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.wt-footer-cols a:hover {
+  text-decoration: underline;
+}
+
+/* —— Inner pages (system canvas, agent canvases) —— */
+.wt-main {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 2.5rem;
+}
+
+.wt-zone {
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+}
+
+.wt-zone h2 {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.wt-zone ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+}
+
+.wt-zone-z1 { background: #fdf2f3; border-left-color: #9b2335; }
+.wt-zone-z2 { background: #fefbf0; border-left-color: #8b7a2e; }
+.wt-zone-z3 { background: #f3eefc; border-left-color: #6b4fa0; }
+.wt-zone-z4 { background: #ecfdf5; border-left-color: #047857; }
+
+/* Neutral card (agent detail pages) */
+.wt-zone-neutral {
+  background: var(--card);
+  border-left-color: var(--maroon);
+}
+
+.wt-pre {
+  background: var(--rail);
+  color: #e4e4e7;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  overflow: auto;
+  font-size: 0.78rem;
+  margin: 0.5rem 0 0;
+  line-height: 1.45;
+}
+
+.wt-zone code {
+  font-size: 0.82em;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}

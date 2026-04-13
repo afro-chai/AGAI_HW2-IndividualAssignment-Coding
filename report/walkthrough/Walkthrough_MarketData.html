@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>StockTrader — Market data layer</title>
+  <link rel="stylesheet" href="walkthrough.css"/>
+</head>
+<body class="wt wt-page-mkt">
+  <nav class="wt-nav" aria-label="Walkthrough">
+    <a href="StockTrader_Walkthrough_Home.html">Map</a>
+    <span class="wt-sep">·</span>
+    <span class="wt-nav-now">Market data</span>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">News</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Vol</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Moral</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_Artifacts.html">Artifacts</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+  </nav>
+
+  <header class="wt-header">
+    <div>
+      <h1>Market data layer</h1>
+      <span class="wt-course">94815 · No LLM · yfinance + optional Alpha Vantage · one JSON per ticker</span>
+    </div>
+    <a class="wt-phase-btn" href="../../src/market_data.py">Implementation: <code>market_data.py</code></a>
+  </header>
+
+  <p class="wt-lede">
+    This page expands the top node of the <a href="StockTrader_Walkthrough_Home.html">map diagram</a>: how public tape data becomes a <strong>single structured snapshot</strong> per symbol, which <strong>all three strategies</strong> receive before any agent-to-agent comparison.
+  </p>
+
+  <div class="wt-cta">
+    <p>
+      <strong>Back to the full pipeline</strong> — strategies, evaluator, and JSON artifacts on the home walkthrough.
+    </p>
+    <a class="wt-btn-primary" href="StockTrader_Walkthrough_Home.html">Return to map (home)</a>
+  </div>
+
+  <main class="wt-mkt-page-shell">
+    <section class="wt-mkt-hero-panel" aria-labelledby="mkt-flow-h">
+      <h2 class="wt-section-title wt-mkt-section-kicker" id="mkt-flow-h">Data flow</h2>
+      <p class="wt-mkt-lead">
+        Fetches and arithmetic only: prices, engineered risk statistics, and optional headline sentiment land in one machine-readable object per run row in <code>DEFAULT_TICKERS</code>.
+      </p>
+
+      <svg class="wt-market-viz wt-mkt-svg wt-mkt-flow-svg" viewBox="0 0 432 172" role="img" aria-label="Flow from listings to yfinance, then snapshot fields in one horizontal row into JSON per ticker.">
+        <defs>
+          <marker id="wtMktArrMain" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+            <polygon points="0 0, 8 4, 0 8" fill="#1a1a2e"/>
+          </marker>
+        </defs>
+        <rect x="100" y="6" width="220" height="28" rx="7" fill="#fff" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="210" y="25" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="12" font-weight="700" fill="#1a1a2e">Public listings · live tape</text>
+        <line x1="210" y1="34" x2="210" y2="44" stroke="#1a1a2e" stroke-width="1.2" marker-end="url(#wtMktArrMain)"/>
+        <text x="210" y="58" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#7c1616" font-weight="700">PLTR · TTE · GOLD · LMT · FRO</text>
+        <text x="210" y="71" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7.5" fill="#5a5a6a"><tspan font-style="italic">DEFAULT_TICKERS</tspan> in <tspan font-style="italic">main.py</tspan></text>
+        <line x1="210" y1="76" x2="210" y2="86" stroke="#1a1a2e" stroke-width="1.2" marker-end="url(#wtMktArrMain)"/>
+        <rect x="28" y="90" width="364" height="28" rx="7" fill="#f4f4f6" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="210" y="108" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" fill="#5a5a6a">yfinance prices + engineered stats · optional Alpha Vantage NEWS_SENTIMENT</text>
+        <line x1="210" y1="118" x2="210" y2="128" stroke="#1a1a2e" stroke-width="1.2" marker-end="url(#wtMktArrMain)"/>
+        <text x="210" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7" fill="#7c1616" font-weight="600" letter-spacing="0.04em">SNAPSHOT FIELDS (same row → one JSON per ticker)</text>
+        <line x1="210" y1="142" x2="210" y2="148" stroke="#1a1a2e" stroke-width="1"/>
+        <line x1="52" y1="148" x2="368" y2="148" stroke="#1a1a2e" stroke-width="1"/>
+        <rect x="22" y="150" width="62" height="20" rx="5" fill="#fff" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="53" y="164" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7.5" font-weight="600" fill="#1a1a2e">pct_change</text>
+        <rect x="94" y="150" width="62" height="20" rx="5" fill="#fff" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="125" y="164" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7.5" font-weight="600" fill="#1a1a2e">ATR</text>
+        <rect x="166" y="150" width="62" height="20" rx="5" fill="#fff" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="197" y="164" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7.5" font-weight="600" fill="#1a1a2e">β</text>
+        <rect x="238" y="150" width="62" height="20" rx="5" fill="#fff" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="269" y="164" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7.5" font-weight="600" fill="#1a1a2e">σ_returns</text>
+        <rect x="310" y="150" width="62" height="20" rx="5" fill="#fff" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="341" y="164" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7.5" font-weight="600" fill="#1a1a2e">news</text>
+        <text x="378" y="164" text-anchor="start" font-family="Georgia, serif" font-size="12" font-weight="700" fill="#7c1616">→</text>
+        <rect x="388" y="150" width="42" height="20" rx="5" fill="#faf0f3" stroke="#7c1616" stroke-width="1"/>
+        <text x="409" y="164" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" font-weight="700" fill="#7c1616">JSON</text>
+      </svg>
+      <p class="wt-market-viz-caption wt-mkt-caption">Vendor fields and computed numbers in; one snapshot out. Strategies never see each other’s outputs—only this shared payload.</p>
+    </section>
+
+    <section class="wt-mkt-table-panel" aria-labelledby="mkt-tickers-h">
+      <h2 class="wt-section-title wt-mkt-section-kicker" id="mkt-tickers-h">Default five tickers (this repository)</h2>
+      <p class="wt-mkt-lead">
+        Wired for sector diversity, mixed volatility, at least one AFRICOM-relevant name and conflict-adjacent mining — and to cap Alpha Vantage news calls at <strong>five</strong> per full run.
+      </p>
+      <div class="wt-table-scroll">
+        <table class="wt-ticker-table wt-ticker-table--striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Ticker</th>
+              <th>Company</th>
+              <th>Sector bucket</th>
+              <th>Vol <span class="wt-th-note">(guide)</span></th>
+              <th>Defense / geo hook</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><code>PLTR</code></td>
+              <td>Palantir</td>
+              <td>AI / gov analytics</td>
+              <td>High</td>
+              <td>DoD / NATO software; defense contract headlines</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><code>TTE</code></td>
+              <td>TotalEnergies</td>
+              <td>Integrated oil / LNG</td>
+              <td>Low</td>
+              <td>AFRICOM / MENA footprint (Africa LNG, Sahel exposure)</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><code>GOLD</code></td>
+              <td>Barrick Gold</td>
+              <td>Mining</td>
+              <td>Medium</td>
+              <td>AFRICOM: Mali / DRC gold narratives</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><code>LMT</code></td>
+              <td>Lockheed Martin</td>
+              <td>Defense prime</td>
+              <td>Low</td>
+              <td>F-35, missiles, budget cycles</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><code>FRO</code></td>
+              <td>Frontline</td>
+              <td>Crude tankers</td>
+              <td>High</td>
+              <td>Hormuz / supply disruption → freight rates</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="wt-market-foot">
+        Declared as <code>DEFAULT_TICKERS</code> in <a href="../../src/main.py"><code>src/main.py</code></a>. Rate limits and NEWS_SENTIMENT behavior: <a href="../../docs/ALPHA_VANTAGE.md"><code>docs/ALPHA_VANTAGE.md</code></a>.
+      </p>
+      <p class="wt-mkt-doc-note">
+        Optional substitute-symbol context (global / regional lists, non-investable entities) lives in <a href="../DEFENSE_GEOPOLITICS_UNIVERSE.md"><code>report/DEFENSE_GEOPOLITICS_UNIVERSE.md</code></a> — same pipeline, different <code>--tickers</code>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="wt-footer">
+    <div class="wt-footer-row">
+      <a href="StockTrader_Walkthrough_Home.html">Map</a>
+      <span>·</span>
+      <a href="../../README.md">README</a>
+      <span>·</span>
+      <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+      <span>·</span>
+      <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+    </div>
+    <div class="wt-footer-cols">
+      <div>
+        <h3>Graded strategies</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyA_NewsSentiment.html">News Sentiment Follower</a></li>
+          <li><a href="AgentCanvas_StrategyB_VolatilityAverse.html">Volatility Averse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Extension + meta</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyC_MoralTrader.html">Moral Trader</a></li>
+          <li><a href="AgentCanvas_Evaluator.html">Evaluator</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

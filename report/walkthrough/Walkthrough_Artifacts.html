@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>StockTrader — Outputs &amp; artifacts</title>
+  <link rel="stylesheet" href="walkthrough.css"/>
+</head>
+<body class="wt wt-page-art">
+  <nav class="wt-nav" aria-label="Walkthrough">
+    <a href="StockTrader_Walkthrough_Home.html">Map</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_MarketData.html">Market data</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">News</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Vol</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Moral</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+    <span class="wt-sep">·</span>
+    <span class="wt-nav-now">Artifacts</span>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+  </nav>
+
+  <header class="wt-header">
+    <div>
+      <h1>Outputs &amp; artifacts</h1>
+      <span class="wt-course">94815 · JSON on disk · written by <code>main.py</code> after each run</span>
+    </div>
+    <a class="wt-phase-btn" href="../../src/main.py">Persistence: <code>main.py</code></a>
+  </header>
+
+  <p class="wt-lede">
+    After strategies and the evaluator finish for a ticker, the pipeline <strong>writes structured JSON</strong> under <code>outputs/</code>: one file per symbol, then a run summary, then an optional backtest scorecard. Nothing here is LLM-authored source code—only <strong>serialized run results</strong> you can diff, redact, and commit for grading.
+  </p>
+
+  <div class="wt-cta">
+    <p>
+      <strong>See the full map</strong> — MarketData through Evaluator, then this persistence step on the home diagram.
+    </p>
+    <a class="wt-btn-primary" href="StockTrader_Walkthrough_Home.html">Return to map (home)</a>
+  </div>
+
+  <main class="wt-art-page-shell">
+    <section class="wt-art-flow-panel" aria-labelledby="art-flow-h">
+      <h2 class="wt-section-title wt-art-kicker" id="art-flow-h">Write sequence</h2>
+      <p class="wt-art-lead">
+        <code>asyncio.gather</code> runs each ticker; inside each ticker, strategies + evaluator complete, then <code>main.py</code> writes <code>&lt;TICKER&gt;.json</code>. When all tickers finish, <code>summary.json</code> aggregates agreement counts. <code>--backtest</code> adds <code>backtest.json</code> using the same ticker list.
+      </p>
+      <svg class="wt-art-svg" viewBox="0 0 280 200" role="img" aria-label="Evaluator output to per-ticker file, then summary, then optional backtest.">
+        <defs>
+          <marker id="wtArtArr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <polygon points="0 0, 7 3.5, 0 7" fill="#1c4532"/>
+          </marker>
+        </defs>
+        <rect x="60" y="6" width="160" height="36" rx="8" fill="#fff" stroke="#1a1a2e" stroke-width="1"/>
+        <text x="140" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="11" font-weight="700" fill="#1a1a2e">Merged payload in memory</text>
+        <text x="140" y="36" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#5a5a6a">market + strategy_a|b|c + evaluator</text>
+        <line x1="140" y1="42" x2="140" y2="54" stroke="#1c4532" stroke-width="1.3" marker-end="url(#wtArtArr)"/>
+        <rect x="30" y="58" width="220" height="40" rx="8" fill="#ecfdf5" stroke="#1c4532" stroke-width="1"/>
+        <text x="140" y="78" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="#14532d" font-weight="700">outputs/&lt;TICKER&gt;.json</text>
+        <text x="140" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7.5" fill="#3f6212">one write per ticker (loop)</text>
+        <line x1="140" y1="98" x2="140" y2="110" stroke="#1c4532" stroke-width="1.3" marker-end="url(#wtArtArr)"/>
+        <rect x="50" y="114" width="180" height="34" rx="8" fill="#fff" stroke="#1c4532" stroke-width="1"/>
+        <text x="140" y="134" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="#1a1a2e" font-weight="700">outputs/summary.json</text>
+        <line x1="140" y1="148" x2="140" y2="158" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#wtArtArr)"/>
+        <rect x="55" y="162" width="170" height="32" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1"/>
+        <text x="140" y="182" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5" fill="#475569" font-weight="600">outputs/backtest.json</text>
+        <text x="140" y="192" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7" fill="#64748b">only if <tspan font-style="italic">--backtest</tspan></text>
+      </svg>
+      <p class="wt-art-caption">Solid arrows: always for a normal run. Dashed: optional bonus scorecard.</p>
+    </section>
+
+    <section class="wt-art-cards" aria-labelledby="art-files-h">
+      <h2 class="wt-section-title wt-art-kicker" id="art-files-h">Committed files (open samples)</h2>
+      <p class="wt-art-lead">Links resolve from a repo clone; samples are representative of schema and keys, not a live trading feed.</p>
+      <ul class="wt-art-file-list">
+        <li>
+          <a class="wt-art-file-card" href="../../outputs/PLTR.json">
+            <span class="wt-art-file-name"><code>outputs/&lt;TICKER&gt;.json</code></span>
+            <span class="wt-art-file-desc">Full record: <code>market_data_summary</code>, <code>news_features</code>, <code>strategy_a|b|c</code>, <code>evaluator</code>. Example uses <strong>PLTR</strong>.</span>
+          </a>
+        </li>
+        <li>
+          <a class="wt-art-file-card" href="../../outputs/summary.json">
+            <span class="wt-art-file-name"><code>outputs/summary.json</code></span>
+            <span class="wt-art-file-desc">Aggregate: <code>total_agreements</code>, <code>total_disagreements</code>, per-row flags after all tickers complete.</span>
+          </a>
+        </li>
+        <li>
+          <a class="wt-art-file-card" href="../../outputs/backtest.json">
+            <span class="wt-art-file-name"><code>outputs/backtest.json</code></span>
+            <span class="wt-art-file-desc">Heuristic post-hoc scorecard; same <code>--tickers</code> list as the main run when flag is set.</span>
+          </a>
+        </li>
+        <li>
+          <a class="wt-art-file-card wt-art-file-card--soft" href="../../outputs/README.md">
+            <span class="wt-art-file-name"><code>outputs/README.md</code></span>
+            <span class="wt-art-file-desc">Notes on what is safe to commit and how samples were produced.</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="wt-art-aside" aria-labelledby="art-redact-h">
+      <h2 class="wt-section-title wt-art-kicker" id="art-redact-h">Hygiene</h2>
+      <p class="wt-art-lead">
+        Vendor error strings may appear inside <code>news_features</code> before redaction; use <code>scripts/</code> helpers or manual review before publishing. The AI use appendix documents disposition of source vs. runtime JSON text.
+      </p>
+    </section>
+  </main>
+
+  <footer class="wt-footer">
+    <div class="wt-footer-row">
+      <a href="StockTrader_Walkthrough_Home.html">Map</a>
+      <span>·</span>
+      <a href="Walkthrough_MarketData.html">Market data</a>
+      <span>·</span>
+      <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+      <span>·</span>
+      <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+    </div>
+    <div class="wt-footer-cols">
+      <div>
+        <h3>Graded strategies</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyA_NewsSentiment.html">News Sentiment Follower</a></li>
+          <li><a href="AgentCanvas_StrategyB_VolatilityAverse.html">Volatility Averse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Extension + meta</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyC_MoralTrader.html">Moral Trader</a></li>
+          <li><a href="AgentCanvas_Evaluator.html">Evaluator</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

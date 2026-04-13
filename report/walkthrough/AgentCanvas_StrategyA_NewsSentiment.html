@@ -4,41 +4,88 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Agent canvas — Strategy A (News Sentiment)</title>
-  <style>
-    body { margin:0; font-family:system-ui,sans-serif; background:#eff6ff; color:#0f172a; line-height:1.5; }
-    header { background:#1e40af; color:#fff; padding:1rem 1.25rem; }
-    nav { background:#bfdbfe; padding:0.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; }
-    nav a { color:#1d4ed8; font-weight:600; text-decoration:none; }
-    main { max-width:720px; margin:0 auto; padding:1.25rem; }
-    .panel { background:#fff; border:1px solid #93c5fd; border-radius:10px; padding:1rem; margin-bottom:1rem; }
-    .panel h2 { margin:0 0 0.5rem; font-size:1rem; }
-    code { background:#e0e7ff; padding:0.1em 0.35em; border-radius:4px; font-size:0.9em; }
-  </style>
+  <link rel="stylesheet" href="walkthrough.css"/>
 </head>
-<body>
-  <header><h1>Strategy A — News Sentiment Follower</h1></header>
-  <nav>
-    <a href="StockTrader_Walkthrough_Home.html">Home</a>
-    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
-    <strong>Strategy A</strong>
-    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
-    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C</a>
+<body class="wt">
+  <nav class="wt-nav" aria-label="Walkthrough">
+    <a href="StockTrader_Walkthrough_Home.html">Map</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_MarketData.html">Market data</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+    <span class="wt-sep">·</span>
+    <span class="wt-nav-now">News</span>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Vol</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Moral</a>
+    <span class="wt-sep">·</span>
     <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_Artifacts.html">Artifacts</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
   </nav>
-  <main>
-    <div class="panel">
+
+  <header class="wt-header">
+    <div>
+      <h1>Strategy A — News Sentiment Follower</h1>
+      <span class="wt-course">94815 · Parallel branch · Graded strategy</span>
+    </div>
+    <a class="wt-phase-btn" href="../../prompts/strategy_news_sentiment.txt">View prompt (txt)</a>
+  </header>
+
+  <p class="wt-lede">
+    Weights <strong>headlines and sentiment</strong> when present; uses conservative fallbacks when <code>news_features</code> is empty. Same market JSON as B/C; no cross-read until evaluation.
+  </p>
+
+  <div class="wt-cta">
+    <p>
+      <strong>Structured output</strong> — <code>StrategyStructured</code> in <code>schemas.py</code>; persisted as <code>strategy_a</code> in per-ticker JSON.
+    </p>
+    <a class="wt-btn-primary" href="../../outputs/PLTR.json">Sample <code>outputs/&lt;TICKER&gt;.json</code></a>
+  </div>
+
+  <main class="wt-main">
+    <section class="wt-zone wt-zone-neutral">
       <h2>Role</h2>
-      <p>Weights <strong>headlines and sentiment</strong> when present; uses conservative fallbacks when <code>news_features</code> is empty.</p>
-    </div>
-    <div class="panel">
-      <h2>Code & prompt</h2>
-      <p><code>src/orchestration.py</code> → <code>AssistantAgent</code> with <code>prompts/strategy_news_sentiment.txt</code>.</p>
-      <p>Structured output: <code>src/schemas.py</code> → <code>StrategyStructured</code>.</p>
-    </div>
-    <div class="panel">
+      <p>Interprets optional Alpha Vantage news sentiment and headline text bundled in the shared payload; rationale should cite what was (or was not) available in the JSON.</p>
+    </section>
+    <section class="wt-zone wt-zone-neutral">
+      <h2>Code &amp; prompt</h2>
+      <p><a href="../../src/orchestration.py"><code>src/orchestration.py</code></a> → <code>AssistantAgent</code> with <a href="../../prompts/strategy_news_sentiment.txt"><code>prompts/strategy_news_sentiment.txt</code></a>.</p>
+      <p>Structured output: <a href="../../src/schemas.py"><code>src/schemas.py</code></a> → <code>StrategyStructured</code>.</p>
+    </section>
+    <section class="wt-zone wt-zone-neutral">
       <h2>I/O</h2>
-      <p><strong>IN:</strong> same market JSON as B/C.<br/><strong>OUT:</strong> <code>strategy_a</code> block in per-ticker JSON.</p>
-    </div>
+      <p><strong>IN:</strong> same market JSON as B/C (e.g. returns, volatility summaries, <code>news_features</code>).<br/><strong>OUT:</strong> <code>strategy_a</code> block in per-ticker JSON → <a href="AgentCanvas_Evaluator.html">Evaluator</a>.</p>
+    </section>
   </main>
+
+  <footer class="wt-footer">
+    <div class="wt-footer-row">
+      <a href="StockTrader_Walkthrough_Home.html">Map</a>
+      <span>·</span>
+      <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+      <span>·</span>
+      <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+    </div>
+    <div class="wt-footer-cols">
+      <div>
+        <h3>Graded strategies</h3>
+        <ul>
+          <li>News Sentiment (this page)</li>
+          <li><a href="AgentCanvas_StrategyB_VolatilityAverse.html">Volatility Averse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Extension + meta</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyC_MoralTrader.html">Moral Trader</a></li>
+          <li><a href="AgentCanvas_Evaluator.html">Evaluator</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

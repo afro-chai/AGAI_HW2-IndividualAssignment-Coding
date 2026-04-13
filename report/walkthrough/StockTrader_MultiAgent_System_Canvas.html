@@ -3,67 +3,110 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>StockTrader — Multi-agent system canvas</title>
-  <style>
-    :root { --ink:#0f172a; --muted:#475569; --line:#cbd5e1; --z1:#eff6ff; --z2:#fffbeb; --z3:#f5f3ff; --z4:#ecfdf5; }
-    body { margin:0; font-family:system-ui,sans-serif; color:var(--ink); background:#f1f5f9; line-height:1.45; }
-    header { background:#0f172a; color:#fff; padding:1rem 1.25rem; }
-    header h1 { margin:0; font-size:1.2rem; }
-    nav { display:flex; flex-wrap:wrap; gap:0.5rem 1rem; padding:0.65rem 1.25rem; background:#e2e8f0; }
-    nav a { color:#1d4ed8; font-weight:600; text-decoration:none; }
-    main { max-width:900px; margin:0 auto; padding:1.25rem; }
-    .zone { border-radius:12px; padding:1rem 1.1rem; margin-bottom:1rem; border:1px solid var(--line); }
-    .z1 { background:var(--z1); border-left:4px solid #2563eb; }
-    .z2 { background:var(--z2); border-left:4px solid #d97706; }
-    .z3 { background:var(--z3); border-left:4px solid #7c3aed; }
-    .z4 { background:var(--z4); border-left:4px solid #059669; }
-    .zone h2 { margin:0 0 0.5rem; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
-    .zone ul { margin:0; padding-left:1.1rem; font-size:0.92rem; }
-    pre { background:#0f172a; color:#e2e8f0; padding:0.85rem 1rem; border-radius:8px; overflow:auto; font-size:0.78rem; margin:0.5rem 0 0; }
-  </style>
+  <title>StockTrader — Multi-Agent System Canvas</title>
+  <link rel="stylesheet" href="walkthrough.css"/>
 </head>
-<body>
-  <header><h1>Multi-agent system canvas — StockTrader</h1></header>
-  <nav>
-    <a href="StockTrader_Walkthrough_Home.html">Home</a>
-    <strong>System canvas</strong>
-    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A</a>
-    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
-    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C</a>
+<body class="wt">
+  <nav class="wt-nav" aria-label="Walkthrough">
+    <a href="StockTrader_Walkthrough_Home.html">Map</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_MarketData.html">Market data</a>
+    <span class="wt-sep">·</span>
+    <span class="wt-nav-now">System Canvas</span>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">News</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Vol</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Moral</a>
+    <span class="wt-sep">·</span>
     <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_Artifacts.html">Artifacts</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
   </nav>
-  <main>
-    <div class="zone z1">
-      <h2>Zone 1 — Entry & concurrency</h2>
+
+  <header class="wt-header">
+    <div>
+      <h1>Multi-Agent System Canvas</h1>
+      <span class="wt-course">94815 · Agentic Technologies · StockTrader orchestration</span>
+    </div>
+    <a class="wt-phase-btn" href="../../src/orchestration.py">Open <code>orchestration.py</code></a>
+  </header>
+
+  <p class="wt-lede">
+    Four conceptual zones map to the running code path: CLI entry and ticker-level concurrency, a single shared market JSON per ticker, three isolated LLM strategy branches, then the evaluator and file outputs.
+  </p>
+
+  <div class="wt-cta">
+    <p>
+      <strong>Jump to agent specs</strong> — each canvas lists IN/OUT, prompt path, and where results land in <code>outputs/</code>.
+    </p>
+    <a class="wt-btn-primary" href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy canvases</a>
+  </div>
+
+  <main class="wt-main">
+    <section class="wt-zone wt-zone-z1">
+      <h2>Zone 1 — Entry &amp; concurrency</h2>
       <ul>
-        <li><code>src/main.py</code>: parses CLI, loads <code>.env</code>, optional <code>--backtest</code>.</li>
+        <li><a href="../../src/main.py"><code>src/main.py</code></a>: parses CLI, loads <code>.env</code>, optional <code>--backtest</code>.</li>
         <li>Per ticker: semaphore-limited <code>asyncio.gather</code> across tickers; inside each ticker, another <code>gather</code> for three strategies.</li>
       </ul>
-      <pre>asyncio.gather(run_parallel_analysis(t) for t in tickers)</pre>
-    </div>
-    <div class="zone z2">
+      <pre class="wt-pre">asyncio.gather(run_parallel_analysis(t) for t in tickers)</pre>
+    </section>
+
+    <section class="wt-zone wt-zone-z2">
       <h2>Zone 2 — Data plane (no LLM)</h2>
       <ul>
-        <li><code>build_market_payload(ticker)</code> in <code>market_data.py</code>: yfinance summary + optional Alpha Vantage <code>NEWS_SENTIMENT</code>.</li>
+        <li><a href="../../src/market_data.py"><code>build_market_payload(ticker)</code></a> in <code>market_data.py</code>: yfinance summary + optional Alpha Vantage <code>NEWS_SENTIMENT</code>.</li>
         <li>Output is one JSON-serializable dict passed as the user message body to every strategy.</li>
       </ul>
-    </div>
-    <div class="zone z3">
+    </section>
+
+    <section class="wt-zone wt-zone-z3">
       <h2>Zone 3 — Three parallel LLM branches</h2>
       <ul>
-        <li><code>orchestration._run_one_strategy</code> × 3 with distinct <code>system_message</code> from <code>prompts/strategy_*.txt</code>.</li>
+        <li><code>orchestration._run_one_strategy</code> × 3 with distinct <code>system_message</code> from <a href="../../prompts/strategy_news_sentiment.txt"><code>strategy_news_sentiment.txt</code></a>, <a href="../../prompts/strategy_volatility_averse.txt"><code>strategy_volatility_averse.txt</code></a>, <a href="../../prompts/strategy_moral_trader.txt"><code>strategy_moral_trader.txt</code></a>.</li>
         <li>Each returns <code>StrategyStructured</code>: <code>decision</code>, <code>confidence</code>, <code>justification</code>.</li>
         <li>No agent reads another agent’s output during this phase.</li>
       </ul>
-    </div>
-    <div class="zone z4">
-      <h2>Zone 4 — Evaluator & artifacts</h2>
+    </section>
+
+    <section class="wt-zone wt-zone-z4">
+      <h2>Zone 4 — Evaluator &amp; artifacts</h2>
       <ul>
-        <li><code>run_evaluator([a,b,c])</code>: task text branches on unanimity / graded pair agreement (<code>evaluator.py</code>).</li>
+        <li><a href="../../src/evaluator.py"><code>run_evaluator([a,b,c])</code></a>: task text branches on unanimity / graded pair agreement.</li>
         <li><code>pattern_note</code> is set deterministically from the three decisions (not LLM-invented).</li>
-        <li>Write <code>outputs/&lt;TICKER&gt;.json</code>; then <code>summary.json</code>; optional <code>backtest.json</code> via <code>backtest.py</code>.</li>
+        <li>Write <a href="../../outputs/PLTR.json"><code>outputs/&lt;TICKER&gt;.json</code></a>; then <a href="../../outputs/summary.json"><code>summary.json</code></a>; optional <a href="../../outputs/backtest.json"><code>backtest.json</code></a> via <code>backtest.py</code>.</li>
       </ul>
-    </div>
+    </section>
   </main>
+
+  <footer class="wt-footer">
+    <div class="wt-footer-row">
+      <a href="StockTrader_Walkthrough_Home.html">Map</a>
+      <span>·</span>
+      <a href="../../README.md">README</a>
+      <span>·</span>
+      <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+    </div>
+    <div class="wt-footer-cols">
+      <div>
+        <h3>Graded strategies</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyA_NewsSentiment.html">News Sentiment Follower</a></li>
+          <li><a href="AgentCanvas_StrategyB_VolatilityAverse.html">Volatility Averse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Extension + meta</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyC_MoralTrader.html">Moral Trader</a></li>
+          <li><a href="AgentCanvas_Evaluator.html">Evaluator</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

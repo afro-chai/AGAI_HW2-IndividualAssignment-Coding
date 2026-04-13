@@ -4,45 +4,92 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Agent canvas — Evaluator</title>
-  <style>
-    body { margin:0; font-family:system-ui,sans-serif; background:#ecfdf5; color:#0f172a; line-height:1.5; }
-    header { background:#047857; color:#fff; padding:1rem 1.25rem; }
-    nav { background:#a7f3d0; padding:0.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; }
-    nav a { color:#065f46; font-weight:600; text-decoration:none; }
-    main { max-width:720px; margin:0 auto; padding:1.25rem; }
-    .panel { background:#fff; border:1px solid #34d399; border-radius:10px; padding:1rem; margin-bottom:1rem; }
-    .panel h2 { margin:0 0 0.5rem; font-size:1rem; }
-    code { background:#d1fae5; padding:0.1em 0.35em; border-radius:4px; font-size:0.9em; }
-  </style>
+  <link rel="stylesheet" href="walkthrough.css"/>
 </head>
-<body>
-  <header><h1>Evaluator — fourth agent (meta)</h1></header>
-  <nav>
-    <a href="StockTrader_Walkthrough_Home.html">Home</a>
-    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
-    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A</a>
-    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
-    <a href="AgentCanvas_StrategyC_MoralTrader.html">Strategy C</a>
-    <strong>Evaluator</strong>
+<body class="wt">
+  <nav class="wt-nav" aria-label="Walkthrough">
+    <a href="StockTrader_Walkthrough_Home.html">Map</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_MarketData.html">Market data</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">News</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Vol</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Moral</a>
+    <span class="wt-sep">·</span>
+    <span class="wt-nav-now">Evaluator</span>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_Artifacts.html">Artifacts</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
   </nav>
-  <main>
-    <div class="panel">
-      <h2>Role</h2>
-      <p>Consumes <strong>three fixed structured outputs</strong>. Must explain <em>why</em> philosophies converge or diverge—not only restate BUY/HOLD/SELL labels.</p>
+
+  <header class="wt-header">
+    <div>
+      <h1>Evaluator — fourth agent (meta)</h1>
+      <span class="wt-course">94815 · Post-parallel · Branching task text</span>
     </div>
-    <div class="panel">
+    <a class="wt-phase-btn" href="../../prompts/evaluator.txt">View prompt (txt)</a>
+  </header>
+
+  <p class="wt-lede">
+    Consumes <strong>three fixed structured outputs</strong>. Must explain <em>why</em> philosophies converge or diverge—not only restate BUY/HOLD/SELL labels.
+  </p>
+
+  <div class="wt-cta">
+    <p>
+      <strong>Implementation</strong> — branching user message in <code>evaluator.py</code>; deterministic <code>pattern_note</code> from the three decisions.
+    </p>
+    <a class="wt-btn-primary" href="../../src/evaluator.py">Open <code>evaluator.py</code></a>
+  </div>
+
+  <main class="wt-main">
+    <section class="wt-zone wt-zone-neutral">
+      <h2>Role</h2>
+      <p>Synthesizes News, Volatility, and Moral angles after <code>asyncio.gather</code> completes for all three strategies on the same ticker.</p>
+    </section>
+    <section class="wt-zone wt-zone-neutral">
       <h2>Branching logic (<code>evaluator.py</code>)</h2>
       <ul>
-        <li><strong>Full agreement</strong> — all three decisions equal → task stresses different emphases despite same label.</li>
-        <li><strong>Graded pair agrees, Moral may differ</strong> — explain A/B convergence + Moral’s angle.</li>
-        <li><strong>Graded disagreement</strong> — explain mechanism (e.g. empty news vs tail-risk gates).</li>
+        <li><strong>Full agreement</strong> — all three decisions equal → task stresses different emphases despite the same label.</li>
+        <li><strong>Graded pair agrees, Moral may differ</strong> — explain A/B convergence plus Moral’s angle.</li>
+        <li><strong>Graded disagreement</strong> — explain mechanism (for example empty news vs tail-risk gates).</li>
         <li><code>pattern_note</code> is always derived from <code>(News, Vol, Moral)</code> decisions in Python.</li>
       </ul>
-    </div>
-    <div class="panel">
+    </section>
+    <section class="wt-zone wt-zone-neutral">
       <h2>Artifacts</h2>
-      <p><code>evaluator</code> object inside each <code>outputs/&lt;TICKER&gt;.json</code>; schema <code>EvaluatorStructured</code> in <code>schemas.py</code>.</p>
-    </div>
+      <p><code>evaluator</code> object inside each <a href="../../outputs/PLTR.json"><code>outputs/&lt;TICKER&gt;.json</code></a>; schema <code>EvaluatorStructured</code> in <a href="../../src/schemas.py"><code>schemas.py</code></a>.</p>
+    </section>
   </main>
+
+  <footer class="wt-footer">
+    <div class="wt-footer-row">
+      <a href="StockTrader_Walkthrough_Home.html">Map</a>
+      <span>·</span>
+      <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+      <span>·</span>
+      <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+    </div>
+    <div class="wt-footer-cols">
+      <div>
+        <h3>Graded strategies</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyA_NewsSentiment.html">News Sentiment Follower</a></li>
+          <li><a href="AgentCanvas_StrategyB_VolatilityAverse.html">Volatility Averse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Extension + meta</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyC_MoralTrader.html">Moral Trader</a></li>
+          <li>Evaluator (this page)</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

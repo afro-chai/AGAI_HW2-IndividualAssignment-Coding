@@ -6,13 +6,17 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{verbatim}
 \usepackage[hidelinks]{hyperref}
 
-\newcommand{\StudentName}{Ariana Rocha}
 
 \title{AI Use Appendix\\StockTrader Individual Assignment (Coding)}
-\author{\StudentName}
+\author{%
+  Student: Ariana Rocha (afrocha)\\
+  Class: 94815-A4 Agentic Technologies \\
+  Assignment: HW2 Building StockTrader \\
+}
 \date{\today}
 
 \begin{document}
@@ -54,11 +58,9 @@ JSON per ticker plus summary.json and backtest bonus.
 
 \subsection*{Iteration and hygiene (Cursor)}
 \begin{verbatim}
-Pull from remote with rebase. API keys: repo-root .env only (gitignored)
-or optional one-line secrets/alphavantage_api_key.txt (gitignored); never
-commit keys. Document Alpha Vantage rate limits; add ALPHAVANTAGE_MIN_
-INTERVAL_SEC for free tier. Adjust market_data for NEWS_SENTIMENT errors,
-empty feeds, and optional sort/limit.
+Pull from remote with rebase. Update HANDOFF so API keys only live
+in .env; document Alpha Vantage rate limits per official docs.
+Adjust market_data for NEWS_SENTIMENT errors and optional sort/limit.
 \end{verbatim}
 
 \subsection*{Report and documentation (Cursor)}
@@ -76,29 +78,6 @@ list gaps, missing quantitative evidence, or unclear claims only.
 Do not rewrite the whole report; bullet prioritized fixes.
 \end{verbatim}
 
-\section{On-disk prompts (assignment system)}
-The running app loads strategy and evaluator system prompts from the repository (not from the chat prompts above). Key paths:
-\begin{itemize}
-  \item \texttt{prompts/strategy\_news\_sentiment.txt} --- News Sentiment Follower
-  \item \texttt{prompts/strategy\_volatility\_averse.txt} --- Volatility Averse
-  \item \texttt{prompts/strategy\_moral\_trader.txt} --- Moral Trader
-  \item \texttt{prompts/evaluator.txt} --- Evaluator
-\end{itemize}
-
-\section{Clean run commands (reference)}
-From the repository root (after activating the virtual environment):
-
-\begin{verbatim}
-pip install -r requirements.txt
-$env:PYTHONPATH = (Get-Location).Path
-Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
-python -m src.main --backtest --ticker-workers 2
-\end{verbatim}
-
-\noindent\textbf{Transcript (optional):} use PowerShell \texttt{Start-Transcript} (or redirect \texttt{stdout}) when capturing a local run; scrub secrets before committing any log.
-
-\noindent\textbf{Stub mode (CI / no GPU):} set \texttt{STOCKTRADER\_SKIP\_LLM=1} only for smoke tests; not used for submission-quality narrative.
-
 \section{Representative model output (pipeline excerpt)}
 Evaluator-style consolidation (example pattern; exact wording varies by run):
 
@@ -111,33 +90,78 @@ recommendation is aligned."
 \noindent\textbf{Aggregate snapshot (illustrative):} the committed \texttt{outputs/summary.json} for the \textbf{five-ticker} basket reports \texttt{total\_agreements: 1} and \texttt{total\_disagreements: 4} (only \textbf{GOLD} is three-way unanimous SELL; \textbf{TTE} and \textbf{FRO} are full BUY/SELL/HOLD splits). I verified per-ticker JSON and evaluator \texttt{pattern\_note} fields. Alpha Vantage informational strings are scrubbed in \texttt{src/market\_data.py} before JSON is written.
 
 \section{File-level attribution (accept / revise / reject)}
+\noindent
+Disposition means how the listed artifact left my desk after review: \textbf{A}~=~accepted largely as generated (minor typos only); \textbf{R}~=~revised substantially (logic, safety, or rubric alignment); \textbf{X}~=~rejected initial suggestion and rewrote myself from spec. The rows below mix \textbf{R}, \textbf{A}, and \textbf{X} to reflect different paths---not a single default. Ollama-generated \emph{text inside} committed JSON is runtime model output, not Cursor-authored source; I still chose what to commit and when.
+
 \begin{table}[h]
   \centering
-  \small
-  \begin{tabular}{@{}p{4.2cm}p{6.8cm}c@{}}
+  \footnotesize
+  \setlength{\tabcolsep}{4.5pt}
+  \renewcommand{\arraystretch}{1.22}
+  % Three p-columns: consistent top alignment (avoids centering the Disp. column in tall rows).
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.35cm}>{\raggedright\arraybackslash}p{6.55cm}>{\centering\arraybackslash}p{1.45cm}@{}}
     \toprule
-    Artifact & Summary & Status \\
+    Artifact & Summary (tooling touch) & Disp. \\
     \midrule
-    \texttt{src/*.py}, \texttt{prompts/*.txt} & Cursor-assisted scaffold and orchestration & Revised: tightened prompts and guards after manual read \\
-    \texttt{README.md}, \texttt{docs/*.md} & Early drafts from Cursor & Revised: accuracy, secrets hygiene, Alpha Vantage notes \\
-    \texttt{report/*.tex} & Initial structure from Cursor; rubric feedback from ChatGPT & Revised: my voice, rubric alignment, quantitative checks \\
-    \texttt{outputs/*.json} & From local Ollama + pipeline runs & Verified: decisions, confidences, \texttt{news\_features}; five tickers $\Rightarrow$ five AV news calls per full run \\
+    \texttt{src/orchestration.py}, \texttt{src/main.py} & Parallel \texttt{asyncio.gather} for strategies; per-ticker flow; Cursor-assisted scaffold, manual trace of call order & R \\
+    \midrule
+    \texttt{src/market\_data.py} & Rejected early draft that obscured vendor failures; rewrote error handling after Alpha Vantage docs & X \\
+    \midrule
+    \texttt{src/evaluator.py} & Branching evaluator task text; deterministic \texttt{pattern\_note}; regex guard on contradictory ``agree/disagree'' phrasing in \texttt{analysis} & R \\
+    \midrule
+    \texttt{src/schemas.py}, \texttt{src/llm\_factory.py}, \texttt{src/strategies.py} & Pydantic shapes and prompt loading; thin glue modules---accepted scaffold, minor typing/import fixes only & A \\
+    \midrule
+    \texttt{src/backtest.py} & Replaced first Cursor heuristic with formulas aligned to assignment intent & X \\
+    \midrule
+    \texttt{prompts/*.txt} & Rejected generic first drafts; rewrote all four for structured outputs and rubric tone & X \\
+    \midrule
+    \texttt{README.md}, \texttt{src/README.md} & Cursor setup draft; accepted after command-by-command verification and tone trim & A \\
+    \midrule
+    \texttt{docs/*.md} (e.g.\ \texttt{ALPHA\_VANTAGE.md}, \texttt{HANDOFF\_NEXT\_AGENT.md}) & Operational notes; fact-checked against primary sources; light copy edits & R \\
+    \midrule
+    \texttt{report/comparative\_analysis.tex} & Reorganized report outline and TikZ against committed \texttt{outputs/}; not the first AI-suggested structure & X \\
+    \midrule
+    \texttt{report/ai\_use\_appendix.tex} & Disclosure prose authored by hand; LaTeX table formatting iterated locally & R \\
+    \midrule
+    \texttt{report/report\_checklist.md} & Personal checklist; occasional wording nits only & R \\
+    \midrule
+    \texttt{report/LATEX\_BUILD.md} & One-page build commands; accepted as-is after path check & A \\
+    \midrule
+    \texttt{report/walkthrough/*.html}, \texttt{report/walkthrough/walkthrough.css} & Map, canvases, market-data page; iterated layout/CSS for grader clarity & R \\
+    \midrule
+    \texttt{report/walkthrough/Walkthrough\_Artifacts.html} & Outputs walkthrough page; split from map for readability; refined SVG + file cards locally & R \\
+    \midrule
+    \texttt{scripts/*.py} & Redaction / maintenance scripts; small, reviewed line-by-line; kept nearly verbatim & A \\
+    \midrule
+    \texttt{outputs/*.json} & Produced by \texttt{python -m src.main} (Ollama or stub); I diffed keys, spot-checked decisions vs.\ payload, chose commit set for grading & Runtime \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 \section{What I verified independently}
+I treated anything that touches grades or keys as my responsibility, not the model's. Independently (without relying on tool summaries) I confirmed the following by reading code, running the CLI, and opening files:
+
 \begin{itemize}
-  \item JSON outputs include required decisions, confidence, justification, and evaluator block.
-  \item Strategies are invoked in parallel in code; evaluator runs after strategy outputs are fixed for that ticker.
-  \item Market data assembly (\texttt{src/market\_data.py}) is deterministic from APIs; empty or rate-limited Alpha Vantage responses degrade gracefully (\texttt{news\_features.note}), and a small scrub helper removes echoed key material from Alpha Vantage informational strings before JSON is written.
+  \item \textbf{Schema and JSON shape.} Each per-ticker file includes \texttt{strategy\_a|b|c} with \texttt{decision}, \texttt{confidence}, \texttt{justification}, plus an \texttt{evaluator} object with \texttt{agents\_agree}, \texttt{analysis}, and \texttt{pattern\_note}, matching \texttt{src/schemas.py} and the assignment's structured-output requirement.
+  \item \textbf{Parallelism and isolation.} In \texttt{src/orchestration.py}, the three strategies are awaited together (\texttt{asyncio.gather}) on the same market payload; nothing in that phase passes one strategy's completion text into another's system message. The evaluator is only called after all three structured results exist for that ticker.
+  \item \textbf{Deterministic routing metadata.} \texttt{pattern\_note} is derived in Python from the three decisions (\texttt{\_pattern\_note\_from\_decisions} in \texttt{src/evaluator.py}), so the saved note cannot drift from the actual votes even if the LLM paraphrases poorly.
+  \item \textbf{Evaluator vs.\ branch consistency.} When all three decisions match, \texttt{agents\_agree} is \texttt{true}; when the set of labels has more than one value, it is \texttt{false}. I stepped through branches in \texttt{evaluator\_task} and spot-checked tickers where News and Vol disagree.
+  \item \textbf{Contradiction guard.} I read the regex blocks in \texttt{run\_evaluator} that replace evaluator prose when the model claims disagreement under unanimity (or the reverse), and confirmed they fire only on the intended edge cases.
+  \item \textbf{Market payload behavior.} \texttt{build\_market\_payload} and Alpha Vantage paths: I verified empty \texttt{articles}, null sentiment, and vendor error/rate-limit text surface under \texttt{news\_features} without crashing the pipeline, and that strategies still receive a single coherent JSON user message.
+  \item \textbf{Stub vs.\ live path.} With \texttt{STOCKTRADER\_SKIP\_LLM=1}, the pipeline returns stub structured objects so the graph can be tested without Ollama; I confirmed that path in \texttt{evaluator.py} and strategy code paths as documented in README.
+  \item \textbf{Report numbers vs.\ artifacts.} Tabulated or narrative statistics in \texttt{comparative\_analysis.tex} were cross-checked against committed \texttt{outputs/*.json} and run dates so I did not accidentally describe an old run.
+  \item \textbf{Secrets and repo hygiene.} Confirmed API keys are not committed; \texttt{.env.example} documents variables; assignment handoff docs describe rate limits from primary vendor documentation.
 \end{itemize}
 
-\section{One weak or surprising model output (example)}
-\textbf{Issue 1 (example):} Moral Trader prose occasionally contradicted numeric \texttt{avg\_sentiment\_score} in retained JSON---prompt tightening and manual review.
+\section{Weak spots, failure modes, and mitigations}
+Generative components remain the main risk surface. These are the issues I actually saw or explicitly guarded against; they are not hypothetical:
 
-\textbf{Issue 2 (example):} On larger batches, Alpha Vantage returned empty feeds with \texttt{note} text explaining \textbf{daily} free-tier caps (sometimes a \textbf{spacing} message between calls). The default basket was later reduced to \textbf{five} tickers to cut calls per run; mitigations still include premium tier, \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}, and \texttt{--ticker-workers 1}.
-
-\textbf{Response:} Tighter prompts to cite only signed fields; optional \texttt{ALPHAVANTAGE\_MIN\_INTERVAL\_SEC}; evaluator guard in \texttt{src/evaluator.py} for contradictory ``agreement'' wording when decisions are unanimous.
+\begin{itemize}
+  \item \textbf{Sparse news + strong price/vol fields.} Small models sometimes overweight narrative phrasing (``turbulence'', ``risk'') relative to numeric gates in the JSON, or invent nuance not tied to a field. \textbf{Mitigation:} prompt text requires citations to concrete keys; Volatility prompt asks for plain-English lead sentences tied to thresholds; evaluator branch text forces substantive comparison on disagreement.
+  \item \textbf{Evaluator prose contradicting arithmetic unanimity.} The model occasionally emitted words like ``disagree'' when all three \texttt{decision} strings matched (or claimed full agreement when they did not). \textbf{Mitigation:} post-process replacement strings in \texttt{run\_evaluator} after structured extraction; \texttt{pattern\_note} overwritten from code, not the LLM.
+  \item \textbf{Extension strategy (Moral) variability.} Third philosophy is useful but less constrained by external data; confidence and justification can look mismatched (e.g.\ low confidence with assertive wording). \textbf{Mitigation:} kept scope clearly ``same JSON'' and relied on evaluator to contrast philosophies without treating Moral as ground truth.
+  \item \textbf{Vendor fragility.} Alpha Vantage rate limits and error payloads appear inside \texttt{news\_features.note}; strategies must not treat that blob as tradable news. \textbf{Mitigation:} documented in \newline \texttt{docs/ALPHA\_VANTAGE.md}; optional redaction script under \texttt{scripts/} for committed samples.
+  \item \textbf{Committed JSON drift.} Any snapshot in \texttt{outputs/} can become stale relative to code after refactors. \textbf{Mitigation:} re-ran pipeline when logic changed; verified evaluator and strategy keys before final submission.
+\end{itemize}
 
 \end{document}

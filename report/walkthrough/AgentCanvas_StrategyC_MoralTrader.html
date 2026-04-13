@@ -4,40 +4,87 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Agent canvas — Strategy C (Moral Trader)</title>
-  <style>
-    body { margin:0; font-family:system-ui,sans-serif; background:#f5f3ff; color:#0f172a; line-height:1.5; }
-    header { background:#5b21b6; color:#fff; padding:1rem 1.25rem; }
-    nav { background:#ddd6fe; padding:0.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; }
-    nav a { color:#5b21b6; font-weight:600; text-decoration:none; }
-    main { max-width:720px; margin:0 auto; padding:1.25rem; }
-    .panel { background:#fff; border:1px solid #a78bfa; border-radius:10px; padding:1rem; margin-bottom:1rem; }
-    .panel h2 { margin:0 0 0.5rem; font-size:1rem; }
-    code { background:#ede9fe; padding:0.1em 0.35em; border-radius:4px; font-size:0.9em; }
-  </style>
+  <link rel="stylesheet" href="walkthrough.css"/>
 </head>
-<body>
-  <header><h1>Strategy C — Moral Trader (extension)</h1></header>
-  <nav>
-    <a href="StockTrader_Walkthrough_Home.html">Home</a>
-    <a href="StockTrader_MultiAgent_System_Canvas.html">System canvas</a>
-    <a href="AgentCanvas_StrategyA_NewsSentiment.html">Strategy A</a>
-    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Strategy B</a>
-    <strong>Strategy C</strong>
+<body class="wt">
+  <nav class="wt-nav" aria-label="Walkthrough">
+    <a href="StockTrader_Walkthrough_Home.html">Map</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_MarketData.html">Market data</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">News</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Vol</a>
+    <span class="wt-sep">·</span>
+    <span class="wt-nav-now">Moral</span>
+    <span class="wt-sep">·</span>
     <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_Artifacts.html">Artifacts</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
   </nav>
-  <main>
-    <div class="panel">
+
+  <header class="wt-header">
+    <div>
+      <h1>Strategy C — Moral Trader (extension)</h1>
+      <span class="wt-course">94815 · Parallel branch · Optional third philosophy</span>
+    </div>
+    <a class="wt-phase-btn" href="../../prompts/strategy_moral_trader.txt">View prompt (txt)</a>
+  </header>
+
+  <p class="wt-lede">
+    Third parallel branch: <strong>narrative opacity, accountability, governance</strong> framing on the same JSON. Evaluator consumes A+B+C for three-way agreement checks.
+  </p>
+
+  <div class="wt-cta">
+    <p>
+      <strong>Structured output</strong> — same schema as A/B; stored as <code>strategy_c</code>.
+    </p>
+    <a class="wt-btn-primary" href="AgentCanvas_Evaluator.html">How the evaluator uses C</a>
+  </div>
+
+  <main class="wt-main">
+    <section class="wt-zone wt-zone-neutral">
       <h2>Role</h2>
-      <p>Third parallel branch: <strong>narrative opacity, accountability, governance</strong> framing on the same JSON (optional extension for the course).</p>
-    </div>
-    <div class="panel">
-      <h2>Code & prompt</h2>
-      <p><code>prompts/strategy_moral_trader.txt</code> · output key <code>strategy_c</code>.</p>
-    </div>
-    <div class="panel">
+      <p>Interprets the ticker through governance and disclosure lenses without inventing facts not present in the payload.</p>
+    </section>
+    <section class="wt-zone wt-zone-neutral">
+      <h2>Code &amp; prompt</h2>
+      <p><a href="../../prompts/strategy_moral_trader.txt"><code>prompts/strategy_moral_trader.txt</code></a> · output key <code>strategy_c</code> in <a href="../../src/orchestration.py"><code>orchestration.py</code></a>.</p>
+    </section>
+    <section class="wt-zone wt-zone-neutral">
       <h2>I/O</h2>
-      <p><strong>IN:</strong> same payload as A/B.<br/><strong>OUT:</strong> <code>strategy_c</code>; evaluator uses all three for <code>agents_agree</code> (unanimous three-way).</p>
-    </div>
+      <p><strong>IN:</strong> same payload as A/B.<br/><strong>OUT:</strong> <code>strategy_c</code>; evaluator uses all three for <code>agents_agree</code> (unanimous three-way when applicable).</p>
+    </section>
   </main>
+
+  <footer class="wt-footer">
+    <div class="wt-footer-row">
+      <a href="StockTrader_Walkthrough_Home.html">Map</a>
+      <span>·</span>
+      <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+      <span>·</span>
+      <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+    </div>
+    <div class="wt-footer-cols">
+      <div>
+        <h3>Graded strategies</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyA_NewsSentiment.html">News Sentiment Follower</a></li>
+          <li><a href="AgentCanvas_StrategyB_VolatilityAverse.html">Volatility Averse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Extension + meta</h3>
+        <ul>
+          <li>Moral Trader (this page)</li>
+          <li><a href="AgentCanvas_Evaluator.html">Evaluator</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
