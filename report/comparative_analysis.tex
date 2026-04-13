@@ -25,16 +25,12 @@
 \maketitle
 
 \begin{abstract}
-\noindent This work implements a small multi-agent \textbf{StockTrader} pipeline: two graded strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus a third \textbf{Moral Trader} extension, orchestrated with Microsoft \textbf{AutoGen} and local \textbf{Ollama} inference. Each symbol is analyzed in parallel from the same market snapshot; an evaluator then summarizes agreement and tension across agents. The study uses a compact basket of five U.S.\ listings chosen for sector spread and defense--geopolitics exposure, including Africa--MENA energy and gold mining angles alongside defense and shipping names. A lightweight news sentiment feed supplies optional headlines; a separate historical exercise scores transparent stand-ins for the two graded philosophies against realized forward returns without replaying the LLMs on past dates. The \textbf{committed} live snapshot (\texttt{outputs/summary.json}) shows \texttt{total\_agreements}$=1$ and \texttt{total\_disagreements}$=4$: only \textbf{GOLD} is three-way unanimous (all SELL); \textbf{TTE} and \textbf{FRO} exhibit full three-way splits (BUY/SELL/HOLD); \textbf{PLTR} aligns Volatility and Moral on SELL vs.\ News HOLD; \textbf{LMT} splits News HOLD vs.\ Volatility and Moral SELL. In aggregate, the news-oriented historical proxy still outperformed the volatility-oriented proxy on hit rates (\texttt{backtest.json}), while live rationales remain sensitive to empty news and prompt drift.
-\end{abstract}
-
-\noindent\fbox{\parbox{0.97\linewidth}{\small\textbf{Findings at a glance (matches committed JSON).} \texttt{summary.json}: agreements $=1$, disagreements $=4$. Unanimous three-agent decision only on \textbf{GOLD} (SELL). \textbf{TTE}: BUY / SELL / HOLD. \textbf{FRO}: BUY / SELL / HOLD. \textbf{PLTR}: HOLD / SELL / SELL. \textbf{LMT}: HOLD / SELL / SELL. Heuristic backtest overall: \texttt{overall\_hit\_rate\_news}$=0.4348$, \texttt{overall\_hit\_rate\_volatility}$=0.2522$, \texttt{overall\_winner}$=$news\_sentiment\_heuristic.}}
-
+\noindent This work implements a small multi-agent \textbf{StockTrader} pipeline: two graded strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus a third \textbf{Moral Trader} extension, orchestrated with Microsoft \textbf{AutoGen} and local \textbf{Ollama} inference. Each symbol is analyzed in parallel from the same market snapshot; an evaluator then summarizes agreement and tension across agents. The study uses a compact basket of five U.S.\ listings chosen for sector spread and defense--geopolitics exposure, including Africa--MENA energy and gold mining angles alongside defense and shipping names. A lightweight news sentiment feed supplies optional headlines; a separate historical exercise scores transparent stand-ins for the two graded philosophies against realized forward returns without replaying the LLMs on past dates. 
 \section{Strategy Selection and Rationale}
 
 \noindent The two graded strategies I implemented are \textbf{News Sentiment Follower} (Strategy~A) and \textbf{Volatility Averse} (Strategy~B). I paired them because they differ on \textbf{what counts as evidence}: Strategy~A privileges external narrative and sentiment when available, while Strategy~B treats realized turbulence, drawdown depth, and stability of the tape as first-class risk signals. I chose them because of the inherent applicability to the defense sector.
 
-\textbf{Defense--geopolitics framing.} The ticker universe is documented in the github repository at \newline \texttt{report/DEFENSE\_GEOPOLITICS\_UNIVERSE.md}. The default run uses a \textbf{small, diverse} basket with explicit \textbf{AFRICOM} hooks on \textbf{TTE} (Africa--MENA oil and LNG) and \textbf{GOLD} (Mali / DRC gold exposure narratives), plus U.S.\ defense software, a prime, and tanker beta.
+\textbf{Defense--geopolitics framing.} The default run uses a \textbf{small, diverse} basket with explicit \textbf{AFRICOM} hooks on \textbf{TTE} (Africa--MENA oil and LNG) and \textbf{GOLD} (Mali / DRC gold exposure narratives), plus U.S.\ defense software, a prime, and tanker beta.
 
 \textbf{Extension.} \textbf{Moral Trader} adds a third parallel branch for future accountability, evaluated only after A and B finish for the same ticker in hopes of future final project incorporation.
 
@@ -74,9 +70,11 @@
 \end{tikzpicture}
 \end{center}
 
+\noindent A more comprehensive architecture breakdown can be found by downloading the html files and opening the \texttt{Stock\_Trader\_Walkthrough\_Home.html} in the walkthrough folder located at \texttt{report/walkthrough} in the repository. 
+
 \section{Stock Selection and Rationale}
 
-Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc for the full research catalog).
+I chose the following stocks listed in the table below to analyze because of their relevance to the defense sector along with the diversity in their respective volatility as compared to one another.
 
 \begin{table}[h]
   \centering
@@ -116,12 +114,12 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
     FRO  & BUY  & 8 & SELL & 8 & HOLD & 3 & 5 \\
     \bottomrule
   \end{tabular}
-  \caption{Strategy~A/B/C decisions and confidences (committed Ollama run; spread $=$ max $-$ min). Only GOLD is three-way unanimous.}
+  \caption{Strategy~A/B/C decisions and confidences}
   \label{tab:results}
 \end{table}
 
 \subsubsection*{PLTR}
-\textbf{News Sentiment Follower:} HOLD (6). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} SELL (10).
+\textbf{News Sentiment:} HOLD (6). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} SELL (10).
 \begin{quote}\small
 \emph{``No usable news available\ldots\ Current price is down by -15.53\% from the previous 30-day period, but volatility is low at 0.034412\ldots\ HOLDing the current position is the most conservative approach.''}
 \end{quote}
@@ -131,7 +129,7 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
 \textbf{Evaluator (excerpt):} \emph{``The News Sentiment Follower focuses on the absence of usable news\ldots\ the Volatility Averse agent emphasizes elevated turbulence signals\ldots\ stricter than the News Sentiment Follower's implicit threshold\ldots''} (\texttt{pattern\_note}: Vol \& Moral SELL; News HOLD).
 
 \subsubsection*{TTE}
-\textbf{News Sentiment Follower:} BUY (8). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} HOLD (3).
+\textbf{News Sentiment:} BUY (8). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} HOLD (3).
 \begin{quote}\small
 \emph{``High price momentum (15.17\% in 30 days) and positive sentiment score (0.05)\ldots\ news features are neutral\ldots\ we lean towards buying TTE stock.''} (Sentiment score is \textbf{not} present in JSON when \texttt{articles\_count = 0}.)
 \end{quote}
@@ -150,25 +148,6 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
 \end{quote}
 \textbf{Evaluator:} \emph{``The three strategies converged on selling\ldots''} (\texttt{pattern\_note}: Unanimous SELL (News, Vol, Moral))---the \textbf{only} three-way agreement in this run.
 
-\subsubsection*{LMT}
-\textbf{News Sentiment Follower:} HOLD (6). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} SELL (1).
-\begin{quote}\small
-\emph{``No usable news available\ldots\ Current price is down by -5.5\%\ldots\ volatility is low at 0.01655\ldots\ choosing to HOLD based on current market conditions.''}
-\end{quote}
-\begin{quote}\small
-\emph{``The path has been rough---large worst-day loss\ldots\ double-digit one-month drawdown with choppy daily moves\ldots\ 30-day drawdown depth of -5.5\% also suggests a defensive de-risk stance.''}
-\end{quote}
-\textbf{Evaluator (note):} The saved \texttt{analysis} text incorrectly claims Moral Trader ``HOLD'' while JSON shows \textbf{SELL}; \texttt{pattern\_note} (\texttt{Vol \& Moral SELL; News HOLD}) matches the structured decisions. Moral justification also cites \texttt{beta\_proxy\_spy > 1.25} when the payload shows $\beta \approx 0.33$---another field-level error worth tightening in prompts or validation.
-
-\subsubsection*{FRO}
-\textbf{News Sentiment Follower:} BUY (8). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} HOLD (3).
-\begin{quote}\small
-\emph{``\ldots\ current price is up (+5.76\%) and volatility\_30d is low (0.035076), suggesting a bullish narrative\ldots\ market data suggests a BUY lean.''}
-\end{quote}
-\begin{quote}\small
-\emph{``We would reduce exposure\ldots\ daily volatility around 3.5\% and a maximum single day drop near -6.2\%\ldots\ prefer to exercise caution and reduce exposure.''} (Volatility text also describes a ``double-digit one-month drawdown'' despite a \textbf{positive} \texttt{pct\_change\_30d} in the JSON---internal inconsistency.)
-\end{quote}
-\textbf{Evaluator (excerpt):} \emph{``The News agent focuses on the bullish narrative\ldots\ Volatility Averse emphasizes\ldots\ potential for overbought conditions\ldots''} (\texttt{pattern\_note}: News BUY $\cdot$ Vol SELL $\cdot$ Moral HOLD).
 
 \section{Patterns of Agreement and Disagreement}
 
@@ -177,8 +156,6 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
 \textbf{Where they disagreed.} \textbf{PLTR:} News HOLD vs.\ Volatility and Moral SELL---Moral assigns maximum confidence (10) while flagging empty news and macro beta. \textbf{TTE:} full triangle BUY / SELL / HOLD: News chases momentum language (and again cites a phantom sentiment score), Volatility now \textbf{SELLs} on ``rough path'' / overbought framing, Moral HOLD on empty articles. \textbf{LMT:} News HOLD vs.\ Volatility and Moral SELL on turbulence narrative despite moderate $-5.5\%$ month. \textbf{FRO:} same BUY / SELL / HOLD pattern as TTE with momentum vs.\ defensive vol language.
 
 \textbf{My read (what drives divergence).} The dominant driver remains \textbf{empty news} plus \textbf{inconsistent fallback rules}: Strategy~A still fabricates or stretches sentiment when fields are null (TTE, FRO), while Strategy~B often converges on SELL using vol-path templates that sometimes \textbf{contradict} the sign of \texttt{pct\_change\_30d} (FRO). Moral Trader tracks governance notes and beta language but can emit confidence extremes (PLTR 10, LMT 1) and occasional field errors.
-
-\textbf{Operational context.} Five symbols per run $\Rightarrow$ five Alpha Vantage calls; feeds were still empty in this snapshot, so graders should treat Strategy~A BUY/SELL text as \textbf{model-dependent}. Evaluator \texttt{pattern\_note} is deterministic from decisions; occasional \texttt{analysis} prose may still drift (see LMT).
 
 \section{Failure or Surprise Case}
 
@@ -197,7 +174,7 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
 \appendix
 \section*{Bonus artifact: backtest snapshot}
 
-\texttt{outputs/backtest.json} (five tickers; \textbf{115} row samples in \texttt{rows}) lists heuristic hit rates with \texttt{overall\_winner = news\_sentiment\_heuristic}, \texttt{overall\_hit\_rate\_news = 0.4348}, \texttt{overall\_hit\_rate\_volatility = 0.2522}.
+\texttt{outputs/backtest.json} (five tickers; \textbf{115} row samples in \texttt{rows}) lists heuristic hit rates with \texttt{overall\_winner = news\_sentiment\_heuristic}, \texttt{overall\_hit\_rate\_news = 0.4348}, \newline \texttt{overall\_hit\_rate\_volatility = 0.2522}.
 
 \begin{table}[h]
   \centering
@@ -213,7 +190,7 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
     FRO  & 0.4783 & 0.2174 & news\_sentiment\_heuristic \\
     \bottomrule
   \end{tabular}
-  \caption{From \texttt{outputs/backtest.json} \texttt{per\_ticker} (method: \texttt{deterministic\_heuristic\_vs\_forward\_return}), regenerated with the live run.}
+  \caption{From \texttt{outputs/backtest.json} \texttt{per\_ticker}}
   \label{tab:backtest}
 \end{table}
 
