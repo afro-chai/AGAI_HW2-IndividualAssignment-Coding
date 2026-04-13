@@ -107,63 +107,13 @@ python -m src.main --backtest
 
 ## [Architecture (brief)](report/walkthrough/StockTrader_Walkthrough_Home.html)
 
-Static HTML walkthrough (open [`report/walkthrough/StockTrader_Walkthrough_Home.html`](report/walkthrough/StockTrader_Walkthrough_Home.html) from a clone): clickable pipeline diagram, full repository tree with links, and strategy / evaluator canvases. The figure below matches the conceptual diagram on that page.
+Static HTML walkthrough (open [`report/walkthrough/StockTrader_Walkthrough_Home.html`](report/walkthrough/StockTrader_Walkthrough_Home.html) from a clone): clickable pipeline diagram, full repository layout with links, and strategy / evaluator canvases. The figure below matches the conceptual diagram on that page.
 
 The runtime is a **Python package under `src/`** driven by `python -m src.main`. **`market_data.build_market_payload`** (no LLM) assembles OHLC-derived features and optional Alpha Vantage `NEWS_SENTIMENT` into one JSON object per ticker. **`orchestration`** schedules work with a per-ticker semaphore and, inside each ticker, **`asyncio.gather`** over three AutoGen **`AssistantAgent`** calls—each loads a prompt from **`prompts/*.txt`** and returns a **Pydantic** `StrategyStructured` instance defined in **`schemas.py`**. **`llm_factory`** supplies the Ollama (or optional LiteLLM-compatible) client. After all three structured outputs exist, **`evaluator.run_evaluator`** runs a fourth LLM pass with branch-specific instructions; **`pattern_note`** is then **overwritten deterministically** from the three decisions. **`main`** merges market data, strategies, and evaluator into **`outputs/<TICKER>.json`**, writes **`summary.json`**, and optionally **`backtest.py`** → **`outputs/backtest.json`**.
 
 **Conceptual pipeline** — one market payload per ticker, three parallel strategies, evaluator, then artifacts on disk:
 
 ![Conceptual architecture — MarketData, three strategies, Evaluator, Artifacts](report/walkthrough/img/readme-conceptual-architecture.png)
-
-**Repository layout** (files tracked in `master`; PDFs may be added under `report/` for submission):
-
-```text
-AGAI_HW2-IndividualAssignment-Coding/
-├── .env.example
-├── .gitignore
-├── README.md
-├── requirements.txt
-├── src/
-│   ├── README.md
-│   ├── __init__.py
-│   ├── main.py
-│   ├── orchestration.py
-│   ├── market_data.py
-│   ├── strategies.py
-│   ├── evaluator.py
-│   ├── schemas.py
-│   ├── llm_factory.py
-│   └── backtest.py
-├── prompts/
-│   ├── README.md
-│   ├── strategy_news_sentiment.txt
-│   ├── strategy_volatility_averse.txt
-│   ├── strategy_moral_trader.txt
-│   └── evaluator.txt
-├── outputs/
-│   ├── README.md
-│   ├── summary.json
-│   ├── backtest.json
-│   ├── PLTR.json … FRO.json   (per-ticker samples)
-│   └── .gitkeep
-└── report/
-    ├── .gitkeep
-    ├── README.md
-    ├── comparative_analysis.tex
-    ├── ai_use_appendix.tex
-    ├── DEFENSE_GEOPOLITICS_UNIVERSE.md
-    └── walkthrough/
-        ├── README.md
-        ├── walkthrough.css (+ agent_canvas.css, project_hub.css, site_nav.css)
-        ├── StockTrader_Walkthrough_Home.html   ← HTML map (you are here when open)
-        ├── Walkthrough_Papers.html
-        ├── Walkthrough_MarketData.html
-        ├── Walkthrough_Artifacts.html
-        ├── StockTrader_MultiAgent_System_Canvas.html
-        ├── AgentCanvas_*.html (strategies A–C + Evaluator)
-        ├── build_side_homes.py, gen_agent_canvases.py, wrap_html_lines.py
-        └── img/ (e.g. readme-conceptual-architecture.png for this README)
-```
 
 **Python modules**
 
