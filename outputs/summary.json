@@ -11,8 +11,8 @@
     "LMT",
     "FRO"
   ],
-  "total_agreements": 2,
-  "total_disagreements": 3,
+  "total_agreements": 1,
+  "total_disagreements": 4,
   "results": [
     {
       "ticker": "PLTR",
@@ -26,7 +26,7 @@
     {
       "ticker": "TTE",
       "a_decision": "BUY",
-      "b_decision": "HOLD",
+      "b_decision": "SELL",
       "c_decision": "HOLD",
       "agree_core_ab": false,
       "unanimous": false,
@@ -44,15 +44,15 @@
     {
       "ticker": "LMT",
       "a_decision": "HOLD",
-      "b_decision": "HOLD",
-      "c_decision": "HOLD",
-      "agree_core_ab": true,
-      "unanimous": true,
-      "agree": true
+      "b_decision": "SELL",
+      "c_decision": "SELL",
+      "agree_core_ab": false,
+      "unanimous": false,
+      "agree": false
     },
     {
       "ticker": "FRO",
-      "a_decision": "HOLD",
+      "a_decision": "BUY",
       "b_decision": "SELL",
       "c_decision": "HOLD",
       "agree_core_ab": false,

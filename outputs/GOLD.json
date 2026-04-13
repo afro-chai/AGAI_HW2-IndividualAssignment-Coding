@@ -26,13 +26,13 @@
     "name": "News Sentiment Follower",
     "decision": "SELL",
     "confidence": 8,
-    "justification": "No usable news available. No sentiment score to consider. Strong down (-12.86%) with elevated volatility (0.032859) suggests a SELL lean. Holding due to lack of information, but caution advised as price is near 50-day moving average."
+    "justification": "No usable news available. pct_change_30d is -12.86, indicating a strong down trend, and volatility_30d is 0.032859, which is moderate. Without any contradictory positive news, we lean towards selling the current price of $43.98."
   },
   "strategy_b": {
     "name": "Volatility Averse",
     "decision": "SELL",
-    "confidence": 1,
-    "justification": "Elevated turbulence: std_daily_return_90d > 0.022 (0.039968), max_single_day_drop_90d > -0.054 (-0.082773). Large 30d drawdown: pct_change_30d <= -12 (-12.86). Volatility is high: volatility_30d > 0.024 (0.032859). Calm tape not present."
+    "confidence": 8,
+    "justification": "We would reduce exposure: the path has been rough\u2014large worst-day loss and a double-digit one-month drawdown with choppy daily moves. Above our usual calm-tape band, with high volatility (0.032859) and a worst day near \u221212%. The recent large 30d drop (-12.86%) also signals a defensive de-risk stance. No premium news to alter this view."
   },
   "strategy_c": {
     "name": "Moral Trader",
@@ -42,7 +42,7 @@
   },
   "evaluator": {
     "agents_agree": true,
-    "analysis": "All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.",
-    "pattern_note": "News BUY vs Vol SELL"
+    "analysis": "The three strategies converged on selling the stock due to distinct emphases on different market factors. The News Sentiment Follower focused on the lack of usable news, highlighting a strong down trend and moderate volatility. In contrast, Volatility Averse emphasized the high volatility and recent large 30d drop, signaling a defensive de-risk stance. Moral Trader prioritized narrative risk, citing an empty news packet with API key note and macro sensitivity indicators pointing to a potential issue. Each strategy's justification relied on different market facts, ultimately leading to the same decision.",
+    "pattern_note": "Unanimous SELL (News, Vol, Moral)"
   }
 }

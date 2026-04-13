@@ -10,6 +10,17 @@ Multi-agent stock signal system for course submission. This README is structured
 - [x] **Install and run** — [Before you begin](#before-you-begin) and [Run](#run).
 - [x] **Pre-generated outputs** — Committed JSON under [`outputs/`](outputs/) so the project **runs for grading without** an Alpha Vantage key (news blocks may be empty; pipeline still completes). Re-run locally with a key for live news if desired.
 
+### Latest committed empirical snapshot (`outputs/summary.json`)
+
+| Metric | Value |
+|--------|--------|
+| Tickers | `PLTR`, `TTE`, `GOLD`, `LMT`, `FRO` |
+| `total_agreements` | **1** (three agents all agree on **one** symbol: **GOLD** → SELL) |
+| `total_disagreements` | **4** |
+| Heuristic backtest (see `outputs/backtest.json`) | `overall_hit_rate_news` **0.4348**, `overall_hit_rate_volatility` **0.2522**, `overall_winner` **news_sentiment_heuristic** |
+
+Narrative analysis: [`report/comparative_analysis.tex`](report/comparative_analysis.tex) (build PDF per course instructions). Pull the latest `master` to match tables and quotes to JSON on disk.
+
 ---
 
 ## Repository layout (top level)

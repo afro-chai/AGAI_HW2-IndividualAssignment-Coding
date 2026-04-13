@@ -25,8 +25,10 @@
 \maketitle
 
 \begin{abstract}
-\noindent This work implements a small multi-agent \textbf{StockTrader} pipeline: two graded strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus a third \textbf{Moral Trader} extension, orchestrated with Microsoft \textbf{AutoGen} and local \textbf{Ollama} inference. Each symbol is analyzed in parallel from the same market snapshot; an evaluator then summarizes agreement and tension across agents. The study uses a compact basket of five U.S.\ listings chosen for sector spread and defense--geopolitics exposure, including Africa--MENA energy and gold mining angles alongside defense and shipping names. A lightweight news sentiment feed supplies optional headlines; a separate historical exercise scores transparent stand-ins for the two graded philosophies against realized forward returns without replaying the LLMs on past dates. In the full live run, agents split on three names and aligned on two, so behavior is not uniform or consensus-driven. In aggregate, the news-oriented historical proxy outperformed the volatility-oriented proxy, while live rationales still diverge where news is thin and price paths dominate.
+\noindent This work implements a small multi-agent \textbf{StockTrader} pipeline: two graded strategies---\textbf{News Sentiment Follower} and \textbf{Volatility Averse}---plus a third \textbf{Moral Trader} extension, orchestrated with Microsoft \textbf{AutoGen} and local \textbf{Ollama} inference. Each symbol is analyzed in parallel from the same market snapshot; an evaluator then summarizes agreement and tension across agents. The study uses a compact basket of five U.S.\ listings chosen for sector spread and defense--geopolitics exposure, including Africa--MENA energy and gold mining angles alongside defense and shipping names. A lightweight news sentiment feed supplies optional headlines; a separate historical exercise scores transparent stand-ins for the two graded philosophies against realized forward returns without replaying the LLMs on past dates. The \textbf{committed} live snapshot (\texttt{outputs/summary.json}) shows \texttt{total\_agreements}$=1$ and \texttt{total\_disagreements}$=4$: only \textbf{GOLD} is three-way unanimous (all SELL); \textbf{TTE} and \textbf{FRO} exhibit full three-way splits (BUY/SELL/HOLD); \textbf{PLTR} aligns Volatility and Moral on SELL vs.\ News HOLD; \textbf{LMT} splits News HOLD vs.\ Volatility and Moral SELL. In aggregate, the news-oriented historical proxy still outperformed the volatility-oriented proxy on hit rates (\texttt{backtest.json}), while live rationales remain sensitive to empty news and prompt drift.
 \end{abstract}
+
+\noindent\fbox{\parbox{0.97\linewidth}{\small\textbf{Findings at a glance (matches committed JSON).} \texttt{summary.json}: agreements $=1$, disagreements $=4$. Unanimous three-agent decision only on \textbf{GOLD} (SELL). \textbf{TTE}: BUY / SELL / HOLD. \textbf{FRO}: BUY / SELL / HOLD. \textbf{PLTR}: HOLD / SELL / SELL. \textbf{LMT}: HOLD / SELL / SELL. Heuristic backtest overall: \texttt{overall\_hit\_rate\_news}$=0.4348$, \texttt{overall\_hit\_rate\_volatility}$=0.2522$, \texttt{overall\_winner}$=$news\_sentiment\_heuristic.}}
 
 \section{Strategy Selection and Rationale}
 
@@ -107,90 +109,90 @@ Table~\ref{tab:stocks} lists the \textbf{default five} tickers (see universe doc
     \toprule
     Ticker & A (News) & Conf. & B (Vol.) & Conf. & C (Moral) & Conf. & Spread \\
     \midrule
-    PLTR & HOLD & 6 & SELL & 8 & SELL & 1 & 7 \\
-    TTE  & BUY  & 8 & HOLD & 8 & HOLD & 2 & 6 \\
-    GOLD & SELL & 8 & SELL & 1 & SELL & 5 & 7 \\
-    LMT  & HOLD & 6 & HOLD & 6 & HOLD & 5 & 1 \\
-    FRO  & HOLD & 6 & SELL & 8 & HOLD & 5 & 3 \\
+    PLTR & HOLD & 6 & SELL & 8 & SELL & 10 & 4 \\
+    TTE  & BUY  & 8 & SELL & 8 & HOLD & 3 & 5 \\
+    GOLD & SELL & 8 & SELL & 8 & SELL & 5 & 3 \\
+    LMT  & HOLD & 6 & SELL & 8 & SELL & 1 & 7 \\
+    FRO  & BUY  & 8 & SELL & 8 & HOLD & 3 & 5 \\
     \bottomrule
   \end{tabular}
-  \caption{Strategy~A/B/C decisions and confidences on default stocks with spread.}
+  \caption{Strategy~A/B/C decisions and confidences (committed Ollama run; spread $=$ max $-$ min). Only GOLD is three-way unanimous.}
   \label{tab:results}
 \end{table}
 
 \subsubsection*{PLTR}
-\textbf{News Sentiment Follower:} HOLD (6). \textbf{Volatility Averse:} SELL (8).
+\textbf{News Sentiment Follower:} HOLD (6). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} SELL (10).
 \begin{quote}\small
-\emph{``No usable news available. pct\_change\_30d is -15.53, which indicates a strong down trend, but volatility\_30d is low at 0.034412. The current price of \$128.06 is also near the moving averages. No concrete reason to buy or sell based on news features.''}
+\emph{``No usable news available\ldots\ Current price is down by -15.53\% from the previous 30-day period, but volatility is low at 0.034412\ldots\ HOLDing the current position is the most conservative approach.''}
 \end{quote}
 \begin{quote}\small
-\emph{``Turbulence signals: std\_daily\_return\_90d > 0.022 (0.033097), abs(max\_single\_day\_drop\_90d) > 0.054 (-0.116164). Volatility\_30d > 0.024 (0.034412). pct\_change\_30d <= -10 (-15.53). Calm tape not present.''}
+\emph{``We would reduce exposure: the path has been rough---large worst-day loss and a double-digit one-month drawdown with choppy daily moves\ldots\ We prefer SELL in such conditions\ldots''}
 \end{quote}
-\textbf{Evaluator (excerpt):} \emph{``The agents disagree on the stock's decision, reflecting different philosophical approaches. News Sentiment Follower prioritizes news features with a confidence of 6, indicating a cautious hold due to lack of concrete reasons for buying or selling. In contrast, Volatility Averse emphasizes turbulence signals with high confidence (8), suggesting a sell stance based on elevated volatility\ldots''}
+\textbf{Evaluator (excerpt):} \emph{``The News Sentiment Follower focuses on the absence of usable news\ldots\ the Volatility Averse agent emphasizes elevated turbulence signals\ldots\ stricter than the News Sentiment Follower's implicit threshold\ldots''} (\texttt{pattern\_note}: Vol \& Moral SELL; News HOLD).
 
 \subsubsection*{TTE}
-\textbf{News Sentiment Follower:} BUY (8). \textbf{Volatility Averse:} HOLD (8).
+\textbf{News Sentiment Follower:} BUY (8). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} HOLD (3).
 \begin{quote}\small
-\emph{``High price momentum (15.17\% in 30 days) and positive sentiment score (0.05) indicate a strong directional narrative\ldots\ Although there are no specific news articles to analyze, the overall sentiment suggests a favorable outlook for TTE. Therefore, we recommend buying the stock.''}
+\emph{``High price momentum (15.17\% in 30 days) and positive sentiment score (0.05)\ldots\ news features are neutral\ldots\ we lean towards buying TTE stock.''} (Sentiment score is \textbf{not} present in JSON when \texttt{articles\_count = 0}.)
 \end{quote}
 \begin{quote}\small
-\emph{``Turbulence signals are calm (std\_daily\_return\_90d = 0.015466, max\_single\_day\_drop\_90d = -0.043734), and pct\_change\_30d is positive (+15.17). Volatility\_30d is low (0.016949). No elevated risk conditions met.''}
+\emph{``The path has been rough with a double-digit one-month drawdown (15.17\% change) and choppy daily moves\ldots\ We prefer SELL in this scenario to maintain defensive positioning.''}
 \end{quote}
-\textbf{Evaluator (excerpt):} \emph{``The agents disagree on the stock's decision. The News Sentiment Follower prioritizes narrative ethics, emphasizing high price momentum and positive sentiment score to justify a BUY recommendation. In contrast, Volatility Averse focuses on volatility metrics\ldots\ which indicate calm turbulence and a low-risk environment.''}
+\textbf{Evaluator (excerpt):} \emph{``The former prioritizes high price momentum\ldots\ positive sentiment score over turbulence thresholds, whereas the latter focuses on elevated volatility\ldots\ potential overbought conditions.''} (\texttt{pattern\_note}: News BUY $\cdot$ Vol SELL $\cdot$ Moral HOLD).
 
 \subsubsection*{GOLD}
-\textbf{News Sentiment Follower:} SELL (8). \textbf{Volatility Averse:} SELL (1).
+\textbf{All three agents:} SELL (News 8, Volatility 8, Moral 5).
 \begin{quote}\small
-\emph{``No usable news available. No sentiment score to consider. Strong down (-12.86\%) with elevated volatility (0.032859) suggests a SELL lean\ldots''}
+\emph{``No usable news available. pct\_change\_30d is -12.86\ldots\ volatility\_30d is 0.032859, which is moderate\ldots\ we lean towards selling\ldots''}
 \end{quote}
 \begin{quote}\small
-\emph{``Elevated turbulence: std\_daily\_return\_90d > 0.022 (0.039968), max\_single\_day\_drop\_90d > -0.054 (-0.082773). Large 30d drawdown: pct\_change\_30d <= -12 (-12.86). Volatility is high: volatility\_30d > 0.024 (0.032859). Calm tape not present.''}
+\emph{``We would reduce exposure: the path has been rough---large worst-day loss and a double-digit one-month drawdown\ldots\ high volatility (0.032859)\ldots''}
 \end{quote}
-\textbf{Evaluator:} \emph{``All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.''}
+\textbf{Evaluator:} \emph{``The three strategies converged on selling\ldots''} (\texttt{pattern\_note}: Unanimous SELL (News, Vol, Moral))---the \textbf{only} three-way agreement in this run.
 
 \subsubsection*{LMT}
-\textbf{News Sentiment Follower:} HOLD (6). \textbf{Volatility Averse:} HOLD (6).
+\textbf{News Sentiment Follower:} HOLD (6). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} SELL (1).
 \begin{quote}\small
-\emph{``No usable news available. No sentiment score is provided, and articles count is zero. However, current price is down by -5.5\% from the previous 30-day period, which may indicate a potential buying opportunity. Therefore, HOLD with caution.''}
+\emph{``No usable news available\ldots\ Current price is down by -5.5\%\ldots\ volatility is low at 0.01655\ldots\ choosing to HOLD based on current market conditions.''}
 \end{quote}
 \begin{quote}\small
-\emph{``Turbulence signals are calm (std\_daily\_return\_90d = 0.017856, max\_single\_day\_drop\_90d = -0.048215, atr\_14 / current\_price = 0.0163093), and the 30-day drawdown is moderate (-5.5\%).''}
+\emph{``The path has been rough---large worst-day loss\ldots\ double-digit one-month drawdown with choppy daily moves\ldots\ 30-day drawdown depth of -5.5\% also suggests a defensive de-risk stance.''}
 \end{quote}
-\textbf{Evaluator:} \emph{``All strategy agents converge on the same decision for this ticker. They differ slightly in rationale emphasis, but the final recommendation is aligned.''}
+\textbf{Evaluator (note):} The saved \texttt{analysis} text incorrectly claims Moral Trader ``HOLD'' while JSON shows \textbf{SELL}; \texttt{pattern\_note} (\texttt{Vol \& Moral SELL; News HOLD}) matches the structured decisions. Moral justification also cites \texttt{beta\_proxy\_spy > 1.25} when the payload shows $\beta \approx 0.33$---another field-level error worth tightening in prompts or validation.
 
 \subsubsection*{FRO}
-\textbf{News Sentiment Follower:} HOLD (6). \textbf{Volatility Averse:} SELL (8).
+\textbf{News Sentiment Follower:} BUY (8). \textbf{Volatility Averse:} SELL (8). \textbf{Moral Trader:} HOLD (3).
 \begin{quote}\small
-\emph{``No usable news available. No sentiment score to consider. The current price is flat, and the recent price movement (+5.76) does not contradict the lack of news. Therefore, no bias can be applied based on news or sentiment alone. Holding the current position.''}
+\emph{``\ldots\ current price is up (+5.76\%) and volatility\_30d is low (0.035076), suggesting a bullish narrative\ldots\ market data suggests a BUY lean.''}
 \end{quote}
 \begin{quote}\small
-\emph{``Turbulence signals: std\_daily\_return\_90d > 0.022 (0.029016), atr\_14 / current\_price > 0.028 (1.7157 / 34.34). Large 30d drawdown: pct\_change\_30d = 5.76, which is not extreme but combined with elevated vol signals. Calm tape not present.''}
+\emph{``We would reduce exposure\ldots\ daily volatility around 3.5\% and a maximum single day drop near -6.2\%\ldots\ prefer to exercise caution and reduce exposure.''} (Volatility text also describes a ``double-digit one-month drawdown'' despite a \textbf{positive} \texttt{pct\_change\_30d} in the JSON---internal inconsistency.)
 \end{quote}
-\textbf{Evaluator (excerpt):} \emph{``The agents disagree on the decision, with News Sentiment Follower holding\ldots\ due to lack of news, Volatility Averse selling due to elevated volatility, and Moral Trader also holding. The philosophical split lies in their emphasis: News Sentiment Follower prioritizes news, Volatility Averse focuses on volatility, and Moral Trader considers macro sensitivity.''}
+\textbf{Evaluator (excerpt):} \emph{``The News agent focuses on the bullish narrative\ldots\ Volatility Averse emphasizes\ldots\ potential for overbought conditions\ldots''} (\texttt{pattern\_note}: News BUY $\cdot$ Vol SELL $\cdot$ Moral HOLD).
 
 \section{Patterns of Agreement and Disagreement}
 
-\textbf{Where they agreed.} Three-way unanimity appears only on \textbf{GOLD} (all SELL) and \textbf{LMT} (all HOLD). That pattern makes sense: GOLD combines a large one-month drawdown with objectively elevated turbulence fields, so both graded philosophies read ``risk off'' even without articles. LMT sits in a quieter statistical regime (moderate drawdown, turbulence checks not tripping aggressively), so both graded agents default to HOLD.
+\textbf{Where they agreed.} Three-way unanimity appears \textbf{only on GOLD} (all SELL, confidences 8/8/5). Both graded agents and Moral read drawdown plus turbulence as defensive exit; this is the single line in \texttt{summary.json} with \texttt{agree: true} for all three.
 
-\textbf{Where they disagreed most sharply.} The clearest graded clash is \textbf{PLTR} (HOLD vs.\ SELL): the news agent treats missing headlines plus \emph{relatively} low 30-day volatility as a reason to stand aside, while the volatility agent treats path metrics (90-day std, max drop, 30-day sell-off) as sufficient to exit. \textbf{TTE} is the opposite polarity (BUY vs.\ HOLD): momentum is strong and realized vol looks tame, so the news-leaning branch extrapolates a bullish story while the vol branch reads ``no elevated risk'' as HOLD, not chase. \textbf{FRO} is a subtler wedge: mild positive month but elevated microstructure-style triggers fire a SELL for Strategy~B while Strategy~A stays anchored on ``no news $\Rightarrow$ no directional bias.''
+\textbf{Where they disagreed.} \textbf{PLTR:} News HOLD vs.\ Volatility and Moral SELL---Moral assigns maximum confidence (10) while flagging empty news and macro beta. \textbf{TTE:} full triangle BUY / SELL / HOLD: News chases momentum language (and again cites a phantom sentiment score), Volatility now \textbf{SELLs} on ``rough path'' / overbought framing, Moral HOLD on empty articles. \textbf{LMT:} News HOLD vs.\ Volatility and Moral SELL on turbulence narrative despite moderate $-5.5\%$ month. \textbf{FRO:} same BUY / SELL / HOLD pattern as TTE with momentum vs.\ defensive vol language.
 
-\textbf{My read (what drives divergence).} The dominant driver is \textbf{missing news} combined with \textbf{different fallback hierarchies}: Strategy~A sometimes invents sentiment or narrative glue when the feed is empty (see TTE), whereas Strategy~B stays closer to explicit numeric gates. A secondary driver is \textbf{how ``risk'' is defined}: point-in-time vol level vs.\ cumulative drawdown/turbulence composites. Moral Trader adds variance mainly through confidence and governance framing rather than flipping decisions every time.
+\textbf{My read (what drives divergence).} The dominant driver remains \textbf{empty news} plus \textbf{inconsistent fallback rules}: Strategy~A still fabricates or stretches sentiment when fields are null (TTE, FRO), while Strategy~B often converges on SELL using vol-path templates that sometimes \textbf{contradict} the sign of \texttt{pct\_change\_30d} (FRO). Moral Trader tracks governance notes and beta language but can emit confidence extremes (PLTR 10, LMT 1) and occasional field errors.
 
-\textbf{Operational context.} With five symbols per run, the external news feed is still often empty under free-tier limits; that shifts more weight onto momentum language in Strategy~A and can make evaluator summaries generic until prompts emphasize mechanistic contrast over labels. The implementation now routes evaluator instructions by agreement branch and sets \texttt{pattern\_note} deterministically from the three decisions so summaries stay aligned with the graded pair.
+\textbf{Operational context.} Five symbols per run $\Rightarrow$ five Alpha Vantage calls; feeds were still empty in this snapshot, so graders should treat Strategy~A BUY/SELL text as \textbf{model-dependent}. Evaluator \texttt{pattern\_note} is deterministic from decisions; occasional \texttt{analysis} prose may still drift (see LMT).
 
 \section{Failure or Surprise Case}
 
-\textbf{Primary failure (unexpected output):} On \textbf{TTE}, News Sentiment Follower claims a ``positive sentiment score (0.05)'' even though the payload shows no articles and a null average sentiment field. That is not a minor wording preference---it is fabricated grounding---and it would be unsafe to deploy without hard validation against the JSON schema.
+\textbf{Primary failure (unexpected output):} \textbf{TTE} (and \textbf{FRO}) still cite positive ``sentiment'' or narrative where \texttt{avg\_sentiment\_score} is null and \texttt{articles\_count = 0}. That remains \textbf{fabricated grounding} relative to the payload.
 
-\textbf{Secondary weakness:} The evaluator can still emit stock-agnostic boilerplate or imprecise role labels when the model drifts; tightening prompts and branch-specific instructions mitigates this.
+\textbf{Secondary weakness:} \textbf{LMT} evaluator \texttt{analysis} mis-describes Moral as HOLD though JSON says SELL; Moral text also mis-states $\beta$ vs.\ the numeric \texttt{beta\_proxy\_spy}. Hard schema checks or post-validation would catch this before submission narratives.
 
-\textbf{Positive surprise (stress test worked):} \textbf{FRO} splits cleanly: Volatility Averse fires SELL on composite turbulence thresholds while the news branch holds absent headlines, surfacing exactly the philosophical difference the assignment asks us to compare.
+\textbf{Positive surprise:} \textbf{GOLD} shows clean three-way SELL alignment with coherent risk-off language across agents---the one case where empty news did not prevent convergent de-risk framing.
 
 \section{Reflection}
 
 \textbf{Which graded strategy for \$10{,}000 over one month?} I would follow \textbf{Volatility Averse (Strategy~B)}. This run showed Strategy~A can drift from supplied fields when news is empty (TTE), while Strategy~B stayed anchored to explicit turbulence and drawdown checks on PLTR/FRO. For capital preservation over a short horizon, I prefer a rule-like risk gate I can audit numerically, even when it is conservative.
 
-\textbf{A third hybrid (best of both).} A practical hybrid would be \emph{(1)} if real sentiment exists (non-zero article count and a numeric score), blend: start from Strategy~A's tilt but cap aggressiveness unless Strategy~B's turbulence screen is not flashing SELL; \emph{(2)} if news is empty, \textbf{do not} let the LLM infer sentiment---fall back to coded momentum thresholds only, or default to HOLD; \emph{(3)} attach a machine-checked ``field integrity'' flag (e.g.\ forbid mentioning sentiment scores unless present in JSON) before any trade-sized action. That preserves narrative edge when data exists while inheriting Strategy~B's discipline when it does not.
+\textbf{A third hybrid (best of both).} Same as prior revision: \emph{(1)} blend only when articles and scores exist; \emph{(2)} if news is empty, forbid free-form sentiment; \emph{(3)} validate evaluator text against structured decisions (would fix the LMT mismatch). This run proves why: four of five tickers are multi-way splits under identical feeds.
 
 \appendix
 \section*{Bonus artifact: backtest snapshot}
