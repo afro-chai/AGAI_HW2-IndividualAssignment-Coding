@@ -6,7 +6,7 @@ Multi-agent stock signal system for course submission. This README is structured
 
 - [x] **Two graded strategies** — **News Sentiment Follower** (`strategy_a`) and **Volatility Averse** (`strategy_b`). Moral Trader is the optional third agent. Prompts: [`prompts/`](prompts/). Rationale: [Strategy selection](#strategy-selection).
 - [x] **LLM provider** — **Ollama** (local). Optional **LiteLLM**-compatible proxy via `LITELLM_*` env vars. Details: [Environment variables](#environment-variables).
-- [x] **Framework / toolset** — **Microsoft AutoGen** (`AssistantAgent`, structured outputs), **Python 3.10+**, **yfinance**, optional **Alpha Vantage** news. Overview: [Architecture](#architecture-brief).
+- [x] **Framework / toolset** — **Microsoft AutoGen** (`AssistantAgent`, structured outputs), **Python 3.10+**, **yfinance**, optional **Alpha Vantage** news. Overview: [Architecture (brief)](report/walkthrough/StockTrader_Walkthrough_Home.html).
 - [x] **Install and run** — [Before you begin](#before-you-begin) and [Run](#run).
 - [x] **Pre-generated outputs** — Committed JSON under [`outputs/`](outputs/) so the project **runs for grading without** an Alpha Vantage key (news blocks may be empty; pipeline still completes). Re-run locally with a key for live news if desired.
 
@@ -105,7 +105,19 @@ python -m src.main --backtest
 
 ---
 
-## Architecture (brief)
+## [Architecture (brief)](report/walkthrough/StockTrader_Walkthrough_Home.html)
+
+Static HTML walkthrough (open [`report/walkthrough/StockTrader_Walkthrough_Home.html`](report/walkthrough/StockTrader_Walkthrough_Home.html) from a clone): clickable pipeline diagram, repository map, and links into strategy / evaluator canvases. Figures below are exported from that map page for quick reference on GitHub.
+
+**Conceptual pipeline** — one market payload per ticker, three parallel strategies, evaluator, then artifacts on disk:
+
+![Conceptual architecture — MarketData, three strategies, Evaluator, Artifacts](report/walkthrough/img/readme-conceptual-architecture.png)
+
+**Repository map (documentation tree)** — `report/walkthrough/` holds the HTML site; the bright **◀— you are here** marker in the live page highlights that folder.
+
+![Repository map — outputs, report, walkthrough HTML](report/walkthrough/img/readme-repo-map-walkthrough.png)
+
+**Python modules**
 
 - **`src/market_data.py`** — yfinance features and optional Alpha Vantage news (one `NEWS_SENTIMENT` call per ticker per run when configured).
 - **`src/llm_factory.py`** — Ollama or LiteLLM-backed chat client.

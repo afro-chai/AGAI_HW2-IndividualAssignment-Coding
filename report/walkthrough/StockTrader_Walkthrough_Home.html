@@ -51,7 +51,7 @@
   <h2 class="wt-section-title">Conceptual architecture — clickable nodes</h2>
 
   <figure class="wt-diagram-wrap" aria-label="StockTrader pipeline: one market payload, three parallel strategies, evaluator, then persisted JSON">
-    <figcaption class="wt-diagram-h">Diagram</figcaption>
+    <figcaption class="wt-diagram-h">Conceptual Architecture Diagram</figcaption>
     <div class="wt-flow">
       <a class="wt-dia-box" href="Walkthrough_MarketData.html">MarketData<span class="wt-dia-sub">(yfinance + features) — open full data-layer walkthrough</span></a>
 
@@ -98,13 +98,14 @@
     <h2>Repository map (clickable)</h2>
     <div class="wt-repo-tree">AGAI_HW2-IndividualAssignment-Coding/
 ├── <a href="../../README.md">README.md</a> — grader-facing setup &amp; checklist
-├── <a href="../../src/README.md">src/README.md</a> — execution flow, Mermaid, module map
 ├── <a href="../../requirements.txt">requirements.txt</a>
 ├── <a href="../../.env.example">.env.example</a>
-├── <a href="../../src/main.py">src/main.py</a> — CLI, tickers, summary + optional backtest
-├── <a href="../../src/orchestration.py">src/orchestration.py</a> — parallel strategies + evaluator
-├── <a href="../../src/market_data.py">src/market_data.py</a> — yfinance + Alpha Vantage
-├── <a href="../../src/evaluator.py">src/evaluator.py</a> — branching evaluator task
+├── src/
+│   ├── <a href="../../src/README.md">README.md</a> — execution flow, Mermaid, module map
+│   ├── <a href="../../src/main.py">main.py</a> — CLI, tickers, summary + optional backtest
+│   ├── <a href="../../src/orchestration.py">orchestration.py</a> — parallel strategies + evaluator
+│   ├── <a href="../../src/market_data.py">market_data.py</a> — yfinance + Alpha Vantage
+│   └── <a href="../../src/evaluator.py">evaluator.py</a> — branching evaluator task
 ├── prompts/
 │   ├── <a href="../../prompts/strategy_news_sentiment.txt">strategy_news_sentiment.txt</a>
 │   ├── <a href="../../prompts/strategy_volatility_averse.txt">strategy_volatility_averse.txt</a>
@@ -113,9 +114,9 @@
 ├── outputs/ — committed sample JSON for grading
 └── report/
     ├── <a href="../comparative_analysis.tex">comparative_analysis.tex</a>
-    └── walkthrough/  ← you are here
+    └── walkthrough/  <span class="wt-you-are-here">◀— you are here</span>
         ├── <a href="StockTrader_Walkthrough_Home.html">StockTrader_Walkthrough_Home.html</a> (this page)
-        ├── <a href="Walkthrough_MarketData.html">Walkthrough_MarketData.html</a> — data layer + default tickers + universe reference
+        ├── <a href="Walkthrough_MarketData.html">Walkthrough_MarketData.html</a> — data layer, default tickers, 15 substitute-symbol panels
         ├── <a href="Walkthrough_Artifacts.html">Walkthrough_Artifacts.html</a> — outputs, write order, sample files
         ├── <a href="StockTrader_MultiAgent_System_Canvas.html">StockTrader_MultiAgent_System_Canvas.html</a>
         ├── <a href="AgentCanvas_StrategyA_NewsSentiment.html">AgentCanvas_StrategyA_NewsSentiment.html</a>

@@ -152,10 +152,317 @@
       <p class="wt-market-foot">
         Declared as <code>DEFAULT_TICKERS</code> in <a href="../../src/main.py"><code>src/main.py</code></a>. Rate limits and NEWS_SENTIMENT behavior: <a href="../../docs/ALPHA_VANTAGE.md"><code>docs/ALPHA_VANTAGE.md</code></a>.
       </p>
-      <p class="wt-mkt-doc-note">
-        Optional substitute-symbol context (global / regional lists, non-investable entities) lives in <a href="../DEFENSE_GEOPOLITICS_UNIVERSE.md"><code>report/DEFENSE_GEOPOLITICS_UNIVERSE.md</code></a> — same pipeline, different <code>--tickers</code>.
-      </p>
+      <div class="wt-mkt-ref-band" id="substitute-reference">
+        <h2 class="wt-section-title wt-mkt-section-kicker">Substitute-symbol reference</h2>
+        <p class="wt-mkt-lead">Field- and region-shaped ticker ideas for rotating <code>--tickers</code> (illustrative, not investment advice). Each button opens a compact table; the worksheet has full narrative.</p>
+        <div class="wt-ref-grid" role="toolbar" aria-label="Substitute-symbol categories">
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u01').showModal()">AI / data / platforms</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u02').showModal()">Chips &amp; compute</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u03').showModal()">Defense primes</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u04').showModal()">Gov-tech / integrators</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u05').showModal()">Big tech — cloud</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u06').showModal()">Cybersecurity</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u07').showModal()">Shipping &amp; chokepoints</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u08').showModal()">LNG &amp; gas</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u09').showModal()">Uranium / naval nuclear</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u10').showModal()">Copper &amp; minerals</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u11').showModal()">Oil supermajors &amp; upstream</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u12').showModal()">Oil (Africa + MENA)</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u13').showModal()">Mining (DRC / Sahel)</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u14').showModal()">Cyber (terror + hybrid)</button>
+          <button type="button" class="wt-ref-btn" onclick="document.getElementById('dlg-u15').showModal()">Non-investable / env.</button>
+        </div>
+        <p class="wt-mkt-doc-note">Same pipeline as the diagram above; only <code>--tickers</code> and API call budgets change. Long-form worksheet: <a href="../DEFENSE_GEOPOLITICS_UNIVERSE.md"><code>report/DEFENSE_GEOPOLITICS_UNIVERSE.md</code></a>.</p>
+      </div>
     </section>
+
+  <dialog id="dlg-u01" class="wt-dialog" aria-labelledby="dlg-u01-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u01-h">AI / data / platforms (defense &amp; intel adjacency)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u01').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Palantir Technologies</td><td><code>PLTR</code></td><td>DoD / NATO / intel analytics; Golden Dome / defense contract headlines</td><td>5</td></tr>
+          <tr><td>Anthropic</td><td>(private)</td><td>Claude family used in gov / enterprise; policy controversy risk</td><td>~5 equiv.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u02" class="wt-dialog" aria-labelledby="dlg-u02-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u02-h">Chips &amp; compute (AI + autonomy backbone)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u02').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>NVIDIA</td><td><code>NVDA</code></td><td>GPUs for AI, autonomy, surveillance stacks</td><td>5</td></tr>
+          <tr><td>AMD</td><td><code>AMD</code></td><td>MI-series AI accelerators vs. NVDA</td><td>5</td></tr>
+          <tr><td>Intel</td><td><code>INTC</code></td><td>US fabs, CHIPS Act, defense supply chain</td><td>4</td></tr>
+          <tr><td>Taiwan Semiconductor</td><td><code>TSM</code></td><td>Leading-edge fab concentration; Taiwan strait geopolitics</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u03" class="wt-dialog" aria-labelledby="dlg-u03-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u03-h">Defense primes (kinetic + aerospace)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u03').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Lockheed Martin</td><td><code>LMT</code></td><td>F-35, missiles, hypersonics</td><td>2</td></tr>
+          <tr><td>RTX Corporation</td><td><code>RTX</code></td><td>Patriot, radar, missile demand</td><td>2</td></tr>
+          <tr><td>Northrop Grumman</td><td><code>NOC</code></td><td>Bombers, nuclear, space</td><td>2</td></tr>
+          <tr><td>General Dynamics</td><td><code>GD</code></td><td>Subs, land systems, IT</td><td>2</td></tr>
+          <tr><td>Boeing</td><td><code>BA</code></td><td>Defense aircraft + space; integration narratives</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u04" class="wt-dialog" aria-labelledby="dlg-u04-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u04-h">Gov-tech / systems integrators</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u04').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>CACI International</td><td><code>CACI</code></td><td>Classified / cyber / C4ISR</td><td>3</td></tr>
+          <tr><td>Science Applications Intl.</td><td><code>SAIC</code></td><td>Gov IT integration</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u05" class="wt-dialog" aria-labelledby="dlg-u05-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u05-h">Big tech — cloud &amp; defense infrastructure</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u05').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Oracle</td><td><code>ORCL</code></td><td>Gov cloud / data estates</td><td>3</td></tr>
+          <tr><td>Amazon</td><td><code>AMZN</code></td><td>AWS GovCloud; defense AI plumbing</td><td>3</td></tr>
+          <tr><td>Microsoft</td><td><code>MSFT</code></td><td>Azure JWCC / DoD ecosystem</td><td>3</td></tr>
+          <tr><td>Alphabet</td><td><code>GOOGL</code></td><td>AI, analytics, Maven-era history</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u06" class="wt-dialog" aria-labelledby="dlg-u06-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u06-h">Cybersecurity (state + criminal + hybrid)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u06').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>CrowdStrike</td><td><code>CRWD</code></td><td>Endpoint + threat intel</td><td>4</td></tr>
+          <tr><td>Palo Alto Networks</td><td><code>PANW</code></td><td>Network / cloud security</td><td>3</td></tr>
+          <tr><td>Fortinet</td><td><code>FTNT</code></td><td>Gov + critical infrastructure</td><td>4</td></tr>
+          <tr><td>Check Point</td><td><code>CHKP</code></td><td>Strong Middle East threat context</td><td>2</td></tr>
+          <tr><td>Darktrace</td><td><code>DARK</code> (listing varies)</td><td>AI anomaly detection</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u07" class="wt-dialog" aria-labelledby="dlg-u07-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u07-h">Shipping &amp; chokepoints (Hormuz, Red Sea, Suez)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u07').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Frontline</td><td><code>FRO</code></td><td>Crude tankers; rate spikes on disruption</td><td>5</td></tr>
+          <tr><td>Euronav</td><td><code>EURN</code></td><td>Large crude carriers</td><td>4</td></tr>
+          <tr><td>Teekay Tankers</td><td><code>TNK</code></td><td>Mid-size tanker exposure</td><td>5</td></tr>
+          <tr><td>ZIM Integrated</td><td><code>ZIM</code></td><td>Containers; Israel / MENA headline beta</td><td>5</td></tr>
+          <tr><td>Maersk</td><td><code>AMKBY</code> / listings vary</td><td>Global liner / logistics</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u08" class="wt-dialog" aria-labelledby="dlg-u08-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u08-h">LNG &amp; gas exporters</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u08').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Cheniere</td><td><code>LNG</code></td><td>US LNG export scale</td><td>4</td></tr>
+          <tr><td>Shell</td><td><code>SHEL</code></td><td>LNG + trading</td><td>2</td></tr>
+          <tr><td>TotalEnergies</td><td><code>TTE</code></td><td>LNG + MENA / Africa footprint</td><td>2</td></tr>
+          <tr><td>Equinor</td><td><code>EQNR</code></td><td>European gas / security-of-supply</td><td>3</td></tr>
+          <tr><td>QatarEnergy</td><td>(state)</td><td>Global LNG supply power</td><td>~2 equiv.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u09" class="wt-dialog" aria-labelledby="dlg-u09-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u09-h">Uranium / naval nuclear (energy security)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u09').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Cameco</td><td><code>CCJ</code></td><td>Western uranium producer</td><td>4</td></tr>
+          <tr><td>Kazatomprom</td><td><code>KAP</code> (venue varies)</td><td>Kazakhstan supply chain</td><td>4</td></tr>
+          <tr><td>NexGen Energy</td><td><code>NXE</code></td><td>Canadian developer</td><td>5</td></tr>
+          <tr><td>Denison Mines</td><td><code>DNN</code></td><td>ISR / development</td><td>5</td></tr>
+          <tr><td>BWX Technologies</td><td><code>BWXT</code></td><td>Naval reactors</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u10" class="wt-dialog" aria-labelledby="dlg-u10-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u10-h">Copper &amp; critical minerals</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u10').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Freeport-McMoRan</td><td><code>FCX</code></td><td>Copper levered to electrification + defense supply chain</td><td>4</td></tr>
+          <tr><td>Rio Tinto</td><td><code>RIO</code></td><td>Diversified; copper / lithium exposure</td><td>3</td></tr>
+          <tr><td>BHP</td><td><code>BHP</code></td><td>Global mining; copper</td><td>3</td></tr>
+          <tr><td>Glencore</td><td><code>GLEN</code> (UK) / <code>GLNCY</code> (ADR)</td><td>DRC cobalt / copper; resource competition</td><td>4</td></tr>
+          <tr><td>Ivanhoe Mines</td><td><code>IVN</code> (venue varies)</td><td>DRC copper development</td><td>5</td></tr>
+          <tr><td>China Molybdenum</td><td><code>CMCLF</code> / venue varies</td><td>DRC cobalt (EV + defense metals)</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u11" class="wt-dialog" aria-labelledby="dlg-u11-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u11-h">Oil supermajors &amp; upstream (global supply shock)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u11').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Exxon Mobil</td><td><code>XOM</code></td><td>US supermajor; global / MENA exposure</td><td>2</td></tr>
+          <tr><td>Chevron</td><td><code>CVX</code></td><td>US supermajor</td><td>2</td></tr>
+          <tr><td>Shell</td><td><code>SHEL</code></td><td>Integrated; Nigeria / LNG</td><td>2</td></tr>
+          <tr><td>BP</td><td><code>BP</code></td><td>UK major; geopolitical whiplash beta</td><td>3</td></tr>
+          <tr><td>TotalEnergies</td><td><code>TTE</code></td><td>Africa + MENA + LNG</td><td>2</td></tr>
+          <tr><td>ConocoPhillips</td><td><code>COP</code></td><td>Upstream levered to crude</td><td>3</td></tr>
+          <tr><td>Occidental</td><td><code>OXY</code></td><td>Permian; headline crude beta</td><td>4</td></tr>
+          <tr><td>EOG Resources</td><td><code>EOG</code></td><td>Quality shale / pure oil beta</td><td>4</td></tr>
+          <tr><td>Equinor</td><td><code>EQNR</code></td><td>Norway / Europe supply story</td><td>3</td></tr>
+          <tr><td>Saudi Aramco</td><td><code>2222.SR</code> (Tadawul)</td><td>Spare capacity / OPEC+; broker access required</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u12" class="wt-dialog" aria-labelledby="dlg-u12-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u12-h">Oil (Africa + MENA overlap)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u12').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <p class="wt-dialog-lens">Analytic lens: resources finance conflict; AFRICOM-relevant exposure via listed majors.</p>
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>AFRICOM / regional relevance</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>TotalEnergies</td><td><code>TTE</code></td><td>Mozambique LNG, Sahel / MENA footprint</td><td>2 — very high</td></tr>
+          <tr><td>Eni</td><td><code>E</code></td><td>Libya, Egypt, West Africa</td><td>2 — very high</td></tr>
+          <tr><td>Shell</td><td><code>SHEL</code></td><td>Nigeria / Niger Delta instability</td><td>2 — high</td></tr>
+          <tr><td>Exxon Mobil</td><td><code>XOM</code></td><td>West Africa + Iraq exposure</td><td>2 — high</td></tr>
+          <tr><td>Chevron</td><td><code>CVX</code></td><td>Nigeria + offshore Africa</td><td>2 — high</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u13" class="wt-dialog" aria-labelledby="dlg-u13-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u13-h">Mining (DRC / Sahel / conflict-adjacent gold &amp; copper)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u13').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>Notes</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>Glencore</td><td><code>GLEN</code> / <code>GLNCY</code></td><td>DRC cobalt + copper</td><td>4</td></tr>
+          <tr><td>Barrick Gold</td><td><code>GOLD</code></td><td>Mali, DRC, gold in conflict-adjacent states</td><td>3</td></tr>
+          <tr><td>Anglo American</td><td><code>NGLOY</code> / venue varies</td><td>Platinum, diamonds, Africa footprint</td><td>3</td></tr>
+          <tr><td>China Molybdenum</td><td><code>CMCLF</code></td><td>DRC cobalt concentration</td><td>4</td></tr>
+          <tr><td>Ivanhoe Mines</td><td><code>IVN</code></td><td>DRC copper development</td><td>5</td></tr>
+        </tbody>
+      </table>
+      <p class="wt-dialog-insight"><strong>AFRICOM insight (summary):</strong> DRC as cobalt choke point; gold linked to conflict-financing narratives; PRC vs. West competition in critical minerals.</p>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u14" class="wt-dialog" aria-labelledby="dlg-u14-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u14-h">Cybersecurity (terror + hybrid overlap)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u14').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Name</th><th>Ticker</th><th>AFRICOM / hybrid angle</th><th>Vol</th></tr></thead>
+        <tbody>
+          <tr><td>CrowdStrike</td><td><code>CRWD</code></td><td>Nation-state + criminal tooling</td><td>4</td></tr>
+          <tr><td>Palo Alto Networks</td><td><code>PANW</code></td><td>Gov / cloud</td><td>3</td></tr>
+          <tr><td>Fortinet</td><td><code>FTNT</code></td><td>Gov + infrastructure</td><td>4</td></tr>
+          <tr><td>Check Point</td><td><code>CHKP</code></td><td>Middle East threat expertise</td><td>2</td></tr>
+          <tr><td>Darktrace</td><td><code>DARK</code></td><td>AI-driven anomaly detection</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-u15" class="wt-dialog" aria-labelledby="dlg-u15-h">
+    <div class="wt-dialog-head">
+      <h3 id="dlg-u15-h">Strategic / non-investable networks (environment only)</h3>
+      <button type="button" class="wt-dialog-close" onclick="document.getElementById('dlg-u15').close()">Close</button>
+    </div>
+    <div class="wt-dialog-body">
+      <p class="wt-dialog-lens">No listed equity for several entities; keep as scenario / narrative context when stress-testing symbols elsewhere.</p>
+      <table class="wt-ticker-table wt-dialog-ref-table">
+        <thead><tr><th>Entity</th><th>Type</th><th>Why it matters (no ticker)</th></tr></thead>
+        <tbody>
+          <tr><td>Huawei</td><td>Private / state-linked</td><td>Telecom + data influence across Africa</td></tr>
+          <tr><td>Wagner-style networks</td><td>Proxy / irregular</td><td>Security-for-resources deals (historical framing)</td></tr>
+          <tr><td>IRGC / proxy ecosystem</td><td>State / irregular</td><td>Logistics + financing channels</td></tr>
+          <tr><td>CNPC</td><td>NOC</td><td>Africa + MENA oil</td></tr>
+          <tr><td>Baykar</td><td>Private</td><td>TB2 drone exports</td></tr>
+          <tr><td>QatarEnergy</td><td>NOC</td><td>LNG market power</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </dialog>
+
   </main>
 
   <footer class="wt-footer">
@@ -185,5 +492,14 @@
       </div>
     </div>
   </footer>
+  <script>
+    (function () {
+      document.querySelectorAll("dialog.wt-dialog").forEach(function (d) {
+        d.addEventListener("click", function (ev) {
+          if (ev.target === d) d.close();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

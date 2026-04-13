@@ -777,6 +777,45 @@ body.wt.wt-page-mkt {
   padding-top: 1.5rem;
 }
 
+.wt-page-mkt .wt-mkt-ref-band .wt-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10.75rem, 1fr));
+  gap: 0.45rem;
+  max-width: none;
+}
+
+.wt-page-mkt .wt-mkt-ref-band .wt-ref-btn {
+  text-align: left;
+  line-height: 1.25;
+  justify-self: stretch;
+}
+
+.wt-dialog-ref-table {
+  font-size: 0.65rem;
+}
+
+.wt-dialog-ref-table th,
+.wt-dialog-ref-table td {
+  padding: 0.35rem 0.4rem;
+  vertical-align: top;
+}
+
+.wt-dialog-lens {
+  margin: 0 0 0.65rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.wt-dialog-insight {
+  margin: 0.75rem 0 0;
+  padding-top: 0.65rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  border-top: 1px dashed var(--line);
+  color: var(--ink);
+}
+
 /* —— Artifacts dedicated page —— */
 body.wt.wt-page-art {
   background: linear-gradient(180deg, #ecfdf5 0%, var(--page-bg) 11rem);
@@ -1018,6 +1057,14 @@ a.wt-dia-box--artifact-hub:hover {
 
 .wt-repo-tree a:hover {
   text-decoration: underline;
+}
+
+.wt-you-are-here {
+  color: #ff0000;
+  font-weight: 800;
+  font-family: var(--sans);
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 1px rgba(255, 0, 0, 0.35);
 }
 
 .wt-repo-note {
