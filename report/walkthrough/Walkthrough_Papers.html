@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>StockTrader — Written report &amp; AI appendix</title>
+  <link rel="stylesheet" href="walkthrough.css"/>
+</head>
+<body class="wt wt-page-papers">
+  <nav class="wt-nav" aria-label="Walkthrough">
+    <a href="StockTrader_Walkthrough_Home.html">Map</a>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_MultiAgent_System_Canvas.html">System Canvas</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_MarketData.html">Market data</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyA_NewsSentiment.html">News</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyB_VolatilityAverse.html">Vol</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_StrategyC_MoralTrader.html">Moral</a>
+    <span class="wt-sep">·</span>
+    <a href="AgentCanvas_Evaluator.html">Evaluator</a>
+    <span class="wt-sep">·</span>
+    <a href="Walkthrough_Artifacts.html">Artifacts</a>
+    <span class="wt-sep">·</span>
+    <span class="wt-nav-now">Papers</span>
+    <span class="wt-sep">·</span>
+    <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+  </nav>
+
+  <header class="wt-header">
+    <div>
+      <h1>Written report &amp; AI use appendix</h1>
+      <span class="wt-course">94815 · LaTeX sources in <code>report/</code> · build PDFs locally per <a href="../LATEX_BUILD.md">LATEX_BUILD.md</a></span>
+    </div>
+    <a class="wt-phase-btn" href="../LATEX_BUILD.md">How to compile PDFs</a>
+  </header>
+
+  <p class="wt-lede">
+    This page is the <strong>papers hub</strong> for graders: the <strong>main comparative analysis</strong> first, a clear visual break, then the <strong>required AI use appendix</strong>. Read the excerpts below, open LaTeX sources, or use the embedded viewers after you run <code>pdflatex</code> so <code>report.pdf</code> and <code>ai_use_appendix.pdf</code> sit under <code>report/</code> next to this folder.
+  </p>
+
+  <main class="wt-papers-shell">
+    <section class="wt-papers-slab" aria-labelledby="sec-main-report">
+      <div class="wt-papers-slab-head">
+        <p class="wt-papers-badge">Part I</p>
+        <h2 id="sec-main-report" class="wt-papers-h">Main report — comparative analysis</h2>
+        <p class="wt-papers-sub">Source: <a href="../comparative_analysis.tex"><code>report/comparative_analysis.tex</code></a> · Course submission name: <code>report.pdf</code> (copy from <code>comparative_analysis.pdf</code> after build).</p>
+      </div>
+
+      <div class="wt-papers-abstract">
+        <p class="wt-papers-kicker">Abstract</p>
+        <p>This work implements a small multi-agent <strong>StockTrader</strong> pipeline: two graded strategies—<strong>News Sentiment Follower</strong> and <strong>Volatility Averse</strong>—plus a third <strong>Moral Trader</strong> extension, orchestrated with Microsoft <strong>AutoGen</strong> and local <strong>Ollama</strong> inference. Each symbol is analyzed in parallel from the same market snapshot; an evaluator then summarizes agreement and tension across agents. The study uses a compact basket of five U.S. listings chosen for sector spread and defense–geopolitics exposure, including Africa–MENA energy and gold mining angles alongside defense and shipping names. A lightweight news sentiment feed supplies optional headlines; a separate historical exercise scores transparent stand-ins for the two graded philosophies against realized forward returns without replaying the LLMs on past dates.</p>
+      </div>
+
+      <p class="wt-papers-tease">The full PDF includes strategy rationale, TikZ architecture diagram, stock table, quantitative results, per-ticker discussion, and comparative analysis. <strong>Build from LaTeX</strong> for the authoritative tables and figures.</p>
+
+      <div class="wt-papers-toolbar" role="group" aria-label="Main report actions">
+        <a class="wt-papers-pill" href="../comparative_analysis.tex">LaTeX source</a>
+        <a class="wt-papers-pill" href="../comparative_analysis.tex" download>Download <code>.tex</code></a>
+        <a class="wt-papers-pill wt-papers-pill--ghost" href="../LATEX_BUILD.md">Build instructions</a>
+      </div>
+
+      <div class="wt-papers-embed-wrap">
+        <p class="wt-papers-embed-label">PDF viewer — <code>report/report.pdf</code></p>
+        <div class="wt-papers-embed">
+          <iframe src="../report.pdf" title="Main report PDF (report.pdf)"></iframe>
+        </div>
+        <p class="wt-papers-embed-note">If this area is blank, the PDF is not present yet. From <code>report/</code>: <code>pdflatex comparative_analysis.tex</code> then <code>Copy-Item comparative_analysis.pdf report.pdf</code> (PowerShell). See <a href="../LATEX_BUILD.md">LATEX_BUILD.md</a>.</p>
+      </div>
+    </section>
+
+    <div class="wt-papers-divider" role="separator" aria-label="Section break between main report and AI appendix">
+      <span class="wt-papers-divider-line" aria-hidden="true"></span>
+      <span class="wt-papers-divider-badge">AI use disclosure</span>
+      <span class="wt-papers-divider-line" aria-hidden="true"></span>
+    </div>
+
+    <section class="wt-papers-slab wt-papers-slab--appendix" aria-labelledby="sec-ai-appendix">
+      <div class="wt-papers-slab-head">
+        <p class="wt-papers-badge wt-papers-badge--appendix">Part II</p>
+        <h2 id="sec-ai-appendix" class="wt-papers-h">AI use appendix</h2>
+        <p class="wt-papers-sub">Source: <a href="../ai_use_appendix.tex"><code>report/ai_use_appendix.tex</code></a> · Compile standalone or attach to the main report per course instructions.</p>
+      </div>
+
+      <div class="wt-papers-abstract wt-papers-abstract--warm">
+        <p class="wt-papers-kicker">Abstract</p>
+        <p>This appendix describes how I used generative AI tools—<strong>Cursor</strong>, <strong>ChatGPT</strong>, and <strong>Ollama</strong>—while completing the StockTrader coding assignment. I steered work with written instructions and project context, reviewed every stage of output carefully, and used ChatGPT once with the rubric to stress-test the report for gaps. Ollama was required as the local LLM runtime for the assignment pipeline (strategies and evaluator), separate from my authoring workflow. The LaTeX document includes tools, workflow, representative prompts, sample outputs, file-level attribution, verification notes, and failure-mode discussion.</p>
+      </div>
+
+      <h3 class="wt-papers-h3">Tools (summary)</h3>
+      <ul class="wt-papers-list">
+        <li><strong>Cursor</strong> — Primary IDE for code, prompts, docs, and report drafting; all outputs reviewed.</li>
+        <li><strong>ChatGPT</strong> — One rubric-aligned gap pass on a late draft; no wholesale ghostwriting.</li>
+        <li><strong>Ollama</strong> — Required runtime for strategy and evaluator LLM calls in <code>python -m src.main</code>.</li>
+      </ul>
+
+      <div class="wt-papers-toolbar" role="group" aria-label="AI appendix actions">
+        <a class="wt-papers-pill" href="../ai_use_appendix.tex">LaTeX source</a>
+        <a class="wt-papers-pill" href="../ai_use_appendix.tex" download>Download <code>.tex</code></a>
+        <a class="wt-papers-pill wt-papers-pill--ghost" href="../LATEX_BUILD.md">Build instructions</a>
+      </div>
+
+      <div class="wt-papers-embed-wrap">
+        <p class="wt-papers-embed-label">PDF viewer — <code>report/ai_use_appendix.pdf</code></p>
+        <div class="wt-papers-embed">
+          <iframe src="../ai_use_appendix.pdf" title="AI use appendix PDF"></iframe>
+        </div>
+        <p class="wt-papers-embed-note">If blank, run <code>pdflatex ai_use_appendix.tex</code> from <code>report/</code>. See <a href="../LATEX_BUILD.md">LATEX_BUILD.md</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wt-footer">
+    <div class="wt-footer-row">
+      <a href="StockTrader_Walkthrough_Home.html">Map</a>
+      <span>·</span>
+      <a href="../../README.md">README</a>
+      <span>·</span>
+      <a href="Walkthrough_Artifacts.html">Artifacts</a>
+      <span>·</span>
+      <span aria-current="page">Papers</span>
+      <span>·</span>
+      <a href="StockTrader_Walkthrough_Home.html#repo-map">Repository Outline</a>
+    </div>
+    <div class="wt-footer-cols">
+      <div>
+        <h3>Graded strategies</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyA_NewsSentiment.html">News Sentiment Follower</a></li>
+          <li><a href="AgentCanvas_StrategyB_VolatilityAverse.html">Volatility Averse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Extension + meta</h3>
+        <ul>
+          <li><a href="AgentCanvas_StrategyC_MoralTrader.html">Moral Trader</a></li>
+          <li><a href="AgentCanvas_Evaluator.html">Evaluator</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
