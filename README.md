@@ -1,71 +1,57 @@
-# AGAI_HW2 — StockTrader (Individual Assignment 2 + bonus + capstone runway)
+# AGAI_HW2 — StockTrader (Individual Assignment 2)
 
-Multi-agent stock signal system: **News Sentiment Follower**, **Volatility Averse**, and extension **Moral Trader**. Uses **[Microsoft AutoGen](https://microsoft.github.io/autogen/)** (`AssistantAgent` + structured outputs), **Ollama** locally, and an optional **LiteLLM** OpenAI-compatible endpoint for future multi-provider capstone work.
+Multi-agent stock signal system for course submission. This README is structured so graders can verify requirements quickly.
 
-**Why AutoGen here:** strong multi-agent orchestration, clear roles, and message-based patterns that scale to manager–worker flows, tool loops, and reflection—useful for a larger FININT/OSINT capstone. This homework keeps strategies **strictly parallel** (no debate round) to match the rubric. You can still layer **LangChain** or **LangGraph** later for retrieval subgraphs without replacing AutoGen agents. See also the AutoGen cookbook for [local LLMs with Ollama and LiteLLM](https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/cookbook/local-llms-ollama-litellm.html).
+## Submission checklist (course requirements)
 
-**Target remote:** [https://github.com/afro-chai/AGAI_HW2-IndividualAssignment-Coding.git](https://github.com/afro-chai/AGAI_HW2-IndividualAssignment-Coding.git)
-
-**Continuing on another machine?** See [`docs/HANDOFF_NEXT_AGENT.md`](docs/HANDOFF_NEXT_AGENT.md) (Ollama setup on a new PC, Alpha Vantage `.env`, and what the next agent should do).
-
-**Alpha Vantage:** [`docs/ALPHA_VANTAGE.md`](docs/ALPHA_VANTAGE.md) — **5 `NEWS_SENTIMENT` calls per default run** (one per ticker); backtest uses **0**.
-
-## Repository layout (course spec)
-
-This repo matches the assignment tree: `README.md`, `requirements.txt`, `src/`, `prompts/`, `outputs/`, `report/`. (The brief used a `stocktrader/` wrapper; here the **clone root is the project root**.)
-
-**Default tickers (five):** `PLTR`, `TTE`, `GOLD`, `LMT`, `FRO` — AI/gov, **AFRICOM** energy (TTE), **AFRICOM** mining (GOLD), defense prime, crude tankers. See [`report/DEFENSE_GEOPOLITICS_UNIVERSE.md`](report/DEFENSE_GEOPOLITICS_UNIVERSE.md). Override with `--tickers A,B,C`.
+| Requirement | Location / notes |
+|---------------|-------------------|
+| [x] **Two graded strategies** | **News Sentiment Follower** (strategy_a) and **Volatility Averse** (strategy_b). Moral Trader is the optional third agent. See [prompts/](prompts/) and [Strategy selection](#strategy-selection). |
+| [x] **LLM provider** | **Ollama** (local). Optional **LiteLLM**-compatible proxy via `LITELLM_*` env vars. See [Environment variables](#environment-variables). |
+| [x] **Framework / toolset** | **Microsoft AutoGen** (`AssistantAgent`, structured outputs), **Python 3.10+**, **yfinance**, optional **Alpha Vantage** news. See [Architecture](#architecture-brief). |
+| [x] **Install and run** | [Before you begin](#before-you-begin) and [Run](#run). |
+| [x] **Pre-generated outputs** | Committed JSON under [`outputs/`](outputs/) so the project **runs for grading without** an Alpha Vantage key (news blocks may be empty; pipeline still completes). Re-run locally with a key for live news if desired. |
 
 ---
 
-## Before you begin (requirements)
+## Repository layout (top level)
 
-Complete these **before** cloning or running the analysis loop:
+| Path | Purpose |
+|------|---------|
+| [`src/`](src/) | Application code: CLI, market data, orchestration, strategies, evaluator, backtest. |
+| [`prompts/`](prompts/) | Saved strategy and evaluator prompts (text files for grading). |
+| [`outputs/`](outputs/) | Per-ticker JSON, `summary.json`, optional `backtest.json` (sample outputs included). |
+| [`report/`](report/) | Written analysis (LaTeX sources, defense universe note). |
+| [`docs/`](docs/) | Supplemental documentation (e.g. Alpha Vantage notes, handoff). |
+| [`scripts/`](scripts/) | Helper scripts (e.g. full run with log). |
+| [`logs/`](logs/) | Optional run transcripts (gitignored contents; see `logs/README.md`). |
+| [`secrets/`](secrets/) | Gitignored key file location; see `secrets/README.md`. |
+| [`requirements.txt`](requirements.txt) | Python dependencies. |
+| [`.env.example`](.env.example) | Example environment file (copy to `.env`, not committed). |
 
-1. **Python** — 3.10+ (3.12 recommended). Install from [python.org](https://www.python.org/downloads/).
-2. **Virtual environment** — Create and activate a venv in the repo root:
-   - Windows (PowerShell): `python -m venv .venv` then `.\.venv\Scripts\Activate.ps1`
-3. **Install dependencies** — From the repo root: `pip install -r requirements.txt`
-4. **Ollama** — Install from [ollama.com](https://ollama.com), then pull a JSON-capable model, e.g. `ollama pull llama3.2` (or `mistral`, `qwen2.5`, etc.).
-5. **Run Ollama** — Ensure the daemon is up (default `http://localhost:11434`). Override with env `OLLAMA_HOST` if needed.
-6. **Alpha Vantage (recommended for News Sentiment)** — Free key at [alphavantage.co](https://www.alphavantage.co/support/#api-key). Put the key in **repo-root `.env`** as `ALPHAVANTAGE_API_KEY=...`, **or** in a gitignored one-line file **`secrets/alphavantage_api_key.txt`** (see [`secrets/README.md`](secrets/README.md)). Without either, news blocks are empty and the News agent must still behave (per assignment).
-7. **LiteLLM (optional capstone layer)** — To route all traffic through LiteLLM’s OpenAI-compatible proxy, set `LITELLM_BASE_URL` (e.g. `http://localhost:4000/v1`) and `LITELLM_API_KEY` if your proxy requires it, plus `LITELLM_MODEL` (e.g. `ollama/llama3.2`). When unset, the app uses `OllamaChatCompletionClient` directly.
-8. **Smoke tests** — Confirm `python -c "import yfinance as yf; print(yf.Ticker('AAPL').info.get('symbol'))"` and that Ollama answers: `ollama run llama3.2 "ping"`.
-
-Copy `.env.example` to `.env` in the repo root and fill keys.
-
-News Sentiment warning handling (required): if Alpha Vantage returns no feed data (missing key, rate limit, or no ticker news), the app records zero-news metadata and the strategy falls back to conservative reasoning instead of failing.
-
----
-
-## Project productivity checkpoints
-
-Check off as you go (update dates in your fork):
-
-- [ ] **C0 — Environment** — Python venv, `pip install -r requirements.txt`, Ollama model pulled.
-- [ ] **C1 — Market data** — `market_data.py` returns 90d+ history + volatility + optional AV news; handles empty news.
-- [ ] **C2 — AutoGen strategies** — Three `AssistantAgent` instances, parallel `asyncio.gather`, structured JSON output; no cross-talk between strategies.
-- [ ] **C3 — Evaluator** — Consensus vs split narrative for three decisions; saved in JSON.
-- [ ] **C4 — Tickers + JSON** — default **five** `outputs/*.json` + `summary.json`; rationale in `report/` (see defense universe doc).
-- [ ] **C5 — Backtest bonus** — `outputs/backtest.json` generated; limitations noted in report.
-- [ ] **C6 — Report + AI appendix** — PDF sections per rubric; honesty on failures.
-- [ ] **C7 — GitHub** — Push to `AGAI_HW2-IndividualAssignment-Coding`; README + pinned `requirements.txt`.
+Each folder above includes a short `README.md` describing its role.
 
 ---
 
-## Quality upgrades from HW1 feedback
+## Strategy selection
 
-To directly address prior feedback, this project should emphasize:
+- **News Sentiment Follower** — Emphasizes headlines and sentiment when present; conservative fallbacks when news is missing.
+- **Volatility Averse** — Emphasizes realized turbulence, drawdown depth, and stability of the tape.
+- **Moral Trader** (extension) — Third parallel branch; evaluated after A and B complete for the same ticker.
 
-- **Specific quantitative comparison** (not just narrative): report agreement/disagreement counts, confidence deltas, and a small per-stock comparison table.
-- **Low-noise metrics**: avoid arbitrary random noise in scoring; keep formulas deterministic and explain thresholds.
-- **Granular AI attribution**: log exactly which files/sections used AI assistance, plus what you accepted vs revised vs rejected.
+Default tickers: `PLTR`, `TTE`, `GOLD`, `LMT`, `FRO` (defense / geopolitics / AFRICOM-aware basket). Override with `--tickers A,B,C`.
 
-Recommended minimum quantitative section in the report:
+---
 
-- `total_agreements`, `total_disagreements` from `outputs/summary.json`
-- Per-stock: `a_decision`, `b_decision`, `c_decision`, and confidence spread
-- Backtest: per-ticker hit-rate comparison and overall winner from `outputs/backtest.json`
+## Before you begin
+
+1. **Python** 3.10+ (3.12 recommended). [python.org](https://www.python.org/downloads/)
+2. **Virtual environment** (repo root):  
+   `python -m venv .venv` then `.\.venv\Scripts\Activate.ps1` (Windows PowerShell)
+3. **Dependencies:** `pip install -r requirements.txt`
+4. **Ollama** — [ollama.com](https://ollama.com); pull a JSON-capable model, e.g. `ollama pull llama3.2`. Ensure the daemon is running (`http://localhost:11434` by default).
+5. **Alpha Vantage (optional)** — Improves news blocks; not required to execute the pipeline. Set `ALPHAVANTAGE_API_KEY` in repo-root `.env` (copy from `.env.example`) or use `secrets/alphavantage_api_key.txt` per `secrets/README.md`.
+6. **Copy** `.env.example` → `.env` and adjust variables as needed.
 
 ---
 
@@ -75,23 +61,23 @@ Recommended minimum quantitative section in the report:
 |----------|---------|
 | `OLLAMA_HOST` | Default `http://localhost:11434` |
 | `OLLAMA_MODEL` | e.g. `llama3.2` |
-| `OLLAMA_NUM_PREDICT` | Max generated tokens per call (default `220`, faster) |
-| `OLLAMA_NUM_CTX` | Context window size (default `4096`) |
+| `OLLAMA_NUM_PREDICT` | Max tokens per call (default `220`) |
+| `OLLAMA_NUM_CTX` | Context window (default `4096`) |
 | `OLLAMA_TEMPERATURE` | Sampling temperature (default `0.2`) |
-| `ALPHAVANTAGE_API_KEY` | News sentiment ([NEWS_SENTIMENT](https://www.alphavantage.co/documentation/)) |
+| `ALPHAVANTAGE_API_KEY` | [NEWS_SENTIMENT](https://www.alphavantage.co/documentation/) |
 | `ALPHAVANTAGE_NEWS_LIMIT` | Optional; max articles (1–1000), default 20 |
-| `ALPHAVANTAGE_NEWS_SORT` | Optional; `LATEST`, `EARLIEST`, or `RELEVANCE` |
-| `ALPHAVANTAGE_MIN_INTERVAL_SEC` | Optional; minimum seconds between AV HTTP calls (rate-limit hygiene) |
+| `ALPHAVANTAGE_NEWS_SORT` | Optional: `LATEST`, `EARLIEST`, `RELEVANCE` |
+| `ALPHAVANTAGE_MIN_INTERVAL_SEC` | Optional; spacing between AV HTTP calls |
 | `LITELLM_BASE_URL` | If set, use OpenAI-compatible client (LiteLLM proxy) |
 | `LITELLM_MODEL` | Model id for proxy |
 | `LITELLM_API_KEY` | Proxy API key if required |
-| `STOCKTRADER_SKIP_LLM` | `1` to stub LLM outputs (CI / no GPU) |
+| `STOCKTRADER_SKIP_LLM` | `1` to stub LLM outputs (CI / smoke tests) |
 
 ---
 
 ## Run
 
-From the repository root (this folder):
+From the repository root:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
@@ -100,11 +86,9 @@ $env:PYTHONPATH = (Get-Location).Path
 python -m src.main --backtest
 ```
 
-Artifacts: `outputs/<TICKER>.json`, `summary.json`, optional `backtest.json`.
+Artifacts: `outputs/<TICKER>.json`, `summary.json`, optional `outputs/backtest.json` when `--backtest` is passed.
 
-Performance tip: `--ticker-workers 2` (default). If Alpha Vantage throttles bursts, set `ALPHAVANTAGE_MIN_INTERVAL_SEC` or `--ticker-workers 1`.
-
-Run with stubs disabled (required for final submission-quality outputs):
+For submission-quality narratives, clear stubs and run with Ollama available:
 
 ```powershell
 Remove-Item Env:STOCKTRADER_SKIP_LLM -ErrorAction SilentlyContinue
@@ -112,62 +96,48 @@ $env:PYTHONPATH = (Get-Location).Path
 python -m src.main --backtest
 ```
 
-### Full run with transcript log
+**Full run with transcript log:** `.\scripts\run_full_with_log.ps1` (see `scripts/README.md`). Do not commit logs that contain secrets.
 
-From repo root (writes `logs/full_run_<timestamp>.txt` and `logs/full_run_latest.txt`). **Commit** transcripts only if they contain **no secrets** — see [`logs/README.md`](logs/README.md).
-
-```powershell
-.\scripts\run_full_with_log.ps1
-```
+**Remote:** [https://github.com/afro-chai/AGAI_HW2-IndividualAssignment-Coding](https://github.com/afro-chai/AGAI_HW2-IndividualAssignment-Coding)
 
 ---
 
 ## Architecture (brief)
 
-- `src/market_data.py` — yfinance + derived features + Alpha Vantage news.
-- `src/llm_factory.py` — Ollama vs LiteLLM-backed `ChatCompletionClient`.
-- `src/orchestration.py` — Builds three fresh `AssistantAgent`s per ticker; `asyncio.gather` for parallel strategies; evaluator pass.
-- `src/evaluator.py`, `src/strategies.py` — Prompts + parsing helpers.
-- `src/backtest.py` — **Historical backtest** (assignment): runs **both graded strategies** as deterministic proxies on **the same tickers** over many **past as-of dates** (weekly samples, up to ~730d yfinance), scores signals vs **forward** returns, writes `outputs/backtest.json` with per-ticker and overall hit rates and `assignment_backtest` / `scoring_rule` prose (see file for full spec).
-- `prompts/*.txt` — Saved prompts for grading.
-
-LangGraph / LangChain can be added later as subgraphs or RAG without replacing AutoGen agents.
+- **`src/market_data.py`** — yfinance features and optional Alpha Vantage news (one `NEWS_SENTIMENT` call per ticker per run when configured).
+- **`src/llm_factory.py`** — Ollama or LiteLLM-backed chat client.
+- **`src/orchestration.py`** — Three `AssistantAgent` instances per ticker, `asyncio.gather`; evaluator pass.
+- **`src/evaluator.py`** — Compares structured strategy outputs; branch-specific instructions for agreement vs disagreement; deterministic `pattern_note` from decisions.
+- **`src/backtest.py`** — Deterministic historical scorecard (heuristic proxies vs forward returns), optional with `--backtest`.
+- **`prompts/*.txt`** — Saved prompts for grading.
 
 ---
 
-## Honest scope notes
+## Further documentation
 
-- **Graded “two strategies”** are News Sentiment Follower (`strategy_a`) and Volatility Averse (`strategy_b`). **Moral Trader** is `strategy_c` (third-agent bonus + capstone hook).
-
-### Historical backtest (required scorecard)
-
-When you pass `--backtest`, the pipeline writes **`outputs/backtest.json`**. That artifact is the **historical backtest** the brief asks for:
-
-- **Same stocks** as the live run (`--tickers` or defaults from `src/main.py`).
-- **Defined past period:** up to **730 calendar days** of OHLC per name, with **26 weekly as-of dates** per ticker (configurable in `run_backtest`), then **20 trading-day** forward return to label “what would have been ideal.”
-- **Both strategies:** implemented as **transparent heuristics** in `src/backtest.py` (`_signal_news_proxy`, `_signal_vol_averse`) that mirror the **philosophy** of the News and Volatility prompts—not a replay of live Ollama on every historical day (that would be prohibitively slow and non-deterministic).
-- **Scorecard:** `per_ticker[].hit_rate_news` vs `hit_rate_volatility`, `winner_heuristic` per ticker, `overall_winner`, plus **`overall_hit_rate_*`** and top-level strings **`assignment_backtest`**, **`historical_period`**, **`scoring_rule`**, **`strategies_compared`** so the JSON **states explicitly** what was run.
-
-Compare heuristic outcomes to **live** LLM decisions in your report; they measure related but different objects.
+- **Alpha Vantage behavior and limits:** [`docs/ALPHA_VANTAGE.md`](docs/ALPHA_VANTAGE.md)
+- **Continuity on another machine / Ollama setup:** [`docs/HANDOFF_NEXT_AGENT.md`](docs/HANDOFF_NEXT_AGENT.md)
 
 ---
 
-## AI appendix template (granular attribution)
+## Project productivity checkpoints (optional)
 
-Use this structure in `report/ai_use_appendix.pdf`:
+Use as a personal progress list (not required for graders):
 
-1. **Prompt / interaction log excerpt**
-   - Task goal
-   - Prompt used
-   - Output excerpt
-2. **File-level attribution**
-   - File path
-   - AI-assisted change summary
-   - Status: accepted / revised / rejected
-3. **Verification steps**
-   - What you checked manually (logic, numbers, API behavior)
-   - Any mismatch found and fix applied
-4. **Failure case**
-   - One weak/incorrect AI output
-   - Why it failed
-   - How you corrected or constrained it
+- [ ] **C0 — Environment** — Python venv, `pip install -r requirements.txt`, Ollama model pulled.
+- [ ] **C1 — Market data** — `market_data.py` returns history + volatility + optional AV news; handles empty news.
+- [ ] **C2 — AutoGen strategies** — Three agents, parallel execution, structured JSON; no cross-talk before evaluation.
+- [ ] **C3 — Evaluator** — Agreement vs split narrative; saved in JSON.
+- [ ] **C4 — Tickers + JSON** — Default five `outputs/*.json` + `summary.json`; written report.
+- [ ] **C5 — Backtest** — `outputs/backtest.json` when using `--backtest`.
+- [ ] **C6 — Report PDFs** — `report/comparative_analysis.tex` → `report.pdf`; AI use appendix per course.
+- [ ] **C7 — GitHub** — Pushed `master` with README and `requirements.txt`.
+
+---
+
+## Personal checklist (student)
+
+- [ ] `.env` present locally (never commit).
+- [ ] Run full pipeline without `STOCKTRADER_SKIP_LLM` for final JSON.
+- [ ] Build `report/report.pdf` and AI appendix per course naming.
+- [ ] Confirm `outputs/` committed reflects the run you cite in the report.
